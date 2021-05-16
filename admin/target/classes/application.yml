@@ -1,6 +1,6 @@
 spring:
   application:
-    name: mall-admin
+    name: admin
   profiles:
     active: dev #默认为开发环境
 
@@ -31,6 +31,7 @@ secure:
       - /actuator/**
       - /user/login
       - /user/register
+      - /user/test
 # 自定义redis key
 redis:
   database: myblog

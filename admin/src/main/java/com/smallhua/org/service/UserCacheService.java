@@ -2,12 +2,12 @@ package com.smallhua.org.service;
 
 import cn.hutool.core.collection.CollUtil;
 import com.smallhua.org.common.service.RedisService;
+import com.smallhua.org.common.util.ConstUtil;
 import com.smallhua.org.dao.UserDao;
 import com.smallhua.org.dto.UserRole;
 import com.smallhua.org.mapper.TUserMapper;
 import com.smallhua.org.model.TUser;
 import com.smallhua.org.model.TUserExample;
-import com.smallhua.org.util.ConstUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

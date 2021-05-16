@@ -1,6 +1,7 @@
 package com.smallhua.org.config;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.smallhua.org.common.util.ConstUtil;
 import com.smallhua.org.dto.RolePermission;
 import com.smallhua.org.dto.UserRole;
 import com.smallhua.org.mapper.TPermissionMapper;
@@ -12,7 +13,6 @@ import com.smallhua.org.model.TUserExample;
 import com.smallhua.org.security.component.DynamicSecurityService;
 import com.smallhua.org.security.config.SecurityConfig;
 import com.smallhua.org.service.UserService;
-import com.smallhua.org.util.ConstUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
