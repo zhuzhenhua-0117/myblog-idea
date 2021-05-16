@@ -184,7 +184,7 @@ public class UserService {
 
         if (userRole != null){
 //            userCacheService.setUserInfo(userRole);
-            SessionUtil.getAttribute("user", UserRole.class);
+            SessionUtil.setAttribute("user", userRole);
         }
 
         return  userRole;
