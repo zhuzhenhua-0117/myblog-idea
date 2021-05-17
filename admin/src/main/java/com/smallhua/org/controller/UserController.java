@@ -57,4 +57,9 @@ public class UserController {
     public CommonResult logout(){
         return userService.logout();
     }
+    @ApiOperation("用户退出系统")
+    @GetMapping("test")
+    public CommonResult test(){
+        return CommonResult.success("sadasda");
+    }
 }

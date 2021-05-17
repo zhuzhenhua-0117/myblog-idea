@@ -1,9 +1,7 @@
 package com.smallhua.org.service;
 
 import cn.hutool.core.collection.CollUtil;
-import com.smallhua.org.common.service.RedisService;
 import com.smallhua.org.common.util.ConstUtil;
-import com.smallhua.org.dao.UserDao;
 import com.smallhua.org.dto.UserRole;
 import com.smallhua.org.mapper.TUserMapper;
 import com.smallhua.org.model.TUser;
@@ -38,8 +36,6 @@ public class UserCacheService {
     @Value("${redis.key.user}")
     private String userKey;
 
-    @Autowired
-    private UserDao userDao;
     @Autowired
     private TUserMapper userMapper;
     @Autowired

@@ -9,13 +9,13 @@ import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.util.ConstUtil;
 import com.smallhua.org.common.util.IdUtil;
 import com.smallhua.org.common.util.ServletUtil;
+import com.smallhua.org.common.util.SessionUtil;
 import com.smallhua.org.dao.UserDao;
 import com.smallhua.org.dto.UserRole;
 import com.smallhua.org.mapper.TUserMapper;
 import com.smallhua.org.model.TUser;
 import com.smallhua.org.model.TUserExample;
 import com.smallhua.org.security.util.JwtTokenUtil;
-import com.smallhua.org.util.SessionUtil;
 import com.smallhua.org.vo.RegistVo;
 import com.smallhua.org.vo.UpdUserVo;
 import com.smallhua.org.vo.UserVo;
@@ -23,9 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -55,13 +56,13 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private UserDao userDao;
     @Autowired
     private UserCacheService userCacheService;
+    @Autowired
+    private CommonService commonService;
 
     public CommonResult login(UserVo userVo) {
         String account = userVo.getAccount();
@@ -73,16 +74,14 @@ public class UserService {
         userExample.createCriteria().andAccountEqualTo(account.trim()).andStatusEqualTo(ConstUtil.STATUS_NOT_DISABLE);
 
         List<TUser> tUsers = userMapper.selectByExample(userExample);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(account);
         if (CollectionUtil.isNotEmpty(tUsers)){
             TUser tUser = tUsers.get(0);
-
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(account, null, userDetails.getAuthorities());
-            if (passwordEncoder.matches(userVo.getPassword(), userDetails.getPassword())){
+            List<SimpleGrantedAuthority> authors = commonService.getPermissionValues(tUser.getId()).stream().map(item -> new SimpleGrantedAuthority(item)).collect(Collectors.toList());
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(account, null, authors);
+            if (passwordEncoder.matches(userVo.getPassword(), tUser.getPassword())){
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 //生成token
-                String token = jwtTokenUtil.generateToken(userDetails);
-//                ServletUtil.getResponse().addCookie(new Cookie("token", token));
+                String token = jwtTokenUtil.generateToken(userVo.getAccount());
 
                 //更新user最新登陆时间
                 tUser.setLoginTime(new Date());
@@ -92,7 +91,10 @@ public class UserService {
                 UserRole userRole = userDao.selectUserInfoByUserId(tUser.getId());
                 ServletUtil.getRequest().getSession().setAttribute("user", userRole);
 
-                return CommonResult.success(tokenHead + token ,"登陆成功");
+                Map<String, Object> map = new HashMap<>();
+                map.put("tokenHead", tokenHead);
+                map.put("token", token);
+                return CommonResult.success(map,"登陆成功");
             }
         }else {
             return CommonResult.failed("账号密码错误");

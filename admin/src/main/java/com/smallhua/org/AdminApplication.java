@@ -1,9 +1,8 @@
 package com.smallhua.org;
 
-import com.smallhua.org.security.config.IgnoreUrlsConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -14,7 +13,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @since 1.0.0
  */
 @SpringBootApplication(scanBasePackages = "com.smallhua.org")
-@EnableConfigurationProperties({IgnoreUrlsConfig.class})
+@EnableDiscoveryClient
 public class AdminApplication {
     public static void main(String[] args) {
         SpringApplication.run(AdminApplication.class, args);
