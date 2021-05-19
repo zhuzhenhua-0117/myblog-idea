@@ -1,5 +1,6 @@
 package com.smallhua.org.common.api;
 
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,4 +45,24 @@ public class CommonPage<T> {
      */
     private List<T> list;
 
+    public static <T> CommonPage<T> newInstance(Integer pageNum, Integer pageSize, Integer totalPage, Integer total, List<T> list) {
+        CommonPage commonPage = new CommonPage();
+        commonPage.pageNum = pageNum;
+        commonPage.pageSize = pageSize;
+        commonPage.totalPage = totalPage;
+        commonPage.total = total;
+        commonPage.list = list;
+
+        return commonPage;
+    }
+
+    public static <T> CommonPage<T> newInstance(PageInfo<T> page) {
+        return CommonPage.newInstance(
+                page.getPageNum(),
+                page.getPageSize(),
+                page.getPages(),
+                (int) page.getTotal(),
+                page.getList()
+        );
+    }
 }
