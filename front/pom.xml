@@ -14,20 +14,8 @@
     <dependencies>
         <dependency>
             <groupId>com.smallhua.org</groupId>
-            <artifactId>commonApi</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.smallhua.org</groupId>
             <artifactId>mbg</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.smallhua.org</groupId>
-            <artifactId>security</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
-
-
 </project>
