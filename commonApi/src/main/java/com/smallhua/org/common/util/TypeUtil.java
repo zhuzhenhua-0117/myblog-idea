@@ -1,6 +1,7 @@
 package com.smallhua.org.common.util;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -21,6 +22,8 @@ public class TypeUtil {
             return (T) Byte.valueOf(String.valueOf(value));
         }else if (clazz == BigDecimal.class){
             return (T) BigDecimal.valueOf(Double.valueOf(String.valueOf(value)));
+        }else if (clazz == Date.class){
+            return (T) new Date(Long.valueOf(String.valueOf(value)));
         }else {
             return (T) String.valueOf(value);
         }

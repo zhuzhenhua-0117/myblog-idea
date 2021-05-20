@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class PageUtil {
 
-    public static <T> CommonPage<T> pageing(BaseParam baseParam, Selector<T> selector){
+    public static <T> CommonPage<T> pagination(BaseParam baseParam, Selector<T> selector){
         PageHelper.startPage(baseParam.getPage(),baseParam.getPageSize());
         List<T> select = selector.select();
         PageInfo<T> page = new PageInfo<T>(select);
