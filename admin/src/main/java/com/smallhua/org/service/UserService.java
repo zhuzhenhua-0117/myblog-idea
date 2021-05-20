@@ -15,10 +15,10 @@ import com.smallhua.org.mapper.TUserMapper;
 import com.smallhua.org.model.TUser;
 import com.smallhua.org.model.TUserExample;
 import com.smallhua.org.security.util.JwtTokenUtil;
-import com.smallhua.org.vo.RegistVo;
-import com.smallhua.org.vo.UpdPwdVo;
-import com.smallhua.org.vo.UpdUserVo;
-import com.smallhua.org.vo.UserVo;
+import com.smallhua.org.vo.userVo.RegistVo;
+import com.smallhua.org.vo.userVo.UpdPwdVo;
+import com.smallhua.org.vo.userVo.UpdUserVo;
+import com.smallhua.org.vo.userVo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -143,35 +143,48 @@ public class UserService {
         return CommonResult.failed("注册失败");
     }
 
-    public CommonResult updUserInfo(UpdUserVo updUserVo) {
+    public CommonResult updOrSaveUserInfo(UpdUserVo updUserVo) {
         TUser user;
+        if (updUserVo.getId() != null) {
+            //编辑用户
+            TUserExample userExample = new TUserExample();
+            userExample.createCriteria().andIdEqualTo(updUserVo.getId()).andStatusEqualTo(ConstUtil.ZERO);
+            List<TUser> tUsers = userMapper.selectByExample(userExample);
+            if (CollUtil.isEmpty(tUsers)) {
+                return CommonResult.failed("该用户不存在");
+            }
+            user = tUsers.get(0);
 
-        TUserExample userExample = new TUserExample();
-        userExample.createCriteria().andAccountEqualTo(updUserVo.getAccount()).andStatusEqualTo(ConstUtil.ZERO);
-        List<TUser> tUsers = userMapper.selectByExample(userExample);
-        if (CollUtil.isEmpty(tUsers)) {
-            return CommonResult.failed("该用户不存在");
+            HashMap<String, String> mapping = CollUtil.newHashMap();
+            //设置别名
+            mapping.put("icon", "userProfilePhoto");
+            BeanUtil.copyProperties(updUserVo, user, CopyOptions.create().setFieldMapping(mapping));
+
+            int i = userMapper.updateByExample(user, userExample);
+
+            if (i > 0) {
+                SessionUtil.removeAttribute(ConstUtil.REDIS_USER);
+                SessionUtil.setAttribute(ConstUtil.REDIS_USER, user);
+                return CommonResult.success("更新成功");
+            } else {
+                return CommonResult.failed("更新失败");
+            }
+        } else {
+            //保存
+            user = new TUser();
+            HashMap<String, String> mapping = CollUtil.newHashMap();
+            //设置别名
+            mapping.put("icon", "userProfilePhoto");
+            BeanUtil.copyProperties(updUserVo, user, CopyOptions.create().setFieldMapping(mapping));
+            user.setCreateTime(new Date());
+
+            int i = userMapper.insert(user);
+            if (i < 1) {
+                return CommonResult.failed("保存失败");
+            }
+            return CommonResult.failed("保存成功");
         }
-        user = tUsers.get(0);
 
-        String account = jwtTokenUtil.getAccountByToken();
-        if (!account.equals(updUserVo.getAccount())) {
-            return CommonResult.failed("请登录" + account + "账号进行操作");
-        }
-
-        HashMap<String, String> mapping = CollUtil.newHashMap();
-        //设置别名
-        mapping.put("icon", "userProfilePhoto");
-        BeanUtil.copyProperties(updUserVo, user, CopyOptions.create().setFieldMapping(mapping));
-
-        int i = userMapper.updateByExample(user, userExample);
-
-        if (i > 0) {
-            SessionUtil.removeAttribute(ConstUtil.REDIS_USER);
-            SessionUtil.setAttribute(ConstUtil.REDIS_USER, user);
-            return CommonResult.success("更新成功");
-        }
-        return CommonResult.failed("更新失败");
     }
 
     public UserRole getUserInfoByUserId(Long userId) {

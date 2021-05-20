@@ -5,10 +5,10 @@ import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.domain.BaseParam;
 import com.smallhua.org.model.TUser;
 import com.smallhua.org.service.UserService;
-import com.smallhua.org.vo.RegistVo;
-import com.smallhua.org.vo.UpdPwdVo;
-import com.smallhua.org.vo.UpdUserVo;
-import com.smallhua.org.vo.UserVo;
+import com.smallhua.org.vo.userVo.RegistVo;
+import com.smallhua.org.vo.userVo.UpdPwdVo;
+import com.smallhua.org.vo.userVo.UpdUserVo;
+import com.smallhua.org.vo.userVo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +45,8 @@ public class UserController {
 
     @ApiOperation("根据账号更新用户信息")
     @PostMapping("/user")
-    public CommonResult updUserInfo(@Validated @RequestBody UpdUserVo updUserVo){
-        return userService.updUserInfo(updUserVo);
+    public CommonResult updOrSaveUserInfo(@Validated @RequestBody UpdUserVo updUserVo){
+        return userService.updOrSaveUserInfo(updUserVo);
     }
 
     @ApiOperation("删除用户")

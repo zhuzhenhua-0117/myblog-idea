@@ -1,4 +1,4 @@
-package com.smallhua.org.vo;
+package com.smallhua.org.vo.userVo;
 
 import lombok.Data;
 

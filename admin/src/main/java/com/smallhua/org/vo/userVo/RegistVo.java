@@ -1,4 +1,4 @@
-package com.smallhua.org.vo;
+package com.smallhua.org.vo.userVo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,17 +9,22 @@ import javax.validation.constraints.Pattern;
 
 /**
  * 〈一句话功能简述〉<br>
- * 〈〉
+ * 〈用户注册请求参数封装〉
  *
  * @author ZZH
  * @create 2021/5/1
  * @since 1.0.0
  */
 @Data
-public class UpdUserVo {
+public class RegistVo {
+
     @NotEmpty(message="账号不能为空")
     @ApiModelProperty("用户账号")
     private String account;
+
+    @NotEmpty(message = "密码不能为空")
+    @ApiModelProperty("密码")
+    private String password;
 
     @ApiModelProperty("用户昵称")
     private String userName;
@@ -40,4 +45,5 @@ public class UpdUserVo {
 
     @ApiModelProperty(value = "描述")
     private String rmk;
+
 }
