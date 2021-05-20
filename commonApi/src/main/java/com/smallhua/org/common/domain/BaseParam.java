@@ -1,5 +1,6 @@
 package com.smallhua.org.common.domain;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -20,5 +21,8 @@ public class BaseParam {
     private Integer page;
 
     private Integer pageSize;
+
+    @ApiModelProperty("排序字段 列如：CREATE_TIME DESC")
+    private String orderBy;
 
 }

@@ -1,5 +1,6 @@
 package com.smallhua.org.common.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.smallhua.org.common.api.CommonPage;
@@ -19,7 +20,12 @@ import java.util.List;
 public class PageUtil {
 
     public static <T> CommonPage<T> pagination(BaseParam baseParam, Selector<T> selector){
-        PageHelper.startPage(baseParam.getPage(),baseParam.getPageSize());
+        if (StrUtil.isNotEmpty(baseParam.getOrderBy())) {
+            PageHelper.startPage(baseParam.getPage(), baseParam.getPageSize(), baseParam.getOrderBy());
+        }else {
+            PageHelper.startPage(baseParam.getPage(), baseParam.getPageSize());
+        }
+
         List<T> select = selector.select();
         PageInfo<T> page = new PageInfo<T>(select);
         return CommonPage.newInstance(page);

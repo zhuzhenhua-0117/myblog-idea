@@ -21,12 +21,6 @@ public class UpdUserVo {
     @ApiModelProperty("用户账号")
     private String account;
 
-    @ApiModelProperty("原来密码")
-    private String oldPassword;
-
-    @ApiModelProperty("新密码")
-    private String newPassword;
-
     @ApiModelProperty("用户昵称")
     private String userName;
 

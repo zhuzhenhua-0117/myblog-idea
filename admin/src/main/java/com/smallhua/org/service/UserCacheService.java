@@ -68,7 +68,7 @@ public class UserCacheService {
     public UserRole getUserInfo(Long userId){
         TUserExample userExample = new TUserExample();
         userExample.createCriteria().andIdEqualTo(userId)
-                .andStatusEqualTo(ConstUtil.STATUS_NOT_DISABLE);
+                .andStatusEqualTo(ConstUtil.ZERO);
 
         List<TUser> tUsers = userMapper.selectByExample(userExample);
         if (CollUtil.isEmpty(tUsers)){
@@ -85,7 +85,7 @@ public class UserCacheService {
     public void delUserInfo(Long userId){
         TUserExample userExample = new TUserExample();
         userExample.createCriteria().andIdEqualTo(userId)
-                .andStatusEqualTo(ConstUtil.STATUS_NOT_DISABLE);
+                .andStatusEqualTo(ConstUtil.ZERO);
 
         List<TUser> tUsers = userMapper.selectByExample(userExample);
         if (CollUtil.isEmpty(tUsers)){

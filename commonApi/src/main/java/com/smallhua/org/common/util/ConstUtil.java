@@ -11,15 +11,18 @@ package com.smallhua.org.common.util;
 public class ConstUtil {
 
     /**
-     * @Alias 是否被禁用 0：禁用 1：未禁用
      * @Description 禁用
      */
-    public static final Byte STATUS_DISABLE = 0;
+    public static final Byte ONE = 1;
 
     /**
-     * @Alias 是否被禁用 0：禁用 1：未禁用
      * @Description 未禁用
      */
-    public static final Byte STATUS_NOT_DISABLE = 1;
+    public static final Byte ZERO = 0;
+
+    /**
+     * redis 存储用户信息的键
+     */
+    public static final String REDIS_USER = "user";
 
 }

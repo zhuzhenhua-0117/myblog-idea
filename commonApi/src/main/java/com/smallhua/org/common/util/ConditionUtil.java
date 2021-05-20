@@ -81,7 +81,7 @@ public class ConditionUtil {
         } else if (normalize_op.trim().equalsIgnoreCase("like")) {
             sb.append("Like");
             Method method = aClass.getDeclaredMethod(sb.toString(), fieldClass);
-            method.invoke(criteria, values.get(0));
+            method.invoke(criteria, values.get(0) + "%");
             return;
         } else if (normalize_op.trim().equalsIgnoreCase("between")) {
             sb.append("Between");

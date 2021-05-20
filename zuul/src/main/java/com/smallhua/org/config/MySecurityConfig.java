@@ -66,7 +66,7 @@ public class MySecurityConfig extends SecurityConfig {
             获取到的就是对应url的值。最后在与userdetail中的GrantedAuthority集合进行比对*/
 
             TPermissionExample example = new TPermissionExample();
-            example.createCriteria().andStatusEqualTo(ConstUtil.STATUS_NOT_DISABLE);
+            example.createCriteria().andStatusEqualTo(ConstUtil.ZERO);
             List<TPermission> tPermissions = permissionMapper.selectByExample(example);
 
             tPermissions.stream().forEach(item -> {
