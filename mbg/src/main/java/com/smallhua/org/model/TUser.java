@@ -20,9 +20,6 @@ public class TUser implements Serializable {
     @ApiModelProperty(value = "用户类型0：普通用户   1：系统管理员")
     private Byte userType;
 
-    @ApiModelProperty(value = "是否可用 0：禁用 1：可用")
-    private Byte status;
-
     @ApiModelProperty(value = "用户邮箱")
     private String userEmail;
 
@@ -40,6 +37,9 @@ public class TUser implements Serializable {
 
     @ApiModelProperty(value = "描述")
     private String rmk;
+
+    @ApiModelProperty(value = "是否禁用0:否 1：是")
+    private Byte status;
 
     private static final long serialVersionUID = 1L;
 
@@ -81,14 +81,6 @@ public class TUser implements Serializable {
 
     public void setUserType(Byte userType) {
         this.userType = userType;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
     }
 
     public String getUserEmail() {
@@ -139,6 +131,14 @@ public class TUser implements Serializable {
         this.rmk = rmk;
     }
 
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -150,13 +150,13 @@ public class TUser implements Serializable {
         sb.append(", account=").append(account);
         sb.append(", password=").append(password);
         sb.append(", userType=").append(userType);
-        sb.append(", status=").append(status);
         sb.append(", userEmail=").append(userEmail);
         sb.append(", userProfilePhoto=").append(userProfilePhoto);
         sb.append(", userPhone=").append(userPhone);
         sb.append(", createTime=").append(createTime);
         sb.append(", loginTime=").append(loginTime);
         sb.append(", rmk=").append(rmk);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

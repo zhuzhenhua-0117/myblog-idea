@@ -11,7 +11,7 @@ public class TRole implements Serializable {
     @ApiModelProperty(value = "角色名称")
     private String roleName;
 
-    @ApiModelProperty(value = "是否可用 0：禁用 1：可用")
+    @ApiModelProperty(value = "是否禁用0:否 1：是")
     private Byte status;
 
     @ApiModelProperty(value = "排序字段")

@@ -11,8 +11,8 @@
     <result column="SORT" jdbcType="INTEGER" property="sort" />
     <result column="VALUE" jdbcType="VARCHAR" property="value" />
     <result column="FULLPATH" jdbcType="VARCHAR" property="fullpath" />
-    <result column="STATUS" jdbcType="TINYINT" property="status" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="STATUS" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, PID, ICON, TYPE, NAME, URL, SORT, VALUE, FULLPATH, STATUS, CREATE_TIME
+    ID, PID, ICON, TYPE, NAME, URL, SORT, VALUE, FULLPATH, CREATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="com.smallhua.org.model.TPermissionExample" resultMap="BaseResultMap">
     select
@@ -108,12 +108,12 @@
   <insert id="insert" parameterType="com.smallhua.org.model.TPermission">
     insert into t_permission (ID, PID, ICON, 
       TYPE, NAME, URL, SORT, 
-      VALUE, FULLPATH, STATUS, 
-      CREATE_TIME)
+      VALUE, FULLPATH, CREATE_TIME, 
+      STATUS)
     values (#{id,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{icon,jdbcType=VARCHAR}, 
       #{type,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
-      #{value,jdbcType=VARCHAR}, #{fullpath,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{value,jdbcType=VARCHAR}, #{fullpath,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.smallhua.org.model.TPermission">
     insert into t_permission
@@ -145,11 +145,11 @@
       <if test="fullpath != null">
         FULLPATH,
       </if>
-      <if test="status != null">
-        STATUS,
-      </if>
       <if test="createTime != null">
         CREATE_TIME,
+      </if>
+      <if test="status != null">
+        STATUS,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -180,11 +180,11 @@
       <if test="fullpath != null">
         #{fullpath,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -224,11 +224,11 @@
       <if test="record.fullpath != null">
         FULLPATH = #{record.fullpath,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null">
-        STATUS = #{record.status,jdbcType=TINYINT},
-      </if>
       <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=TINYINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -246,8 +246,8 @@
       SORT = #{record.sort,jdbcType=INTEGER},
       VALUE = #{record.value,jdbcType=VARCHAR},
       FULLPATH = #{record.fullpath,jdbcType=VARCHAR},
-      STATUS = #{record.status,jdbcType=TINYINT},
-      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -279,11 +279,11 @@
       <if test="fullpath != null">
         FULLPATH = #{fullpath,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        STATUS = #{status,jdbcType=TINYINT},
-      </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=TINYINT},
       </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
@@ -298,8 +298,8 @@
       SORT = #{sort,jdbcType=INTEGER},
       VALUE = #{value,jdbcType=VARCHAR},
       FULLPATH = #{fullpath,jdbcType=VARCHAR},
-      STATUS = #{status,jdbcType=TINYINT},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=TINYINT}
     where ID = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

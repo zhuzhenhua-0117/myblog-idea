@@ -32,11 +32,11 @@ public class TPermission implements Serializable {
     @ApiModelProperty(value = "树状解构路线")
     private String fullpath;
 
-    @ApiModelProperty(value = "是否可用 0：禁用 1：可用")
-    private Byte status;
-
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
+
+    @ApiModelProperty(value = "是否禁用0:否 1：是")
+    private Byte status;
 
     private static final long serialVersionUID = 1L;
 
@@ -112,20 +112,20 @@ public class TPermission implements Serializable {
         this.fullpath = fullpath;
     }
 
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 
     @Override
@@ -143,8 +143,8 @@ public class TPermission implements Serializable {
         sb.append(", sort=").append(sort);
         sb.append(", value=").append(value);
         sb.append(", fullpath=").append(fullpath);
-        sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
