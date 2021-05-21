@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smallhua.org.dao.DictDao">
+    <resultMap id="BaseResultMap" type="com.smallhua.org.dto.DictCategory">
+        <result column="CATEGORY_CODE" jdbcType="VARCHAR" property="categoryCode"/>
+        <result column="CATEGORY_LABEL" jdbcType="VARCHAR" property="categoryLabel"/>
+    </resultMap>
+
+    <select id="queryDictCategorys" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        DISTINCT CATEGORY_CODE, CATEGORY_LABEL
+        from t_dict AS dict
+        GROUP BY dict.CATEGORY_CODE
+        ORDER BY dict.CREATE_TIME
+    </select>
+
+</mapper>
