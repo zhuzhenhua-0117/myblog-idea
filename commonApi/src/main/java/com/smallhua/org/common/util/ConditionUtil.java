@@ -46,11 +46,16 @@ public class ConditionUtil {
             Class<?> fieldClass = field.getType();
             values = condition.getValues().stream().map(item -> TypeUtil.tranfrom(fieldClass, item)).collect(Collectors.toList());
             renderObj(criteria, firstLetterToUpper(fieldName), op, values, fieldClass);
+        } catch (NoSuchFieldException e) {
+            Class superclass = clazz.getSuperclass();
+            if (superclass != null) {
+                generateCondition(condition, criteria, superclass);
+            } else {
+                e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     /**

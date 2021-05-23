@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 1.0.0
  */
 @Configuration
-@MapperScan({"com.smallhua.org.mapper","com.smallhua.org.dao"})
+@MapperScan({"com.smallhua.**.mapper","com.smallhua.**.dao"})
 public class MapperConfig {
 
 }
