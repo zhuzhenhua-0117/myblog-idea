@@ -16,12 +16,11 @@ public class SwaggerConfig extends BaseSwaggerConfig {
     @Override
     public SwaggerProperties swaggerProperties() {
         return SwaggerProperties.builder()
-                .apiBasePackage("com.smallhua.org.controller")
+                .apiBasePackage("com.smallhua.org.front.controller")
                 .title("zzh前端博客系统")
                 .description("SpringBoot版本中的一些示例")
                 .contactName("smallhua")
                 .version("1.0")
-                .enableSecurity(true)
                 .build();
     }
 
