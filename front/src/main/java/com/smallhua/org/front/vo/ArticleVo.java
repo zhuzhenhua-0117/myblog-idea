@@ -1,6 +1,7 @@
 package com.smallhua.org.front.vo;
 
 import com.smallhua.org.model.TArticle;
+import com.smallhua.org.model.TArticleLabel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,5 +22,7 @@ public class ArticleVo extends TArticle {
     private List<String> types;
 
     private List<String> labels;
+
+    private List<TArticleLabel> articleLabels;
 
 }
