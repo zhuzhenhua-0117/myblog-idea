@@ -59,7 +59,7 @@
         from t_user AS `user`
         where
         `user`.ID = #{userId, jdbcType=BIGINT} AND
-        `user`.STATUS = 1
+        `user`.STATUS = 0
         ORDER BY `user`.CREATE_TIME DESC
     </select>
 

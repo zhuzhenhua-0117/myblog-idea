@@ -16,6 +16,7 @@ zuul:
     connect-timeout-millis: 60000
   routes:
     admin: /admin/**
+    blogH5: /front/**
 management:
   endpoints:
     web:

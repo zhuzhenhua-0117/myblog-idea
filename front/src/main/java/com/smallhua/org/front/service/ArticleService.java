@@ -69,23 +69,6 @@ public class ArticleService {
         TArticle tArticle = null;
         List<TArticleLabel> articleLabels = articleVo.getArticleLabels();
 
-        //清空关联表 t_article_label
-        if (articleVo.getId() != null) {
-            TArticleLabelExample example = new TArticleLabelExample();
-            example.createCriteria().andArticleIdEqualTo(articleVo.getId());
-
-            tArticleLabelMapper.deleteByExample(example);
-        }
-
-        if (CollUtil.isNotEmpty(articleLabels)){
-            articleLabels.stream().forEach(item -> {
-                if (item.getId() == null) {
-                    item.setId(IdUtil.generateIdBySnowFlake());
-                }
-                tArticleLabelMapper.insertSelective(item);
-            });
-        }
-
         if (articleVo.getId() == null) {
             tArticle = new TArticle();
             articleVo.setId(IdUtil.generateIdBySnowFlake());
@@ -103,6 +86,24 @@ public class ArticleService {
             tArticle.setUpdId(SessionHelper.currentUserId());
 
             tArticleMapper.updateByPrimaryKeySelective(tArticle);
+        }
+
+        //清空关联表 t_article_label
+        if (articleVo.getId() != null) {
+            TArticleLabelExample example = new TArticleLabelExample();
+            example.createCriteria().andArticleIdEqualTo(articleVo.getId());
+
+            tArticleLabelMapper.deleteByExample(example);
+        }
+
+        if (CollUtil.isNotEmpty(articleLabels)){
+            articleLabels.stream().forEach(item -> {
+                if (item.getId() == null) {
+                    item.setId(IdUtil.generateIdBySnowFlake());
+                }
+                item.setArticleId(articleVo.getId());
+                tArticleLabelMapper.insertSelective(item);
+            });
         }
 
         return CommonResult.success(null);
