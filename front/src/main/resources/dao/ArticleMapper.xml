@@ -70,8 +70,7 @@
     IF_TOP,
     CRE_ID,
     CRE_TIME,
-    UPD_ID,
-    UPD_TIME
+    CONTENT
     FROM
     (
     SELECT
@@ -104,7 +103,7 @@
     0 AS labelId
     FROM
     t_article
-    INNER JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
+    JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
     AND al.IF_HAND = 1
     ) article
     <if test="_parameter != null">
@@ -123,8 +122,7 @@
     IF_TOP,
     CRE_ID,
     CRE_TIME,
-    UPD_ID,
-    UPD_TIME
+    CONTENT
     FROM
     (
     SELECT
@@ -153,7 +151,7 @@
     0 AS labelId
     FROM
     t_article
-    INNER JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
+    JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
     AND al.IF_HAND = 1
     ) article
     <if test="_parameter != null">
