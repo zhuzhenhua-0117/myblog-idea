@@ -25,7 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -54,7 +56,9 @@ public class ArticleService {
         TArticleExample.Criteria criteriaDefine = example.createCriteria();
 
         ConditionUtil.createCondition(baseParam, criteriaDefine, ArticleDefine.class);
-        return PageUtil.pagination(baseParam, () -> articleMapper.selectByExample(example));
+        CommonPage<ArticleVo> pagination = PageUtil.pagination(baseParam, () -> articleMapper.selectByExampleWithBLOBs(example));
+        pagination.getList().stream().map(item -> {renderYMD(item); return item;}).collect(Collectors.toList());
+        return pagination;
     }
 
     public CommonResult<ArticleVo> selArticleById(Long articleId) {
@@ -118,5 +122,13 @@ public class ArticleService {
 
         tArticleLabelMapper.deleteByExample(example);
         return CommonResult.success(null);
+    }
+
+    private void renderYMD(ArticleVo articleVo){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(articleVo.getCreTime());
+        articleVo.setYear(cal.get(Calendar.YEAR));
+        articleVo.setMonth(cal.get(Calendar.MONTH));
+        articleVo.setDate(cal.get(Calendar.DATE));
     }
 }

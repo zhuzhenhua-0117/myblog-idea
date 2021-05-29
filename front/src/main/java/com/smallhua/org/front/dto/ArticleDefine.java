@@ -19,4 +19,8 @@ public class ArticleDefine extends TArticle {
 
     private Long labelId;
 
+    private String typeName;
+
+    private String labelName;
+
 }

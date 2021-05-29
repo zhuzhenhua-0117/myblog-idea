@@ -32,7 +32,7 @@ public class ArticleController {
         return articleService.selAllArticles(baseParam);
     }
 
-    @ApiOperation("查询所有文章")
+    @ApiOperation("查询文章")
     @GetMapping(value = "article/{articleId}")
     public CommonResult<ArticleVo> selArticleById(@PathVariable("articleId") Long articleId){
         return articleService.selArticleById(articleId);

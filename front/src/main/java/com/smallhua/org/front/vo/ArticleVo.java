@@ -25,4 +25,9 @@ public class ArticleVo extends TArticle {
 
     private List<TArticleLabel> articleLabels;
 
+    private Integer year;
+
+    private Integer month;
+
+    private Integer date;
 }

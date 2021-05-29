@@ -21,23 +21,33 @@ public class ArticleExampleDefine extends TArticleExample {
 
 
     public static class ArticleCriteriaDefine extends TArticleExample.Criteria {
+        public TArticleExample.Criteria andTypeNameLike(String value) {
+            addCriterion("types like", value, "typeName");
+            return (TArticleExample.Criteria) this;
+        }
+
+        public TArticleExample.Criteria andLabelNameLike(String value) {
+            addCriterion("labels like", value, "labelName");
+            return (TArticleExample.Criteria) this;
+        }
+
         public TArticleExample.Criteria andTypeIdEqualTo(Long value) {
-            addCriterion("type.ID =", value, "typeId");
+            addCriterion("typeId =", value, "typeId");
             return (TArticleExample.Criteria) this;
         }
 
         public TArticleExample.Criteria andTypeIdIn(List<Long> values) {
-            addCriterion("type.ID in", values, "typeId");
+            addCriterion("typeId in", values, "typeId");
             return (TArticleExample.Criteria) this;
         }
 
         public TArticleExample.Criteria andLabelIdEqualTo(Long value) {
-            addCriterion("label.ID =", value, "labelId");
+            addCriterion("labelId =", value, "labelId");
             return (TArticleExample.Criteria) this;
         }
 
         public TArticleExample.Criteria andLabelIdIn(List<Long> values) {
-            addCriterion("label.ID in", values, "labelId");
+            addCriterion("labelId in", values, "labelId");
             return (TArticleExample.Criteria) this;
         }
 

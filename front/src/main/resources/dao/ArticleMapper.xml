@@ -58,19 +58,40 @@
     CONTENT
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="com.smallhua.org.model.TArticleExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    ,label.LABEL AS labels,
-    type.LABEL AS types
-    from t_article
-    LEFT JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
-    LEFT JOIN t_label AS label ON al.LABEL_ID = label.ID
-    LEFT JOIN t_type AS type ON label.TYPE_ID = type.ID
+    SELECT * FROM (
+      select
+      <if test="distinct">
+        distinct
+      </if>
+      <include refid="Base_Column_List" />
+      ,
+      <include refid="Blob_Column_List" />
+      ,label.LABEL AS labels,
+      type.LABEL AS types,
+      type.ID AS typeId,
+      label.ID AS labelId
+      from t_article
+       JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
+       JOIN t_label AS label ON al.LABEL_ID = label.ID
+       JOIN t_type AS type ON label.TYPE_ID = type.ID
+
+      UNION ALL
+
+      select
+      <if test="distinct">
+        distinct
+      </if>
+      <include refid="Base_Column_List" />
+      ,
+      <include refid="Blob_Column_List" />
+      ,al.VALUE AS labels,
+      '其他' AS types,
+      0 AS typeId,
+      0 AS labelId
+      from t_article
+       JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID AND al.IF_HAND = 1
+    ) article
+
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -79,17 +100,35 @@
     </if>
   </select>
   <select id="selectByExample" parameterType="com.smallhua.org.model.TArticleExample" resultMap="BaseResultMap">
+    SELECT * FROM (
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     ,label.LABEL AS labels,
-    type.LABEL AS types
+    type.LABEL AS types,
+    type.ID AS typeId,
+    label.ID AS labelId
     from t_article
-    LEFT JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
-    LEFT JOIN t_label AS label ON al.LABEL_ID = label.ID
-    LEFT JOIN t_type AS type ON label.TYPE_ID = type.ID
+     JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
+     JOIN t_label AS label ON al.LABEL_ID = label.ID
+     JOIN t_type AS type ON label.TYPE_ID = type.ID
+
+    UNION ALL
+
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,al.VALUE AS labels,
+    '其他' AS types,
+    0 AS typeId,
+    0 AS labelId
+    from t_article
+     JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID AND al.IF_HAND = 1
+    ) article
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
