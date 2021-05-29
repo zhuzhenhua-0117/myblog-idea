@@ -75,7 +75,7 @@
        JOIN t_label AS label ON al.LABEL_ID = label.ID
        JOIN t_type AS type ON label.TYPE_ID = type.ID
 
-      UNION ALL
+      UNION
 
       select
       <if test="distinct">
@@ -115,7 +115,7 @@
      JOIN t_label AS label ON al.LABEL_ID = label.ID
      JOIN t_type AS type ON label.TYPE_ID = type.ID
 
-    UNION ALL
+    UNION
 
     select
     <if test="distinct">

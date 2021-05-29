@@ -70,50 +70,62 @@ public class ConditionUtil {
 
     private static void renderObj(Object criteria, String fieldName, String op, List<?> values, Class<?> fieldClass) throws Exception {
         String normalize_op = Normalizer.normalize(op, Normalizer.Form.NFKC);
-        Class<?> aClass = criteria.getClass();
         StringBuffer sb = new StringBuffer();
         sb.append("and").append(fieldName);
         if (normalize_op.trim().equalsIgnoreCase("=")) {
             sb.append("EqualTo");
-            Method method = aClass.getDeclaredMethod(sb.toString(), fieldClass);
+            Method method = getDeclaredMethod(criteria, sb.toString(), fieldClass);
             method.invoke(criteria, values.get(0));
             return;
         } else if (normalize_op.trim().equalsIgnoreCase("in")) {
             sb.append("In");
-            Method method = aClass.getDeclaredMethod(sb.toString(), List.class);
+            Method method = getDeclaredMethod(criteria, sb.toString(), List.class);
             method.invoke(criteria, values);
             return;
         } else if (normalize_op.trim().equalsIgnoreCase("like")) {
             sb.append("Like");
-            Method method = aClass.getDeclaredMethod(sb.toString(), fieldClass);
+            Method method = getDeclaredMethod(criteria, sb.toString(), fieldClass);
             method.invoke(criteria, values.get(0) + "%");
             return;
         } else if (normalize_op.trim().equalsIgnoreCase("between")) {
             sb.append("Between");
-            Method method = aClass.getDeclaredMethod(sb.toString(), fieldClass, fieldClass);
+            Method method = getDeclaredMethod(criteria, sb.toString(), fieldClass, fieldClass);
             method.invoke(criteria, values.get(0), values.get(1));
             return;
         } else if (normalize_op.trim().equalsIgnoreCase(">")) {
             sb.append("GreaterThan");
-            Method method = aClass.getDeclaredMethod(sb.toString(), fieldClass);
+            Method method = getDeclaredMethod(criteria, sb.toString(), fieldClass);
             method.invoke(criteria, values.get(0));
             return;
         } else if (normalize_op.trim().equalsIgnoreCase("<")) {
             sb.append("LessThan");
-            Method method = aClass.getDeclaredMethod(sb.toString(), fieldClass, fieldClass);
+            Method method = getDeclaredMethod(criteria, sb.toString(), fieldClass, fieldClass);
             method.invoke(criteria, values.get(0), values.get(1));
             return;
         } else if (normalize_op.trim().equalsIgnoreCase("<=")) {
             sb.append("LessThanOrEqualTo");
-            Method method = aClass.getDeclaredMethod(sb.toString(), fieldClass);
+            Method method = getDeclaredMethod(criteria, sb.toString(), fieldClass);
             method.invoke(criteria, values.get(0));
             return;
         } else if (normalize_op.trim().equalsIgnoreCase(">=")) {
             sb.append("GreaterThanOrEqualTo");
-            Method method = aClass.getDeclaredMethod(sb.toString(), fieldClass);
+            Method method = getDeclaredMethod(criteria, sb.toString(), fieldClass);
             method.invoke(criteria, values.get(0));
             return;
         }
     }
 
+    public static Method getDeclaredMethod(Object object, String methodName, Class<?>... parameterTypes) {
+        Method method = null;
+
+        for (Class<?> clazz = object.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
+            try {
+                method = clazz.getDeclaredMethod(methodName, parameterTypes);
+                return method;
+            } catch (Exception e) {
+            }
+        }
+
+        return null;
+    }
 }

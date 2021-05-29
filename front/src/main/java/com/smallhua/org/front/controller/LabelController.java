@@ -3,6 +3,7 @@ package com.smallhua.org.front.controller;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.front.service.LabelService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +25,15 @@ public class LabelController {
     @Autowired
     private LabelService labelService;
 
+    @ApiOperation("发布文章-》添加标签级联查询")
     @GetMapping("labels")
     public CommonResult getAllLabels(){
         return labelService.getAllLabels();
     }
 
+    @ApiOperation("文章列表-》右侧面板")
+    @GetMapping("rightPanel")
+    public CommonResult rightPanel(){
+        return labelService.rightPanel();
+    }
 }

@@ -14,4 +14,6 @@ public interface LabelMapper {
     List<CascadeVo> queryType();
 
     List<CascadeVo> queryLabel(@Param("typeId") Long typeId);
+
+    List<CascadeVo> queryAllLabel();
 }

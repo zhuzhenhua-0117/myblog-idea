@@ -128,7 +128,7 @@ public class ArticleService {
         Calendar cal = Calendar.getInstance();
         cal.setTime(articleVo.getCreTime());
         articleVo.setYear(cal.get(Calendar.YEAR));
-        articleVo.setMonth(cal.get(Calendar.MONTH));
+        articleVo.setMonth(cal.get(Calendar.MONTH)+ 1);
         articleVo.setDate(cal.get(Calendar.DATE));
     }
 }

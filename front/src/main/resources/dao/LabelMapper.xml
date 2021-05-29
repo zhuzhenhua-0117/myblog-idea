@@ -55,4 +55,22 @@
         ORDER BY
         t_label.SEQUENCE
     </select>
+    <select id="queryAllLabel" resultMap="BaseResultMap">
+        SELECT distinct LABEL, SEQUENCE FROM(
+            SELECT
+            lABEL AS LABEL,
+            SEQUENCE
+            FROM
+            t_label
+            UNION ALL
+            SELECT
+            t_article_label.VALUE AS LABEL,
+            100 AS SEQUENCE
+            FROM
+            t_article_label
+            where IF_HAND = 1
+        ) label
+        ORDER BY
+        label.SEQUENCE
+    </select>
 </mapper>
