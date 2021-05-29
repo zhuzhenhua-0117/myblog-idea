@@ -11,11 +11,15 @@
     <result column="CRE_TIME" jdbcType="TIMESTAMP" property="creTime" />
     <result column="UPD_ID" jdbcType="BIGINT" property="updId" />
     <result column="UPD_TIME" jdbcType="TIMESTAMP" property="updTime" />
-    <collection property="types" ofType="string">
+    <!--<collection property="types" ofType="string">
       <result property="types" column="types"></result>
     </collection>
     <collection property="labels" ofType="string">
       <result property="labels" column="labels"></result>
+    </collection>-->
+    <collection property="types" column="{articleId=ID}" select="selectTypesByAId">
+    </collection>
+    <collection property="labels" column="{articleId=ID}" select="selectLabelsByAId">
     </collection>
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.smallhua.org.front.vo.ArticleVo">
@@ -58,40 +62,51 @@
     CONTENT
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="com.smallhua.org.model.TArticleExample" resultMap="ResultMapWithBLOBs">
-    SELECT * FROM (
-      select
-      <if test="distinct">
-        distinct
-      </if>
-      <include refid="Base_Column_List" />
-      ,
-      <include refid="Blob_Column_List" />
-      ,label.LABEL AS labels,
-      type.LABEL AS types,
-      type.ID AS typeId,
-      label.ID AS labelId
-      from t_article
-       JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
-       JOIN t_label AS label ON al.LABEL_ID = label.ID
-       JOIN t_type AS type ON label.TYPE_ID = type.ID
+    SELECT
+    DISTINCT ID,
+    TITLE,
+    VIEW_NUM,
+    LIKE_NUM,
+    IF_TOP,
+    CRE_ID,
+    CRE_TIME,
+    UPD_ID,
+    UPD_TIME
+    FROM
+    (
+    SELECT
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,label.LABEL AS labels,
+    type.LABEL AS types,
+    type.ID AS typeId,
+    label.ID AS labelId
+    FROM
+    t_article
+    LEFT JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
+    LEFT JOIN t_label AS label ON al.LABEL_ID = label.ID
+    LEFT JOIN t_type AS type ON label.TYPE_ID = type.ID
 
-      UNION
+    UNION
 
-      select
-      <if test="distinct">
-        distinct
-      </if>
-      <include refid="Base_Column_List" />
-      ,
-      <include refid="Blob_Column_List" />
-      ,al.VALUE AS labels,
-      '其他' AS types,
-      0 AS typeId,
-      0 AS labelId
-      from t_article
-       JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID AND al.IF_HAND = 1
+    SELECT
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    al.VALUE AS labels,
+    '其他' AS types,
+    0 AS typeId,
+    0 AS labelId
+    FROM
+    t_article
+    INNER JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
+    AND al.IF_HAND = 1
     ) article
-
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,34 +115,46 @@
     </if>
   </select>
   <select id="selectByExample" parameterType="com.smallhua.org.model.TArticleExample" resultMap="BaseResultMap">
-    SELECT * FROM (
-    select
-    <if test="distinct">
-      distinct
-    </if>
+    SELECT
+    DISTINCT ID,
+    TITLE,
+    VIEW_NUM,
+    LIKE_NUM,
+    IF_TOP,
+    CRE_ID,
+    CRE_TIME,
+    UPD_ID,
+    UPD_TIME
+    FROM
+    (
+    SELECT
     <include refid="Base_Column_List" />
     ,label.LABEL AS labels,
     type.LABEL AS types,
     type.ID AS typeId,
     label.ID AS labelId
-    from t_article
-     JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
-     JOIN t_label AS label ON al.LABEL_ID = label.ID
-     JOIN t_type AS type ON label.TYPE_ID = type.ID
+    FROM
+    t_article
+    LEFT JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
+    LEFT JOIN t_label AS label ON al.LABEL_ID = label.ID
+    LEFT JOIN t_type AS type ON label.TYPE_ID = type.ID
 
     UNION
 
-    select
+    SELECT
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    ,al.VALUE AS labels,
+    ,
+    al.VALUE AS labels,
     '其他' AS types,
     0 AS typeId,
     0 AS labelId
-    from t_article
-     JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID AND al.IF_HAND = 1
+    FROM
+    t_article
+    INNER JOIN t_article_label AS al ON t_article.ID = al.ARTICLE_ID
+    AND al.IF_HAND = 1
     ) article
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -135,5 +162,56 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+  </select>
+
+  <select id="selectTypesByAId" resultType="string">
+    SELECT LABEL FROM
+    (SELECT
+    al.ARTICLE_ID,
+    type.LABEL,
+    type.SEQUENCE AS TS,
+    label.SEQUENCE AS LS
+    FROM
+    t_label AS label
+    INNER JOIN t_article_label AS al ON al.LABEL_ID = label.ID
+    INNER JOIN t_type AS type ON label.TYPE_ID = type.ID
+    UNION
+    SELECT
+    t_article_label.ARTICLE_ID,
+    '其他' AS LABEL,
+    -1 AS TS,
+    -1 AS LS
+     FROM  t_article_label  WHERE t_article_label.ARTICLE_ID = #{articleId} AND IF_HAND = 1
+    ) A
+    WHERE
+    ARTICLE_ID = #{articleId}
+    ORDER BY
+    TS,
+    LS
+  </select>
+  <select id="selectLabelsByAId" resultType="string">
+    SELECT LABEL FROM
+    (SELECT
+    al.ARTICLE_ID,
+    label.LABEL,
+    type.SEQUENCE AS TS,
+    label.SEQUENCE AS LS
+    FROM
+    t_label AS label
+    INNER JOIN t_article_label AS al ON al.LABEL_ID = label.ID
+    INNER JOIN t_type AS type ON label.TYPE_ID = type.ID
+    UNION
+    SELECT
+    t_article_label.ARTICLE_ID,
+    t_article_label.VALUE AS LABEL,
+    -1 AS TS,
+    -1 AS LS
+     FROM  t_article_label  WHERE t_article_label.ARTICLE_ID = #{articleId} AND IF_HAND = 1
+    ) A
+    WHERE
+    ARTICLE_ID = #{articleId}
+    ORDER BY
+    TS,
+    LS
   </select>
 </mapper>
