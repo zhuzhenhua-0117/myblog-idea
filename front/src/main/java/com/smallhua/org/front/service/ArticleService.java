@@ -66,7 +66,7 @@ public class ArticleService {
         TArticleExample.Criteria criteriaDefine = example.createCriteria();
 
         criteriaDefine.andIdEqualTo(articleId);
-        return CommonResult.success(articleMapper.selectByExample(example).get(0));
+        return CommonResult.success(articleMapper.selectByExampleWithBLOBs(example).get(0));
     }
 
     public CommonResult saveOrUpdArticle(ArticleVo articleVo) {

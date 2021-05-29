@@ -121,8 +121,7 @@
     LIKE_NUM,
     IF_TOP,
     CRE_ID,
-    CRE_TIME,
-    CONTENT
+    CRE_TIME
     FROM
     (
     SELECT
