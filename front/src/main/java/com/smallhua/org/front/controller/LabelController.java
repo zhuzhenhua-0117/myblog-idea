@@ -36,4 +36,10 @@ public class LabelController {
     public CommonResult rightPanel(){
         return labelService.rightPanel();
     }
+
+    @ApiOperation("文章列表-》右侧面板")
+    @GetMapping("public/rightPanel")
+    public CommonResult publicRightPanel(){
+        return labelService.rightPanel();
+    }
 }
