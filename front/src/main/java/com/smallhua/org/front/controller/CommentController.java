@@ -32,6 +32,12 @@ public class CommentController {
         return commentService.selAllComments(baseParam);
     }
 
+    @PostMapping("/public/comments")
+    @ApiOperation("动态查询-公开")
+    public CommonPage<TComment> publicAllComments(@RequestBody BaseParam baseParam){
+        return commentService.selAllComments(baseParam);
+    }
+
     @PostMapping("comment")
     @ApiOperation("发布评论")
     public CommonResult saveComment(@RequestBody TComment comment){

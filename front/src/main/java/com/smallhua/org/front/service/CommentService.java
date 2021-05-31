@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * 〈一句话功能简述〉<br>
  * 〈评论业务〉
@@ -43,7 +45,22 @@ public class CommentService {
     }
 
     public CommonResult saveComment(TComment comment) {
-        comment.setId(IdUtil.generateIdBySnowFlake());
+        long id = IdUtil.generateIdBySnowFlake();
+
+        if (comment.getPid() == 0l){
+            comment.setFullPath("/" + id);
+        }else {
+            StringBuffer sb = new StringBuffer();
+            TCommentExample commentExample = new TCommentExample();
+            commentExample.createCriteria()
+                    .andIdEqualTo(comment.getPid())
+            .andIsDelEqualTo(ConstUtil.ZERO);
+            List<TComment> tComments = commentMapper.selectByExample(commentExample);
+            sb.append(tComments.get(0).getFullPath()).append("/").append(id);
+
+            comment.setFullPath(sb.toString());
+        }
+        comment.setId(id);
         comment.setCreId(SessionHelper.currentUserId());
         comment.setCreTime(DateUtil.date());
         comment.setUpdId(SessionHelper.currentUserId());
