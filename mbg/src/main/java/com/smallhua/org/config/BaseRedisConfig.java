@@ -49,6 +49,7 @@ public class BaseRedisConfig {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
 
+
         //定制化关于时间格式序列化问题
         /*SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(DateTime.class,new JodaDateTimeJsonSerializer());
@@ -59,7 +60,7 @@ public class BaseRedisConfig {
         //必须设置，否则无法将JSON转化为对象，会转化成Map类型
 //        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,ObjectMapper.DefaultTyping.NON_FINAL);
         objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance);
-
+        serializer.setObjectMapper(objectMapper);
         return serializer;
     }
 

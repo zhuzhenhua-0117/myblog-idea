@@ -11,6 +11,8 @@ spring:
   application:
     name: zuul
 zuul:
+#  解决session不一致问题
+  sensitiveHeaders: "*"
   host:
     socket-timeout-millis: 60000
     connect-timeout-millis: 60000
