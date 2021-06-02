@@ -1,6 +1,6 @@
-package com.macro.mall.common.config;
+package com.smallhua.org.common.config;
 
-import com.macro.mall.common.domain.SwaggerProperties;
+import com.smallhua.org.common.domain.SwaggerProperties;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;

@@ -1,10 +1,10 @@
-package com.smallhua.org.front.service;
+package com.smallhua.org.service;
 
 import cn.hutool.core.collection.CollUtil;
 import com.smallhua.org.common.api.CommonResult;
-import com.smallhua.org.front.mapper.LabelMapper;
-import com.smallhua.org.front.vo.CascadeVo;
-import com.smallhua.org.front.vo.RightPanelVo;
+import com.smallhua.org.mapper.LabelMapper;
+import com.smallhua.org.vo.CascadeVo;
+import com.smallhua.org.vo.RightPanelVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

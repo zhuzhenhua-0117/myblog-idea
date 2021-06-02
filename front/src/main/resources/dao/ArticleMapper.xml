@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.smallhua.org.front.mapper.ArticleMapper">
-  <resultMap id="BaseResultMap" type="com.smallhua.org.front.vo.ArticleVo">
+<mapper namespace="com.smallhua.org.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.smallhua.org.vo.ArticleVo">
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
     <result column="VIEW_NUM" jdbcType="INTEGER" property="viewNum" />
@@ -22,7 +22,7 @@
     <collection property="labels" column="{articleId=ID}" select="selectLabelsByAId">
     </collection>
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.smallhua.org.front.vo.ArticleVo">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.smallhua.org.vo.ArticleVo">
     <result column="CONTENT" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Example_Where_Clause">

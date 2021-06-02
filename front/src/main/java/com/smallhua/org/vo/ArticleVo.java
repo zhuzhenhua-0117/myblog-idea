@@ -1,4 +1,4 @@
-package com.smallhua.org.front.vo;
+package com.smallhua.org.vo;
 
 import com.smallhua.org.model.TArticle;
 import com.smallhua.org.model.TArticleLabel;

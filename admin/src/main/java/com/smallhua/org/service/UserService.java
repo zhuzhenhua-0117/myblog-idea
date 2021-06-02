@@ -61,8 +61,6 @@ public class UserService {
     @Autowired
     private UserDao userDao;
     @Autowired
-    private UserCacheService userCacheService;
-    @Autowired
     private CommonService commonService;
 
     public CommonResult login(UserVo userVo) {
@@ -90,7 +88,7 @@ public class UserService {
 
                 //将用户数据放到缓存中
                 UserRole userRole = userDao.selectUserInfoByUserId(tUser.getId());
-                ServletUtil.getRequest().getSession().setAttribute("user", userRole);
+                ServletUtil.getRequest().getSession().setAttribute(ConstUtil.REDIS_USER, userRole);
 
                 Map<String, Object> map = new HashMap<>();
                 map.put("tokenHead", tokenHead);

@@ -1,4 +1,4 @@
-package com.smallhua.org.front.dto;
+package com.smallhua.org.dto;
 
 import com.smallhua.org.model.TArticleExample;
 

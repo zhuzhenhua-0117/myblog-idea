@@ -1,4 +1,4 @@
-package com.smallhua.org.front.service;
+package com.smallhua.org.service;
 
 import cn.hutool.core.date.DateUtil;
 import com.smallhua.org.common.api.CommonPage;
@@ -8,7 +8,7 @@ import com.smallhua.org.common.util.ConditionUtil;
 import com.smallhua.org.common.util.ConstUtil;
 import com.smallhua.org.common.util.IdUtil;
 import com.smallhua.org.common.util.PageUtil;
-import com.smallhua.org.front.util.SessionHelper;
+import com.smallhua.org.util.SessionHelper;
 import com.smallhua.org.mapper.TCommentMapper;
 import com.smallhua.org.model.TComment;
 import com.smallhua.org.model.TCommentExample;

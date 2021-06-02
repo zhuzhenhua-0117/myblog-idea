@@ -1,4 +1,4 @@
-package com.smallhua.org.front.vo;
+package com.smallhua.org.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

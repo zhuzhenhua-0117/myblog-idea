@@ -1,10 +1,10 @@
-package com.smallhua.org.front.controller;
+package com.smallhua.org.controller;
 
 import com.smallhua.org.common.api.CommonPage;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.domain.BaseParam;
-import com.smallhua.org.front.service.CommentService;
 import com.smallhua.org.model.TComment;
+import com.smallhua.org.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -19,7 +20,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RolePermission extends TRole {
+public class RolePermission extends TRole implements Serializable {
+
+    private static final long serialVersionUID = -7347456346915950507L;
 
     List<TPermission> permissionList;
 

@@ -1,4 +1,4 @@
-package com.macro.mall.common.domain;
+package com.smallhua.org.common.domain;
 
 import lombok.Builder;
 import lombok.Data;

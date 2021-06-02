@@ -1,7 +1,7 @@
-package com.smallhua.org.front.mapper;
+package com.smallhua.org.mapper;
 
 
-import com.smallhua.org.front.vo.CascadeVo;
+import com.smallhua.org.vo.CascadeVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

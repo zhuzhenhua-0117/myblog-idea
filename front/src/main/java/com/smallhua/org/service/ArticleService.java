@@ -1,4 +1,4 @@
-package com.smallhua.org.front.service;
+package com.smallhua.org.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
@@ -10,11 +10,11 @@ import com.smallhua.org.common.domain.BaseParam;
 import com.smallhua.org.common.util.ConditionUtil;
 import com.smallhua.org.common.util.IdUtil;
 import com.smallhua.org.common.util.PageUtil;
-import com.smallhua.org.front.dto.ArticleDefine;
-import com.smallhua.org.front.dto.ArticleExampleDefine;
-import com.smallhua.org.front.mapper.ArticleMapper;
-import com.smallhua.org.front.util.SessionHelper;
-import com.smallhua.org.front.vo.ArticleVo;
+import com.smallhua.org.dto.ArticleExampleDefine;
+import com.smallhua.org.dto.ArticleDefine;
+import com.smallhua.org.mapper.ArticleMapper;
+import com.smallhua.org.util.SessionHelper;
+import com.smallhua.org.vo.ArticleVo;
 import com.smallhua.org.mapper.TArticleLabelMapper;
 import com.smallhua.org.mapper.TArticleMapper;
 import com.smallhua.org.model.TArticle;

@@ -1,8 +1,8 @@
-package com.smallhua.org.front.util;
+package com.smallhua.org.util;
 
 import com.smallhua.org.common.util.ConstUtil;
 import com.smallhua.org.common.util.SessionUtil;
-import com.smallhua.org.model.TUser;
+import com.smallhua.org.dto.UserRole;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -14,13 +14,13 @@ import com.smallhua.org.model.TUser;
  */
 public class SessionHelper {
 
-    public static TUser currentUser(){
-        TUser user = SessionUtil.getAttribute(ConstUtil.REDIS_USER, TUser.class);
+    public static UserRole currentUser(){
+        UserRole user = SessionUtil.getAttribute(ConstUtil.REDIS_USER, UserRole.class);
         return user;
     }
 
     public static Long currentUserId(){
-        TUser user = SessionUtil.getAttribute(ConstUtil.REDIS_USER, TUser.class);
+        UserRole user = SessionUtil.getAttribute(ConstUtil.REDIS_USER, UserRole.class);
         if (user == null) {
             return null;
         }

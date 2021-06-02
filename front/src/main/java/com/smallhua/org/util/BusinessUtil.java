@@ -1,4 +1,4 @@
-package com.smallhua.org.front.util;
+package com.smallhua.org.util;
 
 /**
  * 〈一句话功能简述〉<br>

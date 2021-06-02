@@ -1,4 +1,4 @@
-package com.smallhua.org.front;
+package com.smallhua.org;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
