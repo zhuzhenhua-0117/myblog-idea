@@ -1,7 +1,6 @@
 package com.smallhua.org.security.config;
 
 import com.smallhua.org.security.component.*;
-import com.smallhua.org.security.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -26,6 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired(required = false)
     private DynamicSecurityService dynamicSecurityService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -66,13 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
@@ -100,10 +96,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new IgnoreUrlsConfig();
     }
 
-    @Bean
-    public JwtTokenUtil jwtTokenUtil() {
-        return new JwtTokenUtil();
-    }
 
     @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean

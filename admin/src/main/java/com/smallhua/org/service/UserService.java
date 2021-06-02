@@ -14,7 +14,6 @@ import com.smallhua.org.dto.UserRole;
 import com.smallhua.org.mapper.TUserMapper;
 import com.smallhua.org.model.TUser;
 import com.smallhua.org.model.TUserExample;
-import com.smallhua.org.security.util.JwtTokenUtil;
 import com.smallhua.org.util.RedisUtil;
 import com.smallhua.org.vo.userVo.RegistVo;
 import com.smallhua.org.vo.userVo.UpdPwdVo;

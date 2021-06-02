@@ -1,6 +1,6 @@
-package com.smallhua.org.config;
+package com.smallhua.org.common.config;
 
-import com.smallhua.org.security.util.JwtTokenUtil;
+import com.smallhua.org.common.util.JwtTokenUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

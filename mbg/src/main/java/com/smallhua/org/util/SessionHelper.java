@@ -1,8 +1,8 @@
 package com.smallhua.org.util;
 
 import com.smallhua.org.common.util.ApplicationUtil;
+import com.smallhua.org.common.util.JwtTokenUtil;
 import com.smallhua.org.model.TUser;
-import com.smallhua.org.security.util.JwtTokenUtil;
 
 /**
  * 〈一句话功能简述〉<br>

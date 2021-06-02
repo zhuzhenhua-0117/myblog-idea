@@ -2,12 +2,12 @@ package com.smallhua.org.service;
 
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.util.IdUtil;
+import com.smallhua.org.common.util.JwtTokenUtil;
 import com.smallhua.org.dao.DictDao;
 import com.smallhua.org.mapper.TDictMapper;
 import com.smallhua.org.model.TDict;
 import com.smallhua.org.model.TDictExample;
 import com.smallhua.org.model.TUser;
-import com.smallhua.org.security.util.JwtTokenUtil;
 import com.smallhua.org.util.RedisUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
