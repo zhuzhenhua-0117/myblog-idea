@@ -25,4 +25,12 @@ public class ConstUtil {
      */
     public static final String REDIS_USER = "user";
 
+    /**
+     * jwt主题消息之一 用户昵称
+     */
+    public static final String PAYLOAD_KEY_USERNAME = "username";
+    /**
+     * jwt主题消息之一 用户账号
+     */
+    public static final String PAYLOAD_KEY_ACCOUNT = "account";
 }

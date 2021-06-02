@@ -1,14 +1,14 @@
 package com.smallhua.org.service;
 
 import com.smallhua.org.common.api.CommonResult;
-import com.smallhua.org.common.util.ConstUtil;
 import com.smallhua.org.common.util.IdUtil;
-import com.smallhua.org.common.util.SessionUtil;
 import com.smallhua.org.dao.DictDao;
-import com.smallhua.org.dto.UserRole;
 import com.smallhua.org.mapper.TDictMapper;
 import com.smallhua.org.model.TDict;
 import com.smallhua.org.model.TDictExample;
+import com.smallhua.org.model.TUser;
+import com.smallhua.org.security.util.JwtTokenUtil;
+import com.smallhua.org.util.RedisUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,9 +34,12 @@ public class DictService {
     private TDictMapper dictMapper;
     @Autowired
     private DictDao dictDao;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     public CommonResult updOrSaveDict(TDict dict) {
-        UserRole us = SessionUtil.getAttribute(ConstUtil.REDIS_USER, UserRole.class);
+//        UserRole us = SessionUtil.getAttribute(ConstUtil.REDIS_USER, UserRole.class);
+        TUser us = RedisUtil.getUserInfo(RedisUtil.getKeyOfUser(jwtTokenUtil.getSubjectByToken()));
         int i = 0;
         if (dict.getId() == null) {
             dict.setId(IdUtil.generateIdBySnowFlake());

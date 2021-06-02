@@ -15,6 +15,7 @@ import com.smallhua.org.mapper.TUserMapper;
 import com.smallhua.org.model.TUser;
 import com.smallhua.org.model.TUserExample;
 import com.smallhua.org.security.util.JwtTokenUtil;
+import com.smallhua.org.util.RedisUtil;
 import com.smallhua.org.vo.userVo.RegistVo;
 import com.smallhua.org.vo.userVo.UpdPwdVo;
 import com.smallhua.org.vo.userVo.UpdUserVo;
@@ -80,15 +81,14 @@ public class UserService {
             if (passwordEncoder.matches(userVo.getPassword(), tUser.getPassword())) {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 //生成token
-                String token = jwtTokenUtil.generateToken(userVo.getAccount());
+                String token = jwtTokenUtil.generateToken(tUser.getUserName(), tUser.getAccount());
 
                 //更新user最新登陆时间
                 tUser.setLoginTime(new Date());
                 userMapper.updateByPrimaryKeySelective(tUser);
 
-                //将用户数据放到缓存中
-                UserRole userRole = userDao.selectUserInfoByUserId(tUser.getId());
-                ServletUtil.getRequest().getSession().setAttribute(ConstUtil.REDIS_USER, userRole);
+                String keyOfUser = RedisUtil.getKeyOfUser(tUser.getUserName(), tUser.getAccount());
+                RedisUtil.setUserInfo(keyOfUser, tUser);
 
                 Map<String, Object> map = new HashMap<>();
                 map.put("tokenHead", tokenHead);
@@ -161,8 +161,11 @@ public class UserService {
             int i = userMapper.updateByExample(user, userExample);
 
             if (i > 0) {
-                SessionUtil.removeAttribute(ConstUtil.REDIS_USER);
-                SessionUtil.setAttribute(ConstUtil.REDIS_USER, user);
+//                SessionUtil.removeAttribute(ConstUtil.REDIS_USER);
+//                SessionUtil.setAttribute(ConstUtil.REDIS_USER, user);
+                RedisUtil.delUserInfo(RedisUtil.getKeyOfUser(jwtTokenUtil.getSubjectByToken()));
+                RedisUtil.setUserInfo(RedisUtil.getKeyOfUser(jwtTokenUtil.getSubjectByToken()), user);
+
                 return CommonResult.success("更新成功");
             } else {
                 return CommonResult.failed("更新失败");
@@ -196,8 +199,8 @@ public class UserService {
         log.info("从数据库获得了用户数据");
 
         if (userRole != null) {
-//            userCacheService.setUserInfo(userRole);
-            SessionUtil.setAttribute("user", userRole);
+//            SessionUtil.setAttribute("user", userRole);
+            RedisUtil.setUserInfo(RedisUtil.getKeyOfUser(jwtTokenUtil.getSubjectByToken()), userRole);
         }
 
         return userRole;
@@ -215,8 +218,11 @@ public class UserService {
             int i = userMapper.updateByPrimaryKey(tUser);
 
             if (i > 0) {
-                SessionUtil.removeAttribute("user");
-                UserRole user = SessionUtil.getAttribute("user", UserRole.class);
+//                SessionUtil.removeAttribute("user");
+//                UserRole user = SessionUtil.getAttribute("user", UserRole.class);
+                RedisUtil.delUserInfo(RedisUtil.getKeyOfUser(jwtTokenUtil.getSubjectByToken()));
+                TUser user = RedisUtil.getUserInfo(RedisUtil.getKeyOfUser(jwtTokenUtil.getSubjectByToken()));
+
                 log.info(user.getUserName() + "删掉了用户{}", tUser.getUserName());
                 return CommonResult.success("删除成功");
 
@@ -226,7 +232,8 @@ public class UserService {
     }
 
     public CommonResult logout() {
-        SessionUtil.removeAttribute("user");
+//        SessionUtil.removeAttribute("user");
+        RedisUtil.delUserInfo(RedisUtil.getKeyOfUser(jwtTokenUtil.getSubjectByToken()));
         return CommonResult.success("你已退出");
     }
 

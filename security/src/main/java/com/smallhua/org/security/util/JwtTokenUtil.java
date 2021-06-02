@@ -2,6 +2,7 @@ package com.smallhua.org.security.util;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.smallhua.org.common.util.ConstUtil;
 import com.smallhua.org.common.util.ServletUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * JwtToken生成的工具类
@@ -31,6 +33,7 @@ public class JwtTokenUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
+
     @Value("${jwt.secret}")
     private String secret;
     @Value("${jwt.expiration}")
@@ -75,17 +78,45 @@ public class JwtTokenUtil {
     }
 
     /**
-     * 从token中获取登录用户名
+     * 从token中获取用户昵称
      */
-    public String getAccountFromToken(String token) {
-        String username;
+    public Map<String, String> getSubjectFromToken(String token) {
+        Map<String, String> subject;
         try {
             Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
+            subject = (Map<String, String>) claims.get(CLAIM_KEY_USERNAME);
         } catch (Exception e) {
-            username = null;
+            subject = null;
         }
-        return username;
+        return subject;
+    }
+
+    /**
+     * 从token中获取用户昵称
+     */
+    public String getUserNameFromToken(String token) {
+        String userName;
+        try {
+            Map<String, String> map = getSubjectFromToken(token);
+            userName = map.get(ConstUtil.PAYLOAD_KEY_USERNAME);
+        } catch (Exception e) {
+            userName = null;
+        }
+        return userName;
+    }
+
+    /**
+     * 从token中获取用户昵称
+     */
+    public String getAccountFromToken(String token) {
+        String account;
+        try {
+            Map<String, String> map = getSubjectFromToken(token);
+            account = map.get(ConstUtil.PAYLOAD_KEY_ACCOUNT);
+        } catch (Exception e) {
+            account = null;
+        }
+        return account;
     }
 
     /**
@@ -95,8 +126,8 @@ public class JwtTokenUtil {
      * @param userDetails 从数据库中查询出来的用户信息
      */
     public boolean validateToken(String token, UserDetails userDetails) {
-        String username = getAccountFromToken(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        String userName = getAccountFromToken(token);
+        return userName.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     /**
@@ -118,9 +149,12 @@ public class JwtTokenUtil {
     /**
      * 根据用户信息生成token
      */
-    public String generateToken(String username) {
+    public String generateToken(String userName, String account) {
+        Map<String, String> map = new HashMap<>();
+        map.put(ConstUtil.PAYLOAD_KEY_ACCOUNT, account);
+        map.put(ConstUtil.PAYLOAD_KEY_USERNAME, userName);
         Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERNAME, username);
+        claims.put(CLAIM_KEY_USERNAME, map);
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(claims);
     }
@@ -172,22 +206,16 @@ public class JwtTokenUtil {
         return false;
     }
 
-    public String getAccountByToken(){
+    public Map<String, String> getSubjectByToken(){
         HttpServletRequest request = ServletUtil.getRequest();
         String authHeader = request.getHeader(this.tokenHeader);
         if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
-            String authToken = authHeader.substring(this.tokenHead.length());// The part after "Bearer "
-            String username = this.getAccountFromToken(authToken);
-            return username;
+            String[] tokens = authHeader.split("\\s");// The part after "Bearer "
+            String authToken = tokens[1];
+            Map<String, String> subject = this.getSubjectFromToken(authToken);
+            return subject;
         }
         return null;
     }
 
-//    public static void main(String[] args) {
-//        JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
-//        Map<String, Object> claims = new HashMap<>();
-//        claims.put(CLAIM_KEY_USERNAME, "admin");
-//        claims.put(CLAIM_KEY_CREATED, new Date());
-//        System.out.println(jwtTokenUtil.generateToken(claims));
-//    }
 }

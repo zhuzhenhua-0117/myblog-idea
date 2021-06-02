@@ -2,8 +2,10 @@ package com.smallhua.org.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.smallhua.org.service.RedisService;
 import com.smallhua.org.service.impl.RedisServiceImpl;
 import org.springframework.cache.annotation.EnableCaching;
@@ -14,10 +16,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.*;
 
 import java.time.Duration;
 
@@ -31,13 +30,13 @@ public class BaseRedisConfig {
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisSerializer<Object> serializer = redisSerializer();
+//        RedisSerializer<Object> serializer = redisSerializer();
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(serializer);
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashValueSerializer(serializer);
+        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
@@ -49,7 +48,9 @@ public class BaseRedisConfig {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
 
-
+        objectMapper.configure(MapperFeature.USE_ANNOTATIONS, false);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         //定制化关于时间格式序列化问题
         /*SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(DateTime.class,new JodaDateTimeJsonSerializer());
@@ -59,7 +60,6 @@ public class BaseRedisConfig {
 
         //必须设置，否则无法将JSON转化为对象，会转化成Map类型
 //        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,ObjectMapper.DefaultTyping.NON_FINAL);
-        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance);
         serializer.setObjectMapper(objectMapper);
         return serializer;
     }

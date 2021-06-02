@@ -1,8 +1,8 @@
 package com.smallhua.org.util;
 
-import com.smallhua.org.common.util.ConstUtil;
-import com.smallhua.org.common.util.SessionUtil;
-import com.smallhua.org.dto.UserRole;
+import com.smallhua.org.common.util.ApplicationUtil;
+import com.smallhua.org.model.TUser;
+import com.smallhua.org.security.util.JwtTokenUtil;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -14,13 +14,14 @@ import com.smallhua.org.dto.UserRole;
  */
 public class SessionHelper {
 
-    public static UserRole currentUser(){
-        UserRole user = SessionUtil.getAttribute(ConstUtil.REDIS_USER, UserRole.class);
+    public static TUser currentUser(){
+        JwtTokenUtil bean = ApplicationUtil.getBean(JwtTokenUtil.class);
+        TUser user = RedisUtil.getUserInfo(RedisUtil.getKeyOfUser(bean.getSubjectByToken()));
         return user;
     }
 
     public static Long currentUserId(){
-        UserRole user = SessionUtil.getAttribute(ConstUtil.REDIS_USER, UserRole.class);
+        TUser user = currentUser();
         if (user == null) {
             return null;
         }

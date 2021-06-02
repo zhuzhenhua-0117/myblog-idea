@@ -44,14 +44,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 return;
             }
             String authToken = tokens[1];
-            String username = jwtTokenUtil.getAccountFromToken(authToken);
-            LOGGER.info("checking username:{}", username);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            String account = jwtTokenUtil.getAccountFromToken(authToken);
+            LOGGER.info("checking account:{}", account);
+            if (account != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(account);
                 if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    LOGGER.info("authenticated user:{}", username);
+                    LOGGER.info("authenticated user:{}", account);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
