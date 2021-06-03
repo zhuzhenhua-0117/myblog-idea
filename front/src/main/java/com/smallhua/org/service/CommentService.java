@@ -4,14 +4,13 @@ import cn.hutool.core.date.DateUtil;
 import com.smallhua.org.common.api.CommonPage;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.domain.BaseParam;
-import com.smallhua.org.common.util.ConditionUtil;
-import com.smallhua.org.common.util.ConstUtil;
-import com.smallhua.org.common.util.IdUtil;
-import com.smallhua.org.common.util.PageUtil;
+import com.smallhua.org.common.util.*;
+import com.smallhua.org.mapper.CommentMapper;
 import com.smallhua.org.mapper.TCommentMapper;
 import com.smallhua.org.model.TComment;
 import com.smallhua.org.model.TCommentExample;
 import com.smallhua.org.util.SessionHelper;
+import com.smallhua.org.vo.CommentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,17 +30,21 @@ import java.util.List;
 public class CommentService {
 
     @Autowired
-    private TCommentMapper commentMapper;
+    private TCommentMapper tCommentMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
 
-    public CommonPage<TComment> selAllComments(BaseParam baseParam) {
+    public CommonPage<CommentVo> selAllComments(BaseParam baseParam) {
         TCommentExample example = new TCommentExample();
         TCommentExample.Criteria criteria = example.createCriteria();
         criteria.andIsDelEqualTo(ConstUtil.ZERO);
 
         ConditionUtil.createCondition(baseParam, criteria, TComment.class);
-
-        return PageUtil.pagination(baseParam, () -> commentMapper.selectByExample(example));
+        CommonPage<CommentVo> pagination = PageUtil.pagination(baseParam, () -> commentMapper.selectByExample(example));
+        List<CommentVo> tree = TreeUtil.createTree(pagination.getList());
+        pagination.setList(tree);
+        return pagination;
     }
 
     public CommonResult saveComment(TComment comment) {
@@ -55,7 +58,7 @@ public class CommentService {
             commentExample.createCriteria()
                     .andIdEqualTo(comment.getPid())
             .andIsDelEqualTo(ConstUtil.ZERO);
-            List<TComment> tComments = commentMapper.selectByExample(commentExample);
+            List<TComment> tComments = tCommentMapper.selectByExample(commentExample);
             sb.append(tComments.get(0).getFullPath()).append("/").append(id);
 
             comment.setFullPath(sb.toString());
@@ -66,7 +69,7 @@ public class CommentService {
         comment.setUpdId(SessionHelper.currentUserId());
         comment.setUpdTime(DateUtil.date());
 
-        int i = commentMapper.insertSelective(comment);
+        int i = tCommentMapper.insertSelective(comment);
 
         if (i < 1){
             return CommonResult.failed("发布失败");
@@ -77,12 +80,12 @@ public class CommentService {
 
     public CommonResult delComment(Long id) {
 
-        TComment tComment = commentMapper.selectByPrimaryKey(id);
+        TComment tComment = tCommentMapper.selectByPrimaryKey(id);
 
         tComment.setIsDel(ConstUtil.ONE);
         tComment.setUpdId(SessionHelper.currentUserId());
         tComment.setUpdTime(DateUtil.date());
-        int i = commentMapper.updateByPrimaryKeySelective(tComment);
+        int i = tCommentMapper.updateByPrimaryKeySelective(tComment);
 
         if (i < 1){
             return CommonResult.failed("删除失败");

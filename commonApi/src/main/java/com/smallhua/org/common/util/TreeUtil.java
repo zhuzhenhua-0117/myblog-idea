@@ -44,7 +44,8 @@ public class TreeUtil<T> {
         try {
             for (T t : list) {
                 Class<?> aClass = t.getClass();
-                Field parentId = aClass.getDeclaredField(pIdName);
+//                Field parentId = aClass.getDeclaredField(pIdName);
+                Field parentId =getField(aClass, pIdName);
                 parentId.setAccessible(true);
                 Object o = parentId.get(t);
                 if (String.valueOf(o).equals(String.valueOf(TOP_PARENT_ID))) {
@@ -63,12 +64,14 @@ public class TreeUtil<T> {
     private static <T> T recursiveTree(T parent, List<T> list, String idName, String pIdName, String childName) throws Exception {
         List<T> children = new ArrayList<T>();
         Class<?> pClass = parent.getClass();
-        Field id = pClass.getDeclaredField(idName);
+//        Field id = pClass.getDeclaredField(idName);
+        Field id =getField(pClass, idName);
         id.setAccessible(true);
         Object o = id.get(parent);
         for (T t : list) {
             Class<?> aClass = t.getClass();
-            Field parentId = aClass.getDeclaredField(pIdName);
+//            Field parentId = aClass.getDeclaredField(pIdName);
+            Field parentId =getField(aClass, pIdName);
             parentId.setAccessible(true);
             Object o1 = parentId.get(t);
             if (String.valueOf(o).equals(String.valueOf(o1))) {
@@ -76,10 +79,25 @@ public class TreeUtil<T> {
                 children.add(t);
             }
         }
-        Field child = pClass.getDeclaredField(childName);
+//        Field child = pClass.getDeclaredField(childName);
+        Field child =getField(pClass, childName);
         child.setAccessible(true);
         child.set(parent, children);
         return parent;
     }
 
+    private static Field getField(Class clazz, String fieldName){
+        Field field = null;
+        try {
+            field = clazz.getDeclaredField(fieldName);
+        }catch (NoSuchFieldException e){
+            if (clazz.getSuperclass() != null && clazz.getSuperclass() != Object.class){
+                return getField(clazz.getSuperclass(), fieldName);
+            }
+            e.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return field;
+    }
 }
