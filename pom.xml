@@ -15,6 +15,7 @@
         <module>admin</module>
         <module>front</module>
         <module>zuul</module>
+        <module>MessageQueue</module>
     </modules>
 
     <properties>

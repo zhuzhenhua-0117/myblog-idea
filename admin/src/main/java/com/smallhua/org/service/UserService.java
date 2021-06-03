@@ -5,6 +5,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.smallhua.org.common.api.CommonPage;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.domain.BaseParam;
@@ -12,6 +13,7 @@ import com.smallhua.org.common.util.*;
 import com.smallhua.org.dao.UserDao;
 import com.smallhua.org.dto.UserRole;
 import com.smallhua.org.mapper.TUserMapper;
+import com.smallhua.org.message.ProductMessage;
 import com.smallhua.org.model.TUser;
 import com.smallhua.org.model.TUserExample;
 import com.smallhua.org.util.RedisUtil;
@@ -62,6 +64,8 @@ public class UserService {
     private UserDao userDao;
     @Autowired
     private CommonService commonService;
+    @Autowired
+    private ProductMessage productMessage;
 
     public CommonResult login(UserVo userVo) {
         String account = userVo.getAccount();
@@ -134,6 +138,8 @@ public class UserService {
         int i = userMapper.insertSelective(tUser);
 
         if (i > 0) {
+            boolean b = productMessage.produceUserMsg(JSONUtil.toJsonStr(tUser));
+            log.info("推送一个用户到rabbitMq，"+(b ?"success":"fail"));
             return CommonResult.success("注册成功");
         }
 
