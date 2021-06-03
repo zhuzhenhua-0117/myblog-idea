@@ -57,6 +57,10 @@ public class ArticleService {
 
         ConditionUtil.createCondition(baseParam, criteriaDefine, ArticleDefine.class);
         CommonPage<ArticleVo> pagination = PageUtil.pagination(baseParam, () -> articleMapper.selectByExampleWithBLOBs(example));
+        if (pagination.getTotalPage() != 0 && pagination.getTotalPage() < pagination.getPageNum()){
+            baseParam.setPage(pagination.getTotalPage());
+            pagination = PageUtil.pagination(baseParam, () -> articleMapper.selectByExampleWithBLOBs(example));
+        }
         pagination.getList().stream().map(item -> {renderYMD(item); return item;}).collect(Collectors.toList());
         return pagination;
     }
