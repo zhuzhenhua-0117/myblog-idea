@@ -13,8 +13,27 @@
     <result column="LIKE_NUMS" jdbcType="INTEGER" property="likeNums" />
     <result column="CRE_ID" jdbcType="BIGINT" property="creId" />
     <result column="CRE_TIME" jdbcType="TIMESTAMP" property="creTime" />
-    <result column="UPD_ID" jdbcType="BIGINT" property="updId" />
-    <result column="UPD_TIME" jdbcType="TIMESTAMP" property="updTime" />
+    <result column="SOURCE_NAME" jdbcType="VARCHAR" property="sourceName" />
+    <result column="TARGET_NAME" jdbcType="VARCHAR" property="targetName" />
+    <collection property="children" select="queryCommentByFullPath" column="{fullPath=FULL_PATH}">
+
+    </collection>
+  </resultMap>
+
+  <resultMap id="BaseResultMap1" type="com.smallhua.org.vo.CommentVo">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="SOURCE_ID" jdbcType="BIGINT" property="sourceId" />
+    <result column="TARGET_ID" jdbcType="BIGINT" property="targetId" />
+    <result column="PID" jdbcType="BIGINT" property="pid" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="ARTICLE_ID" jdbcType="BIGINT" property="articleId" />
+    <result column="IS_DEL" jdbcType="TINYINT" property="isDel" />
+    <result column="FULL_PATH" jdbcType="VARCHAR" property="fullPath" />
+    <result column="LIKE_NUMS" jdbcType="INTEGER" property="likeNums" />
+    <result column="CRE_ID" jdbcType="BIGINT" property="creId" />
+    <result column="CRE_TIME" jdbcType="TIMESTAMP" property="creTime" />
+    <result column="SOURCE_NAME" jdbcType="VARCHAR" property="sourceName" />
+    <result column="TARGET_NAME" jdbcType="VARCHAR" property="targetName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -46,8 +65,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, SOURCE_ID, TARGET_ID, PID, CONTENT, ARTICLE_ID, IS_DEL, FULL_PATH, LIKE_NUMS, 
-    CRE_ID, CRE_TIME
+    t_comment.ID, SOURCE_ID, TARGET_ID, PID, CONTENT, ARTICLE_ID, IS_DEL, FULL_PATH, LIKE_NUMS,
+    CRE_ID, CRE_TIME, u1.USER_NAME AS SOURCE_NAME, u2.USER_NAME AS TARGET_NAME
   </sql>
   <select id="selectByExample" parameterType="com.smallhua.org.model.TCommentExample" resultMap="BaseResultMap">
     select
@@ -56,6 +75,8 @@
     </if>
     <include refid="Base_Column_List" />
     from t_comment
+    LEFT JOIN t_user_mir AS u1 ON t_comment.SOURCE_ID = u1.ID
+    LEFT JOIN t_user_mir AS u2 ON t_comment.TARGET_ID = u2.ID
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -68,5 +89,16 @@
     <include refid="Base_Column_List" />
     from t_comment
     where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="queryCommentByFullPath" resultMap="BaseResultMap1">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_comment
+    LEFT JOIN t_user_mir AS u1 ON t_comment.SOURCE_ID = u1.ID
+    LEFT JOIN t_user_mir AS u2 ON t_comment.TARGET_ID = u2.ID
+    where FULL_PATH like CONCAT('${fullPath}', '/', '%')
   </select>
 </mapper>

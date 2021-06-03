@@ -18,4 +18,8 @@ public class CommentVo extends TComment {
 
     private List<TComment> children;
 
+    private String sourceName;
+
+    private String targetName;
+
 }

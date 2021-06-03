@@ -1,15 +1,15 @@
 package com.smallhua.org.controller;
 
-import com.smallhua.org.common.api.CommonPage;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.domain.BaseParam;
 import com.smallhua.org.model.TComment;
 import com.smallhua.org.service.CommentService;
-import com.smallhua.org.vo.CommentVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -29,13 +29,13 @@ public class CommentController {
 
     @PostMapping("/comments")
     @ApiOperation("动态查询")
-    public CommonPage<CommentVo> selAllComments(@RequestBody BaseParam baseParam){
+    public CommonResult<Map> selAllComments(@RequestBody BaseParam baseParam){
         return commentService.selAllComments(baseParam);
     }
 
     @PostMapping("/public/comments")
     @ApiOperation("动态查询-公开")
-    public CommonPage<CommentVo> publicAllComments(@RequestBody BaseParam baseParam){
+    public CommonResult<Map> publicAllComments(@RequestBody BaseParam baseParam){
         return commentService.selAllComments(baseParam);
     }
 
