@@ -31,5 +31,10 @@
             <artifactId>MessageQueue</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!--websocket 推送消息-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
     </dependencies>
 </project>

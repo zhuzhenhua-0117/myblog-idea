@@ -22,6 +22,7 @@ import com.smallhua.org.vo.userVo.UpdPwdVo;
 import com.smallhua.org.vo.userVo.UpdUserVo;
 import com.smallhua.org.vo.userVo.UserVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -93,9 +94,12 @@ public class UserService {
                 String keyOfUser = RedisUtil.getKeyOfUser(tUser.getUserName(), tUser.getAccount());
                 RedisUtil.setUserInfo(keyOfUser, tUser);
 
+                UpdUserVo user = new UpdUserVo();
+                BeanUtils.copyProperties(tUser, user);
                 Map<String, Object> map = new HashMap<>();
                 map.put("tokenHead", tokenHead);
                 map.put("token", token);
+                map.put("data", user);
                 return CommonResult.success(map, "登陆成功");
             }
         } else {
@@ -133,7 +137,7 @@ public class UserService {
 
         tUser.setCreateTime(new Date());
         tUser.setPassword(passwordEncoder.encode(tUser.getPassword()));
-        tUser.setId(IdUtil.generateIdBySnowFlake());
+        tUser.setId(IdGenerator.generateIdBySnowFlake());
 
         int i = userMapper.insertSelective(tUser);
 

@@ -1,7 +1,7 @@
 package com.smallhua.org.service;
 
 import com.smallhua.org.common.api.CommonResult;
-import com.smallhua.org.common.util.IdUtil;
+import com.smallhua.org.common.util.IdGenerator;
 import com.smallhua.org.common.util.JwtTokenUtil;
 import com.smallhua.org.dao.DictDao;
 import com.smallhua.org.mapper.TDictMapper;
@@ -42,7 +42,7 @@ public class DictService {
         TUser us = RedisUtil.getUserInfo(RedisUtil.getKeyOfUser(jwtTokenUtil.getSubjectByToken()));
         int i = 0;
         if (dict.getId() == null) {
-            dict.setId(IdUtil.generateIdBySnowFlake());
+            dict.setId(IdGenerator.generateIdBySnowFlake());
             dict.setCreateTime(new Date());
             dict.setUpdateTime(new Date());
             dict.setCreateId(us.getId());

@@ -8,7 +8,7 @@ import com.smallhua.org.common.api.CommonPage;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.domain.BaseParam;
 import com.smallhua.org.common.util.ConditionUtil;
-import com.smallhua.org.common.util.IdUtil;
+import com.smallhua.org.common.util.IdGenerator;
 import com.smallhua.org.common.util.PageUtil;
 import com.smallhua.org.dto.ArticleDefine;
 import com.smallhua.org.dto.ArticleExampleDefine;
@@ -79,7 +79,7 @@ public class ArticleService {
 
         if (articleVo.getId() == null) {
             tArticle = new TArticle();
-            articleVo.setId(IdUtil.generateIdBySnowFlake());
+            articleVo.setId(IdGenerator.generateIdBySnowFlake());
             BeanUtil.copyProperties(articleVo, tArticle);
             tArticle.setCreTime(DateUtil.date());
             tArticle.setCreId(SessionHelper.currentUserId());
@@ -107,7 +107,7 @@ public class ArticleService {
         if (CollUtil.isNotEmpty(articleLabels)){
             articleLabels.stream().forEach(item -> {
                 if (item.getId() == null) {
-                    item.setId(IdUtil.generateIdBySnowFlake());
+                    item.setId(IdGenerator.generateIdBySnowFlake());
                 }
                 item.setArticleId(articleVo.getId());
                 tArticleLabelMapper.insertSelective(item);

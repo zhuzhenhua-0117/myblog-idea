@@ -14,8 +14,8 @@ zuul:
 #  解决session不一致问题
   sensitiveHeaders: "*"
   host:
-    socket-timeout-millis: 60000
-    connect-timeout-millis: 60000
+    socket-timeout-millis: 600000
+    connect-timeout-millis: 600000
   routes:
     admin: /admin/**
     blogH5: /front/**

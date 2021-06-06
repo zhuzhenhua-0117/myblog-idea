@@ -10,7 +10,7 @@ import cn.hutool.core.lang.Snowflake;
  * @create 2021/5/1
  * @since 1.0.0
  */
-public class IdUtil {
+public class IdGenerator {
 
     public static long generateIdBySnowFlake(){
         Snowflake snowflake = cn.hutool.core.util.IdUtil.getSnowflake(1,1);

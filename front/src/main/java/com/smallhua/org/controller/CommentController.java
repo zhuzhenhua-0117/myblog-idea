@@ -47,7 +47,7 @@ public class CommentController {
 
 
     @DeleteMapping("comment/{id}")
-    @ApiOperation("发布评论")
+    @ApiOperation("删除评论")
     public CommonResult delComment(@PathVariable("id") Long id){
         return commentService.delComment(id);
     }
