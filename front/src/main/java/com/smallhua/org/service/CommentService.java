@@ -8,10 +8,7 @@ import com.smallhua.org.common.domain.BaseParam;
 import com.smallhua.org.common.util.ConditionUtil;
 import com.smallhua.org.common.util.ConstUtil;
 import com.smallhua.org.common.util.IdGenerator;
-import com.smallhua.org.mapper.CommentMapper;
-import com.smallhua.org.mapper.TArticleMapper;
-import com.smallhua.org.mapper.TCommentMapper;
-import com.smallhua.org.mapper.TMessageMapper;
+import com.smallhua.org.mapper.*;
 import com.smallhua.org.model.*;
 import com.smallhua.org.util.SessionHelper;
 import com.smallhua.org.websocket.WebSocket;
@@ -45,6 +42,8 @@ public class CommentService {
     private WebSocket webSocket;
     @Autowired
     private TArticleMapper tArticleMapper;
+    @Autowired
+    private TUserMirMapper tUserMirMapper;
 
 
     public CommonResult<Map> selAllComments(BaseParam baseParam) {
@@ -169,7 +168,8 @@ public class CommentService {
         List<TMessage> tMessages = tMessageMapper.selectByExample(example);
 
         if (CollectionUtil.isNotEmpty(tMessages)) {
-            webSocket.sendOneMessage(SessionHelper.currentUser().getAccount(), JSONUtil.toJsonStr(tMessages));
+            TUserMir user = tUserMirMapper.selectByPrimaryKey(comment.getTargetId());
+            webSocket.sendOneMessage(user.getAccount(), JSONUtil.toJsonStr(tMessages));
         }
     }
 }
