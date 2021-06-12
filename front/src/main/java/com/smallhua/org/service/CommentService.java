@@ -127,7 +127,7 @@ public class CommentService {
             message.setIfRead((byte) 0);
             sb.append("<span>");
             sb.append(SessionHelper.currentUser().getUserName());
-            sb.append("回复了你的评论<a class=\"msg-comment\" @click=\"tiaozhuan(" + comment.getPid() + ",'0')\"> " + tComment.getContent() + " </a>");
+            sb.append("回复了你的评论<a class=\"msg-comment\" @click=\"tiaozhuan(" + comment.getPid() + ",'0')\">" + tComment.getContent() + "</a>");
             sb.append("</span>");
             message.setTitle(sb.toString());
             message.setContent(comment.getContent());
@@ -149,7 +149,7 @@ public class CommentService {
             if (sb.length()>0) sb.delete(0, sb.length() - 1);
             sb.append("<span>");
             sb.append(SessionHelper.currentUser().getUserName());
-            sb.append("对你的文章<a class=\"msg-comment\" @click=\"tiaozhuan(" + articleId + ")\"> " + tArticle.getTitle() + " </a>进行了评论");
+            sb.append("对你的文章<a class=\"msg-comment\" @click=\"tiaozhuan(" + articleId + ")\">" + tArticle.getTitle() + "</a>进行了评论");
             sb.append("</span>");
             message.setTitle(sb.toString());
             message.setTargetId(1388434861433425920l);
