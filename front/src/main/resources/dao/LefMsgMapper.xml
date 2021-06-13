@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smallhua.org.mapper.LefMsgMapper">
+    <resultMap id="CommonResultMap" type="com.smallhua.org.vo.LefMsgVo">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="TYPE" jdbcType="BIGINT" property="type"/>
+        <result column="SOURCE_ID" jdbcType="BIGINT" property="sourceId"/>
+        <result column="TARGET_ID" jdbcType="BIGINT" property="targetId"/>
+        <result column="PID" jdbcType="BIGINT" property="pid"/>
+        <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
+        <result column="CONCAT" jdbcType="VARCHAR" property="concat"/>
+        <result column="FULL_PATH" jdbcType="VARCHAR" property="fullPath"/>
+        <result column="CRE_ID" jdbcType="BIGINT" property="creId"/>
+        <result column="CRE_TIME" jdbcType="TIMESTAMP" property="creTime"/>
+    </resultMap>
+    <resultMap id="BaseResultMap" type="com.smallhua.org.vo.LefMsgVo" extends="CommonResultMap">
+        <collection property="children" select="queryLefMsgByFullPath" column="{fullPath=FULL_PATH}">
+        </collection>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List">
+    t_leavemsg.ID, t_leavemsg.TYPE, t_leavemsg.SOURCE_ID, t_leavemsg.TARGET_ID, t_leavemsg.PID, t_leavemsg.CONTENT,
+    t_leavemsg.CONCAT, t_leavemsg.FULL_PATH, t_leavemsg.CRE_ID,t_leavemsg.CRE_TIME, u1.USER_NAME AS sourceName,
+     u2.USER_NAME AS targetName,
+     CASE TYPE
+	WHEN 1 THEN
+	'产品建议'
+	WHEN 2 THEN
+	'系统缺陷'
+	WHEN 3 THEN
+	'交个朋友'
+	ELSE '其他'
+	END  AS typeName
+  </sql>
+    <select id="selectByExample" parameterType="com.smallhua.org.model.TLeavemsgExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from t_leavemsg
+        LEFT JOIN t_user_mir AS u1 ON t_leavemsg.SOURCE_ID = u1.ID
+        LEFT JOIN t_user_mir AS u2 ON t_leavemsg.TARGET_ID = u2.ID
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="queryLefMsgByFullPath" resultMap="CommonResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from t_leavemsg
+        LEFT JOIN t_user_mir AS u1 ON t_leavemsg.SOURCE_ID = u1.ID
+        LEFT JOIN t_user_mir AS u2 ON t_leavemsg.TARGET_ID = u2.ID
+        where FULL_PATH like CONCAT('${fullPath}', '/', '%')
+    </select>
+</mapper>

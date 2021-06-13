@@ -22,6 +22,9 @@ public class TLeavemsg implements Serializable {
     @ApiModelProperty(value = "内容")
     private String content;
 
+    @ApiModelProperty(value = "联系方式")
+    private String concat;
+
     @ApiModelProperty(value = "是否删除 0否 1是")
     private Byte isDel;
 
@@ -86,6 +89,14 @@ public class TLeavemsg implements Serializable {
         this.content = content;
     }
 
+    public String getConcat() {
+        return concat;
+    }
+
+    public void setConcat(String concat) {
+        this.concat = concat;
+    }
+
     public Byte getIsDel() {
         return isDel;
     }
@@ -146,6 +157,7 @@ public class TLeavemsg implements Serializable {
         sb.append(", targetId=").append(targetId);
         sb.append(", pid=").append(pid);
         sb.append(", content=").append(content);
+        sb.append(", concat=").append(concat);
         sb.append(", isDel=").append(isDel);
         sb.append(", fullPath=").append(fullPath);
         sb.append(", creId=").append(creId);

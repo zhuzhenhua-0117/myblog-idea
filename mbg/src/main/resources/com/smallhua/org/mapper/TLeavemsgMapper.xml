@@ -8,6 +8,7 @@
     <result column="TARGET_ID" jdbcType="BIGINT" property="targetId" />
     <result column="PID" jdbcType="BIGINT" property="pid" />
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="CONCAT" jdbcType="VARCHAR" property="concat" />
     <result column="IS_DEL" jdbcType="TINYINT" property="isDel" />
     <result column="FULL_PATH" jdbcType="VARCHAR" property="fullPath" />
     <result column="CRE_ID" jdbcType="BIGINT" property="creId" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, TYPE, SOURCE_ID, TARGET_ID, PID, CONTENT, IS_DEL, FULL_PATH, CRE_ID, CRE_TIME, 
-    UPD_ID, UPD_TIME
+    ID, TYPE, SOURCE_ID, TARGET_ID, PID, CONTENT, CONCAT, IS_DEL, FULL_PATH, CRE_ID, 
+    CRE_TIME, UPD_ID, UPD_TIME
   </sql>
   <select id="selectByExample" parameterType="com.smallhua.org.model.TLeavemsgExample" resultMap="BaseResultMap">
     select
@@ -110,14 +111,14 @@
   <insert id="insert" parameterType="com.smallhua.org.model.TLeavemsg">
     insert into t_leavemsg (ID, TYPE, SOURCE_ID, 
       TARGET_ID, PID, CONTENT, 
-      IS_DEL, FULL_PATH, CRE_ID, 
-      CRE_TIME, UPD_ID, UPD_TIME
-      )
+      CONCAT, IS_DEL, FULL_PATH, 
+      CRE_ID, CRE_TIME, UPD_ID, 
+      UPD_TIME)
     values (#{id,jdbcType=BIGINT}, #{type,jdbcType=BIGINT}, #{sourceId,jdbcType=BIGINT}, 
       #{targetId,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, 
-      #{isDel,jdbcType=TINYINT}, #{fullPath,jdbcType=VARCHAR}, #{creId,jdbcType=BIGINT}, 
-      #{creTime,jdbcType=TIMESTAMP}, #{updId,jdbcType=BIGINT}, #{updTime,jdbcType=TIMESTAMP}
-      )
+      #{concat,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, #{fullPath,jdbcType=VARCHAR}, 
+      #{creId,jdbcType=BIGINT}, #{creTime,jdbcType=TIMESTAMP}, #{updId,jdbcType=BIGINT}, 
+      #{updTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.smallhua.org.model.TLeavemsg">
     insert into t_leavemsg
@@ -139,6 +140,9 @@
       </if>
       <if test="content != null">
         CONTENT,
+      </if>
+      <if test="concat != null">
+        CONCAT,
       </if>
       <if test="isDel != null">
         IS_DEL,
@@ -177,6 +181,9 @@
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="concat != null">
+        #{concat,jdbcType=VARCHAR},
       </if>
       <if test="isDel != null">
         #{isDel,jdbcType=TINYINT},
@@ -225,6 +232,9 @@
       <if test="record.content != null">
         CONTENT = #{record.content,jdbcType=VARCHAR},
       </if>
+      <if test="record.concat != null">
+        CONCAT = #{record.concat,jdbcType=VARCHAR},
+      </if>
       <if test="record.isDel != null">
         IS_DEL = #{record.isDel,jdbcType=TINYINT},
       </if>
@@ -256,6 +266,7 @@
       TARGET_ID = #{record.targetId,jdbcType=BIGINT},
       PID = #{record.pid,jdbcType=BIGINT},
       CONTENT = #{record.content,jdbcType=VARCHAR},
+      CONCAT = #{record.concat,jdbcType=VARCHAR},
       IS_DEL = #{record.isDel,jdbcType=TINYINT},
       FULL_PATH = #{record.fullPath,jdbcType=VARCHAR},
       CRE_ID = #{record.creId,jdbcType=BIGINT},
@@ -283,6 +294,9 @@
       </if>
       <if test="content != null">
         CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="concat != null">
+        CONCAT = #{concat,jdbcType=VARCHAR},
       </if>
       <if test="isDel != null">
         IS_DEL = #{isDel,jdbcType=TINYINT},
@@ -312,6 +326,7 @@
       TARGET_ID = #{targetId,jdbcType=BIGINT},
       PID = #{pid,jdbcType=BIGINT},
       CONTENT = #{content,jdbcType=VARCHAR},
+      CONCAT = #{concat,jdbcType=VARCHAR},
       IS_DEL = #{isDel,jdbcType=TINYINT},
       FULL_PATH = #{fullPath,jdbcType=VARCHAR},
       CRE_ID = #{creId,jdbcType=BIGINT},

@@ -475,6 +475,76 @@ public class TLeavemsgExample {
             return (Criteria) this;
         }
 
+        public Criteria andConcatIsNull() {
+            addCriterion("CONCAT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatIsNotNull() {
+            addCriterion("CONCAT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatEqualTo(String value) {
+            addCriterion("CONCAT =", value, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatNotEqualTo(String value) {
+            addCriterion("CONCAT <>", value, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatGreaterThan(String value) {
+            addCriterion("CONCAT >", value, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatGreaterThanOrEqualTo(String value) {
+            addCriterion("CONCAT >=", value, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatLessThan(String value) {
+            addCriterion("CONCAT <", value, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatLessThanOrEqualTo(String value) {
+            addCriterion("CONCAT <=", value, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatLike(String value) {
+            addCriterion("CONCAT like", value, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatNotLike(String value) {
+            addCriterion("CONCAT not like", value, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatIn(List<String> values) {
+            addCriterion("CONCAT in", values, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatNotIn(List<String> values) {
+            addCriterion("CONCAT not in", values, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatBetween(String value1, String value2) {
+            addCriterion("CONCAT between", value1, value2, "concat");
+            return (Criteria) this;
+        }
+
+        public Criteria andConcatNotBetween(String value1, String value2) {
+            addCriterion("CONCAT not between", value1, value2, "concat");
+            return (Criteria) this;
+        }
+
         public Criteria andIsDelIsNull() {
             addCriterion("IS_DEL is null");
             return (Criteria) this;
