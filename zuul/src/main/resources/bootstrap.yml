@@ -19,6 +19,7 @@ zuul:
   routes:
     admin: /admin/**
     blogH5: /front/**
+    file: /file/**
 management:
   endpoints:
     web:
