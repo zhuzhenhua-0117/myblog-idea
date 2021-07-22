@@ -1,9 +1,9 @@
-package com.macro.mall.common.log;
+package com.smallhua.org.common.log;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
-import com.macro.mall.common.domain.WebLog;
+import com.smallhua.org.common.domain.WebLog;
 import io.swagger.annotations.ApiOperation;
 import net.logstash.logback.marker.Markers;
 import org.aspectj.lang.JoinPoint;
