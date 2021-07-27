@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>file</artifactId>
+    <artifactId>zzh-file-8031</artifactId>
 
     <dependencies>
         <dependency>
