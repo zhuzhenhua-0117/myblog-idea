@@ -30,12 +30,12 @@
             <property name="nullCatalogMeansCurrent" value="true" />
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.smallhua.org.model" targetProject="mbg\src\main\java"/>
+        <javaModelGenerator targetPackage="com.smallhua.org.model" targetProject="common-dao\src\main\java"/>
 
-        <sqlMapGenerator targetPackage="com.smallhua.org.mapper" targetProject="mbg\src\main\resources"/>
+        <sqlMapGenerator targetPackage="com.smallhua.org.mapper" targetProject="common-dao\src\main\resources"/>
 
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.smallhua.org.mapper"
-                             targetProject="mbg\src\main\java"/>
+                             targetProject="common-dao\src\main\java"/>
         <!--生成全部表tableName设为%-->
         <table tableName="%">
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->

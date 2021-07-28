@@ -17,6 +17,7 @@
         <module>zzh-zuul-9527</module>
         <module>common-mq</module>
         <module>zzh-file-8031</module>
+        <module>zzh-practice-8041</module>
     </modules>
 
     <properties>
