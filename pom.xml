@@ -17,7 +17,6 @@
         <module>zzh-zuul-9527</module>
         <module>common-mq</module>
         <module>zzh-file-8031</module>
-        <module>zzh-test-8041</module>
     </modules>
 
     <properties>
@@ -76,19 +75,19 @@
             <!-- mall通用模块-->
             <dependency>
                 <groupId>com.smallhua.org</groupId>
-                <artifactId>commonApi</artifactId>
+                <artifactId>common-api</artifactId>
                 <version>${commonApi.version}</version>
             </dependency>
             <!--mall中MBG生成模块-->
             <dependency>
                 <groupId>com.smallhua.org</groupId>
-                <artifactId>mbg</artifactId>
+                <artifactId>common-dao</artifactId>
                 <version>${mbg.version}</version>
             </dependency>
             <!--mall安全模块-->
             <dependency>
                 <groupId>com.smallhua.org</groupId>
-                <artifactId>security</artifactId>
+                <artifactId>common-security</artifactId>
                 <version>${security.version}</version>
             </dependency>
             <!--MyBatis分页插件starter-->
