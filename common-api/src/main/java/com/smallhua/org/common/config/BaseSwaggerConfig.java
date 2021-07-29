@@ -1,6 +1,8 @@
 package com.smallhua.org.common.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.smallhua.org.common.domain.SwaggerProperties;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -25,7 +27,9 @@ public abstract class BaseSwaggerConfig {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo(swaggerProperties))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getApiBasePackage()))
+                .apis(StrUtil.isEmpty(swaggerProperties.getApiBasePackage())
+                        ? RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)
+                        : RequestHandlerSelectors.basePackage(swaggerProperties.getApiBasePackage()))
                 .paths(PathSelectors.any())
                 .build();
         if (swaggerProperties.isEnableSecurity()) {
