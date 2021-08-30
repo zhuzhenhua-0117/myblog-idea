@@ -44,8 +44,6 @@ public class GenerateKuohao {
     public static void main(String[] args) {
         GenerateKuohao a = new GenerateKuohao();
         System.out.println(a.generateKuohao(2).toString());
-
-
     }
 
 }
