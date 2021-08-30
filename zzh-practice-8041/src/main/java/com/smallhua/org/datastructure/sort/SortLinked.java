@@ -1,4 +1,4 @@
-package com.smallhua.org.datastructure;
+package com.smallhua.org.datastructure.sort;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;

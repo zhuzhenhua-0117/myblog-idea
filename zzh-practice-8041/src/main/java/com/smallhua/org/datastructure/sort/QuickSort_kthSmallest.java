@@ -1,4 +1,4 @@
-package com.smallhua.org.datastructure;
+package com.smallhua.org.datastructure.sort;
 
 /**
  * 〈一句话功能简述〉<br>

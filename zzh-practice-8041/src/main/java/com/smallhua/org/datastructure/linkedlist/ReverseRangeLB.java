@@ -1,4 +1,4 @@
-package com.smallhua.org.datastructure.listnode;
+package com.smallhua.org.datastructure.linkedlist;
 
 /**
  * 〈一句话功能简述〉<br>

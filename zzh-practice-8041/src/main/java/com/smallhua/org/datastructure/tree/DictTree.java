@@ -1,4 +1,4 @@
-package com.smallhua.org.datastructure;
+package com.smallhua.org.datastructure.tree;
 
 import java.util.Arrays;
 import java.util.Scanner;
