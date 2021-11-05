@@ -31,8 +31,8 @@ public class AssertCycle {
     public static void main(String[] args) {
         AssertCycle a = new AssertCycle();
 //        int[] nums = {2,-1,1,2,2};
-        int[] nums = {1,1};
-//        int[] nums = {-2,1,-1,-2,-2};
+//        int[] nums = {1,1};
+        int[] nums = {-2,1,-1,-2,-2};
         System.out.println(a.hasCycle(nums));
     }
 
