@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>common-api</module>
+        <module>common-model</module>
         <module>common-security</module>
         <module>common-dao</module>
         <module>zzh-admin-8011</module>
@@ -18,9 +18,13 @@
         <module>common-mq</module>
         <module>zzh-file-8031</module>
         <module>zzh-practice-8041</module>
+        <module>common-service</module>
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -76,7 +80,7 @@
             <!-- mall通用模块-->
             <dependency>
                 <groupId>com.smallhua.org</groupId>
-                <artifactId>common-api</artifactId>
+                <artifactId>common-model</artifactId>
                 <version>${commonApi.version}</version>
             </dependency>
             <!--mall中MBG生成模块-->
