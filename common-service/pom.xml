@@ -11,5 +11,15 @@
 
     <artifactId>common-service</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.smallhua.org</groupId>
+            <artifactId>common-dao</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
