@@ -9,6 +9,8 @@ import com.smallhua.org.export.util.EasyExcelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -21,8 +23,10 @@ import java.util.*;
 public class ExcelServiceImpl implements ExcelService {
 
     @Override
-    public void exportExcel() {
-        ExcelWriter excelWriter = EasyExcel.write("E:/easyexcel/testPageWrite.xlsx", PageWriteData.class).excelType(ExcelTypeEnum.XLSX).build();
+    public void exportExcel() throws IOException {
+        File file = new File("E:/easyexcel", "testPageWrite.xlsx");
+        if (!file.exists()) file.createNewFile();
+        ExcelWriter excelWriter = EasyExcel.write(file, PageWriteData.class).excelType(ExcelTypeEnum.XLSX).build();
         Random r = new Random();
         // page write
         EasyExcelUtils.pageWrite(excelWriter, "数据清单", 2_500_000L,
