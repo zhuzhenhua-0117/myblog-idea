@@ -9,6 +9,7 @@
     <result column="product_quatity" jdbcType="INTEGER" property="productQuatity" />
     <result column="add_time" jdbcType="BIGINT" property="addTime" />
     <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, product_sn, product_name, product_price, product_quatity, add_time, modified_time
+    id, product_sn, product_name, product_price, product_quatity, add_time, modified_time, 
+    order_id
   </sql>
   <select id="selectByExample" parameterType="com.smallhua.org.model.ExcelExportOrderProductExample" resultMap="BaseResultMap">
     select
@@ -104,10 +106,10 @@
   <insert id="insert" parameterType="com.smallhua.org.model.ExcelExportOrderProduct">
     insert into excel_export_order_product (id, product_sn, product_name, 
       product_price, product_quatity, add_time, 
-      modified_time)
+      modified_time, order_id)
     values (#{id,jdbcType=INTEGER}, #{productSn,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
       #{productPrice,jdbcType=DECIMAL}, #{productQuatity,jdbcType=INTEGER}, #{addTime,jdbcType=BIGINT}, 
-      #{modifiedTime,jdbcType=TIMESTAMP})
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{orderId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.smallhua.org.model.ExcelExportOrderProduct">
     insert into excel_export_order_product
@@ -133,6 +135,9 @@
       <if test="modifiedTime != null">
         modified_time,
       </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -155,6 +160,9 @@
       </if>
       <if test="modifiedTime != null">
         #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -188,6 +196,9 @@
       <if test="record.modifiedTime != null">
         modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +212,8 @@
       product_price = #{record.productPrice,jdbcType=DECIMAL},
       product_quatity = #{record.productQuatity,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=BIGINT},
-      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP}
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      order_id = #{record.orderId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +239,9 @@
       <if test="modifiedTime != null">
         modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -237,7 +252,8 @@
       product_price = #{productPrice,jdbcType=DECIMAL},
       product_quatity = #{productQuatity,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=BIGINT},
-      modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      order_id = #{orderId,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

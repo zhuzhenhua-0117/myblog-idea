@@ -27,6 +27,9 @@ public class ExcelExportOrderProduct implements Serializable {
     @ApiModelProperty(value = "最后更改时间")
     private Date modifiedTime;
 
+    @ApiModelProperty(value = "订单id")
+    private Long orderId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -85,6 +88,14 @@ public class ExcelExportOrderProduct implements Serializable {
         this.modifiedTime = modifiedTime;
     }
 
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -98,6 +109,7 @@ public class ExcelExportOrderProduct implements Serializable {
         sb.append(", productQuatity=").append(productQuatity);
         sb.append(", addTime=").append(addTime);
         sb.append(", modifiedTime=").append(modifiedTime);
+        sb.append(", orderId=").append(orderId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

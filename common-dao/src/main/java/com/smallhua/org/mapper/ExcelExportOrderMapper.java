@@ -10,7 +10,7 @@ public interface ExcelExportOrderMapper {
 
     int deleteByExample(ExcelExportOrderExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(ExcelExportOrder record);
 
@@ -18,7 +18,7 @@ public interface ExcelExportOrderMapper {
 
     List<ExcelExportOrder> selectByExample(ExcelExportOrderExample example);
 
-    ExcelExportOrder selectByPrimaryKey(Integer id);
+    ExcelExportOrder selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") ExcelExportOrder record, @Param("example") ExcelExportOrderExample example);
 

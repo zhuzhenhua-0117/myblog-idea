@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smallhua.org.mapper.ExcelExportOrderMapper">
   <resultMap id="BaseResultMap" type="com.smallhua.org.model.ExcelExportOrder">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="store_name" jdbcType="VARCHAR" property="storeName" />
@@ -10,6 +10,7 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="add_time" jdbcType="BIGINT" property="addTime" />
     <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_sn, user_name, store_name, order_amount, address, add_time, modified_time
+    id, order_sn, user_name, store_name, order_amount, address, add_time, modified_time, 
+    status
   </sql>
   <select id="selectByExample" parameterType="com.smallhua.org.model.ExcelExportOrderExample" resultMap="BaseResultMap">
     select
@@ -86,15 +88,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from excel_export_order
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from excel_export_order
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.smallhua.org.model.ExcelExportOrderExample">
     delete from excel_export_order
@@ -105,12 +107,14 @@
   <insert id="insert" parameterType="com.smallhua.org.model.ExcelExportOrder">
     insert into excel_export_order (id, order_sn, user_name, 
       store_name, order_amount, address, 
-      add_time, modified_time)
-    values (#{id,jdbcType=INTEGER}, #{orderSn,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      add_time, modified_time, status
+      )
+    values (#{id,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
       #{storeName,jdbcType=VARCHAR}, #{orderAmount,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, 
-      #{addTime,jdbcType=BIGINT}, #{modifiedTime,jdbcType=TIMESTAMP})
+      #{addTime,jdbcType=BIGINT}, #{modifiedTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.smallhua.org.model.ExcelExportOrder">
+  <insert id="insertSelective" parameterType="com.smallhua.org.model.ExcelExportOrder" useGeneratedKeys="true" keyProperty="id">
     insert into excel_export_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -137,10 +141,13 @@
       <if test="modifiedTime != null">
         modified_time,
       </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="orderSn != null">
         #{orderSn,jdbcType=VARCHAR},
@@ -163,6 +170,9 @@
       <if test="modifiedTime != null">
         #{modifiedTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.smallhua.org.model.ExcelExportOrderExample" resultType="java.lang.Long">
@@ -175,7 +185,7 @@
     update excel_export_order
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.orderSn != null">
         order_sn = #{record.orderSn,jdbcType=VARCHAR},
@@ -198,6 +208,9 @@
       <if test="record.modifiedTime != null">
         modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -205,14 +218,15 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update excel_export_order
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       order_sn = #{record.orderSn,jdbcType=VARCHAR},
       user_name = #{record.userName,jdbcType=VARCHAR},
       store_name = #{record.storeName,jdbcType=VARCHAR},
       order_amount = #{record.orderAmount,jdbcType=DECIMAL},
       address = #{record.address,jdbcType=VARCHAR},
       add_time = #{record.addTime,jdbcType=BIGINT},
-      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP}
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,8 +255,11 @@
       <if test="modifiedTime != null">
         modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.smallhua.org.model.ExcelExportOrder">
     update excel_export_order
@@ -252,7 +269,8 @@
       order_amount = #{orderAmount,jdbcType=DECIMAL},
       address = #{address,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=BIGINT},
-      modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

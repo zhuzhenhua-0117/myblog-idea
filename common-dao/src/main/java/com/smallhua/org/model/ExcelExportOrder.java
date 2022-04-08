@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class ExcelExportOrder implements Serializable {
-    @ApiModelProperty(value = "订单id")
-    private Integer id;
+    @ApiModelProperty(value = "主键id")
+    private Long id;
 
     @ApiModelProperty(value = "订单编号")
     private String orderSn;
@@ -30,13 +30,16 @@ public class ExcelExportOrder implements Serializable {
     @ApiModelProperty(value = "最后更改时间")
     private Date modifiedTime;
 
+    @ApiModelProperty(value = "订单状态 0销售 1退货")
+    private Integer status;
+
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -96,6 +99,14 @@ public class ExcelExportOrder implements Serializable {
         this.modifiedTime = modifiedTime;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -110,6 +121,7 @@ public class ExcelExportOrder implements Serializable {
         sb.append(", address=").append(address);
         sb.append(", addTime=").append(addTime);
         sb.append(", modifiedTime=").append(modifiedTime);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

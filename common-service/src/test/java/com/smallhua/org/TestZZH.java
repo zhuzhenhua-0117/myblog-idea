@@ -65,12 +65,14 @@ public class TestZZH {
                 order.setOrderAmount(BigDecimal.valueOf(random.nextDouble()));
                 order.setAddress(address[random.nextInt(address.length)]);
                 order.setAddTime(time);
+                order.setStatus(random.nextInt(2));
                 excelExportOrderMapper.insertSelective(order);
                 index++;
 
                 String productNumber = snowFlow.nextIdStr();
                 for (int j = 0; j < random.nextInt(5); j++) {
                     ExcelExportOrderProduct product = new ExcelExportOrderProduct();
+                    product.setOrderId(order.getId());
                     product.setProductSn(productNumber + "-" + j);
                     product.setProductName(products[random.nextInt(products.length)]);
                     product.setProductPrice(new BigDecimal("0"));
