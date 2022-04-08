@@ -6,9 +6,9 @@
     <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="store_name" jdbcType="VARCHAR" property="storeName" />
-    <result column="order_amount" jdbcType="INTEGER" property="orderAmount" />
+    <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
     <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="add_time" jdbcType="INTEGER" property="addTime" />
+    <result column="add_time" jdbcType="BIGINT" property="addTime" />
     <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -107,8 +107,8 @@
       store_name, order_amount, address, 
       add_time, modified_time)
     values (#{id,jdbcType=INTEGER}, #{orderSn,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
-      #{storeName,jdbcType=VARCHAR}, #{orderAmount,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
-      #{addTime,jdbcType=INTEGER}, #{modifiedTime,jdbcType=TIMESTAMP})
+      #{storeName,jdbcType=VARCHAR}, #{orderAmount,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=BIGINT}, #{modifiedTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.smallhua.org.model.ExcelExportOrder">
     insert into excel_export_order
@@ -152,13 +152,13 @@
         #{storeName,jdbcType=VARCHAR},
       </if>
       <if test="orderAmount != null">
-        #{orderAmount,jdbcType=INTEGER},
+        #{orderAmount,jdbcType=DECIMAL},
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
       <if test="addTime != null">
-        #{addTime,jdbcType=INTEGER},
+        #{addTime,jdbcType=BIGINT},
       </if>
       <if test="modifiedTime != null">
         #{modifiedTime,jdbcType=TIMESTAMP},
@@ -187,13 +187,13 @@
         store_name = #{record.storeName,jdbcType=VARCHAR},
       </if>
       <if test="record.orderAmount != null">
-        order_amount = #{record.orderAmount,jdbcType=INTEGER},
+        order_amount = #{record.orderAmount,jdbcType=DECIMAL},
       </if>
       <if test="record.address != null">
         address = #{record.address,jdbcType=VARCHAR},
       </if>
       <if test="record.addTime != null">
-        add_time = #{record.addTime,jdbcType=INTEGER},
+        add_time = #{record.addTime,jdbcType=BIGINT},
       </if>
       <if test="record.modifiedTime != null">
         modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
@@ -209,9 +209,9 @@
       order_sn = #{record.orderSn,jdbcType=VARCHAR},
       user_name = #{record.userName,jdbcType=VARCHAR},
       store_name = #{record.storeName,jdbcType=VARCHAR},
-      order_amount = #{record.orderAmount,jdbcType=INTEGER},
+      order_amount = #{record.orderAmount,jdbcType=DECIMAL},
       address = #{record.address,jdbcType=VARCHAR},
-      add_time = #{record.addTime,jdbcType=INTEGER},
+      add_time = #{record.addTime,jdbcType=BIGINT},
       modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -230,13 +230,13 @@
         store_name = #{storeName,jdbcType=VARCHAR},
       </if>
       <if test="orderAmount != null">
-        order_amount = #{orderAmount,jdbcType=INTEGER},
+        order_amount = #{orderAmount,jdbcType=DECIMAL},
       </if>
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="addTime != null">
-        add_time = #{addTime,jdbcType=INTEGER},
+        add_time = #{addTime,jdbcType=BIGINT},
       </if>
       <if test="modifiedTime != null">
         modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
@@ -249,9 +249,9 @@
     set order_sn = #{orderSn,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
       store_name = #{storeName,jdbcType=VARCHAR},
-      order_amount = #{orderAmount,jdbcType=INTEGER},
+      order_amount = #{orderAmount,jdbcType=DECIMAL},
       address = #{address,jdbcType=VARCHAR},
-      add_time = #{addTime,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=BIGINT},
       modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

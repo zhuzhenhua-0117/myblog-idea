@@ -366,63 +366,63 @@ public class ExcelExportOrderProductExample {
             return (Criteria) this;
         }
 
-        public Criteria andProductNumIsNull() {
-            addCriterion("product_num is null");
+        public Criteria andProductQuatityIsNull() {
+            addCriterion("product_quatity is null");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumIsNotNull() {
-            addCriterion("product_num is not null");
+        public Criteria andProductQuatityIsNotNull() {
+            addCriterion("product_quatity is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumEqualTo(Integer value) {
-            addCriterion("product_num =", value, "productNum");
+        public Criteria andProductQuatityEqualTo(Integer value) {
+            addCriterion("product_quatity =", value, "productQuatity");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumNotEqualTo(Integer value) {
-            addCriterion("product_num <>", value, "productNum");
+        public Criteria andProductQuatityNotEqualTo(Integer value) {
+            addCriterion("product_quatity <>", value, "productQuatity");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumGreaterThan(Integer value) {
-            addCriterion("product_num >", value, "productNum");
+        public Criteria andProductQuatityGreaterThan(Integer value) {
+            addCriterion("product_quatity >", value, "productQuatity");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumGreaterThanOrEqualTo(Integer value) {
-            addCriterion("product_num >=", value, "productNum");
+        public Criteria andProductQuatityGreaterThanOrEqualTo(Integer value) {
+            addCriterion("product_quatity >=", value, "productQuatity");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumLessThan(Integer value) {
-            addCriterion("product_num <", value, "productNum");
+        public Criteria andProductQuatityLessThan(Integer value) {
+            addCriterion("product_quatity <", value, "productQuatity");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumLessThanOrEqualTo(Integer value) {
-            addCriterion("product_num <=", value, "productNum");
+        public Criteria andProductQuatityLessThanOrEqualTo(Integer value) {
+            addCriterion("product_quatity <=", value, "productQuatity");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumIn(List<Integer> values) {
-            addCriterion("product_num in", values, "productNum");
+        public Criteria andProductQuatityIn(List<Integer> values) {
+            addCriterion("product_quatity in", values, "productQuatity");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumNotIn(List<Integer> values) {
-            addCriterion("product_num not in", values, "productNum");
+        public Criteria andProductQuatityNotIn(List<Integer> values) {
+            addCriterion("product_quatity not in", values, "productQuatity");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumBetween(Integer value1, Integer value2) {
-            addCriterion("product_num between", value1, value2, "productNum");
+        public Criteria andProductQuatityBetween(Integer value1, Integer value2) {
+            addCriterion("product_quatity between", value1, value2, "productQuatity");
             return (Criteria) this;
         }
 
-        public Criteria andProductNumNotBetween(Integer value1, Integer value2) {
-            addCriterion("product_num not between", value1, value2, "productNum");
+        public Criteria andProductQuatityNotBetween(Integer value1, Integer value2) {
+            addCriterion("product_quatity not between", value1, value2, "productQuatity");
             return (Criteria) this;
         }
 
@@ -436,52 +436,52 @@ public class ExcelExportOrderProductExample {
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeEqualTo(Integer value) {
+        public Criteria andAddTimeEqualTo(Long value) {
             addCriterion("add_time =", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeNotEqualTo(Integer value) {
+        public Criteria andAddTimeNotEqualTo(Long value) {
             addCriterion("add_time <>", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeGreaterThan(Integer value) {
+        public Criteria andAddTimeGreaterThan(Long value) {
             addCriterion("add_time >", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeGreaterThanOrEqualTo(Integer value) {
+        public Criteria andAddTimeGreaterThanOrEqualTo(Long value) {
             addCriterion("add_time >=", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeLessThan(Integer value) {
+        public Criteria andAddTimeLessThan(Long value) {
             addCriterion("add_time <", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeLessThanOrEqualTo(Integer value) {
+        public Criteria andAddTimeLessThanOrEqualTo(Long value) {
             addCriterion("add_time <=", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeIn(List<Integer> values) {
+        public Criteria andAddTimeIn(List<Long> values) {
             addCriterion("add_time in", values, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeNotIn(List<Integer> values) {
+        public Criteria andAddTimeNotIn(List<Long> values) {
             addCriterion("add_time not in", values, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeBetween(Integer value1, Integer value2) {
+        public Criteria andAddTimeBetween(Long value1, Long value2) {
             addCriterion("add_time between", value1, value2, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeNotBetween(Integer value1, Integer value2) {
+        public Criteria andAddTimeNotBetween(Long value1, Long value2) {
             addCriterion("add_time not between", value1, value2, "addTime");
             return (Criteria) this;
         }

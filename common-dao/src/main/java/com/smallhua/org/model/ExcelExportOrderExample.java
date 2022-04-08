@@ -1,5 +1,6 @@
 package com.smallhua.org.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -385,52 +386,52 @@ public class ExcelExportOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderAmountEqualTo(Integer value) {
+        public Criteria andOrderAmountEqualTo(BigDecimal value) {
             addCriterion("order_amount =", value, "orderAmount");
             return (Criteria) this;
         }
 
-        public Criteria andOrderAmountNotEqualTo(Integer value) {
+        public Criteria andOrderAmountNotEqualTo(BigDecimal value) {
             addCriterion("order_amount <>", value, "orderAmount");
             return (Criteria) this;
         }
 
-        public Criteria andOrderAmountGreaterThan(Integer value) {
+        public Criteria andOrderAmountGreaterThan(BigDecimal value) {
             addCriterion("order_amount >", value, "orderAmount");
             return (Criteria) this;
         }
 
-        public Criteria andOrderAmountGreaterThanOrEqualTo(Integer value) {
+        public Criteria andOrderAmountGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("order_amount >=", value, "orderAmount");
             return (Criteria) this;
         }
 
-        public Criteria andOrderAmountLessThan(Integer value) {
+        public Criteria andOrderAmountLessThan(BigDecimal value) {
             addCriterion("order_amount <", value, "orderAmount");
             return (Criteria) this;
         }
 
-        public Criteria andOrderAmountLessThanOrEqualTo(Integer value) {
+        public Criteria andOrderAmountLessThanOrEqualTo(BigDecimal value) {
             addCriterion("order_amount <=", value, "orderAmount");
             return (Criteria) this;
         }
 
-        public Criteria andOrderAmountIn(List<Integer> values) {
+        public Criteria andOrderAmountIn(List<BigDecimal> values) {
             addCriterion("order_amount in", values, "orderAmount");
             return (Criteria) this;
         }
 
-        public Criteria andOrderAmountNotIn(List<Integer> values) {
+        public Criteria andOrderAmountNotIn(List<BigDecimal> values) {
             addCriterion("order_amount not in", values, "orderAmount");
             return (Criteria) this;
         }
 
-        public Criteria andOrderAmountBetween(Integer value1, Integer value2) {
+        public Criteria andOrderAmountBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("order_amount between", value1, value2, "orderAmount");
             return (Criteria) this;
         }
 
-        public Criteria andOrderAmountNotBetween(Integer value1, Integer value2) {
+        public Criteria andOrderAmountNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("order_amount not between", value1, value2, "orderAmount");
             return (Criteria) this;
         }
@@ -515,52 +516,52 @@ public class ExcelExportOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeEqualTo(Integer value) {
+        public Criteria andAddTimeEqualTo(Long value) {
             addCriterion("add_time =", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeNotEqualTo(Integer value) {
+        public Criteria andAddTimeNotEqualTo(Long value) {
             addCriterion("add_time <>", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeGreaterThan(Integer value) {
+        public Criteria andAddTimeGreaterThan(Long value) {
             addCriterion("add_time >", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeGreaterThanOrEqualTo(Integer value) {
+        public Criteria andAddTimeGreaterThanOrEqualTo(Long value) {
             addCriterion("add_time >=", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeLessThan(Integer value) {
+        public Criteria andAddTimeLessThan(Long value) {
             addCriterion("add_time <", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeLessThanOrEqualTo(Integer value) {
+        public Criteria andAddTimeLessThanOrEqualTo(Long value) {
             addCriterion("add_time <=", value, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeIn(List<Integer> values) {
+        public Criteria andAddTimeIn(List<Long> values) {
             addCriterion("add_time in", values, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeNotIn(List<Integer> values) {
+        public Criteria andAddTimeNotIn(List<Long> values) {
             addCriterion("add_time not in", values, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeBetween(Integer value1, Integer value2) {
+        public Criteria andAddTimeBetween(Long value1, Long value2) {
             addCriterion("add_time between", value1, value2, "addTime");
             return (Criteria) this;
         }
 
-        public Criteria andAddTimeNotBetween(Integer value1, Integer value2) {
+        public Criteria andAddTimeNotBetween(Long value1, Long value2) {
             addCriterion("add_time not between", value1, value2, "addTime");
             return (Criteria) this;
         }

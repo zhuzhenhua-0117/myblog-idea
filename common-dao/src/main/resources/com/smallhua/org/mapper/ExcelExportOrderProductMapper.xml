@@ -6,8 +6,8 @@
     <result column="product_sn" jdbcType="VARCHAR" property="productSn" />
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
     <result column="product_price" jdbcType="DECIMAL" property="productPrice" />
-    <result column="product_num" jdbcType="INTEGER" property="productNum" />
-    <result column="add_time" jdbcType="INTEGER" property="addTime" />
+    <result column="product_quatity" jdbcType="INTEGER" property="productQuatity" />
+    <result column="add_time" jdbcType="BIGINT" property="addTime" />
     <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, product_sn, product_name, product_price, product_num, add_time, modified_time
+    id, product_sn, product_name, product_price, product_quatity, add_time, modified_time
   </sql>
   <select id="selectByExample" parameterType="com.smallhua.org.model.ExcelExportOrderProductExample" resultMap="BaseResultMap">
     select
@@ -103,10 +103,10 @@
   </delete>
   <insert id="insert" parameterType="com.smallhua.org.model.ExcelExportOrderProduct">
     insert into excel_export_order_product (id, product_sn, product_name, 
-      product_price, product_num, add_time, 
+      product_price, product_quatity, add_time, 
       modified_time)
     values (#{id,jdbcType=INTEGER}, #{productSn,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
-      #{productPrice,jdbcType=DECIMAL}, #{productNum,jdbcType=INTEGER}, #{addTime,jdbcType=INTEGER}, 
+      #{productPrice,jdbcType=DECIMAL}, #{productQuatity,jdbcType=INTEGER}, #{addTime,jdbcType=BIGINT}, 
       #{modifiedTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.smallhua.org.model.ExcelExportOrderProduct">
@@ -124,8 +124,8 @@
       <if test="productPrice != null">
         product_price,
       </if>
-      <if test="productNum != null">
-        product_num,
+      <if test="productQuatity != null">
+        product_quatity,
       </if>
       <if test="addTime != null">
         add_time,
@@ -147,11 +147,11 @@
       <if test="productPrice != null">
         #{productPrice,jdbcType=DECIMAL},
       </if>
-      <if test="productNum != null">
-        #{productNum,jdbcType=INTEGER},
+      <if test="productQuatity != null">
+        #{productQuatity,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
-        #{addTime,jdbcType=INTEGER},
+        #{addTime,jdbcType=BIGINT},
       </if>
       <if test="modifiedTime != null">
         #{modifiedTime,jdbcType=TIMESTAMP},
@@ -179,11 +179,11 @@
       <if test="record.productPrice != null">
         product_price = #{record.productPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.productNum != null">
-        product_num = #{record.productNum,jdbcType=INTEGER},
+      <if test="record.productQuatity != null">
+        product_quatity = #{record.productQuatity,jdbcType=INTEGER},
       </if>
       <if test="record.addTime != null">
-        add_time = #{record.addTime,jdbcType=INTEGER},
+        add_time = #{record.addTime,jdbcType=BIGINT},
       </if>
       <if test="record.modifiedTime != null">
         modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
@@ -199,8 +199,8 @@
       product_sn = #{record.productSn,jdbcType=VARCHAR},
       product_name = #{record.productName,jdbcType=VARCHAR},
       product_price = #{record.productPrice,jdbcType=DECIMAL},
-      product_num = #{record.productNum,jdbcType=INTEGER},
-      add_time = #{record.addTime,jdbcType=INTEGER},
+      product_quatity = #{record.productQuatity,jdbcType=INTEGER},
+      add_time = #{record.addTime,jdbcType=BIGINT},
       modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -218,11 +218,11 @@
       <if test="productPrice != null">
         product_price = #{productPrice,jdbcType=DECIMAL},
       </if>
-      <if test="productNum != null">
-        product_num = #{productNum,jdbcType=INTEGER},
+      <if test="productQuatity != null">
+        product_quatity = #{productQuatity,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
-        add_time = #{addTime,jdbcType=INTEGER},
+        add_time = #{addTime,jdbcType=BIGINT},
       </if>
       <if test="modifiedTime != null">
         modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
@@ -235,8 +235,8 @@
     set product_sn = #{productSn,jdbcType=VARCHAR},
       product_name = #{productName,jdbcType=VARCHAR},
       product_price = #{productPrice,jdbcType=DECIMAL},
-      product_num = #{productNum,jdbcType=INTEGER},
-      add_time = #{addTime,jdbcType=INTEGER},
+      product_quatity = #{productQuatity,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=BIGINT},
       modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

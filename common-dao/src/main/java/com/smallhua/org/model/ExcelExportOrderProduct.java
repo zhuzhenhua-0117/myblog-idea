@@ -18,11 +18,11 @@ public class ExcelExportOrderProduct implements Serializable {
     @ApiModelProperty(value = "单价(商品原价)")
     private BigDecimal productPrice;
 
-    @ApiModelProperty(value = "订购数量，如果是礼包商品=礼包数*商品数（每个礼包）")
-    private Integer productNum;
+    @ApiModelProperty(value = "商品数量")
+    private Integer productQuatity;
 
     @ApiModelProperty(value = "创建时间")
-    private Integer addTime;
+    private Long addTime;
 
     @ApiModelProperty(value = "最后更改时间")
     private Date modifiedTime;
@@ -61,19 +61,19 @@ public class ExcelExportOrderProduct implements Serializable {
         this.productPrice = productPrice;
     }
 
-    public Integer getProductNum() {
-        return productNum;
+    public Integer getProductQuatity() {
+        return productQuatity;
     }
 
-    public void setProductNum(Integer productNum) {
-        this.productNum = productNum;
+    public void setProductQuatity(Integer productQuatity) {
+        this.productQuatity = productQuatity;
     }
 
-    public Integer getAddTime() {
+    public Long getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Integer addTime) {
+    public void setAddTime(Long addTime) {
         this.addTime = addTime;
     }
 
@@ -95,7 +95,7 @@ public class ExcelExportOrderProduct implements Serializable {
         sb.append(", productSn=").append(productSn);
         sb.append(", productName=").append(productName);
         sb.append(", productPrice=").append(productPrice);
-        sb.append(", productNum=").append(productNum);
+        sb.append(", productQuatity=").append(productQuatity);
         sb.append(", addTime=").append(addTime);
         sb.append(", modifiedTime=").append(modifiedTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);

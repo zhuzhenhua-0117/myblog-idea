@@ -2,6 +2,7 @@ package com.smallhua.org.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class ExcelExportOrder implements Serializable {
@@ -17,14 +18,14 @@ public class ExcelExportOrder implements Serializable {
     @ApiModelProperty(value = "门店人")
     private String storeName;
 
-    @ApiModelProperty(value = "订单总金额 单位：分 订单总金额 = 订单商品总金额+运费+支付费用)")
-    private Integer orderAmount;
+    @ApiModelProperty(value = "订单总金额")
+    private BigDecimal orderAmount;
 
     @ApiModelProperty(value = "详细收货地址")
     private String address;
 
     @ApiModelProperty(value = "创建时间")
-    private Integer addTime;
+    private Long addTime;
 
     @ApiModelProperty(value = "最后更改时间")
     private Date modifiedTime;
@@ -63,11 +64,11 @@ public class ExcelExportOrder implements Serializable {
         this.storeName = storeName;
     }
 
-    public Integer getOrderAmount() {
+    public BigDecimal getOrderAmount() {
         return orderAmount;
     }
 
-    public void setOrderAmount(Integer orderAmount) {
+    public void setOrderAmount(BigDecimal orderAmount) {
         this.orderAmount = orderAmount;
     }
 
@@ -79,11 +80,11 @@ public class ExcelExportOrder implements Serializable {
         this.address = address;
     }
 
-    public Integer getAddTime() {
+    public Long getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Integer addTime) {
+    public void setAddTime(Long addTime) {
         this.addTime = addTime;
     }
 
