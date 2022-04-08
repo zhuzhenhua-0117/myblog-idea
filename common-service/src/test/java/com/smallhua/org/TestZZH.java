@@ -69,9 +69,9 @@ public class TestZZH {
                 index++;
 
                 String productNumber = snowFlow.nextIdStr();
-                for (int i = 0; i < random.nextInt(5); i++) {
+                for (int j = 0; j < random.nextInt(5); j++) {
                     ExcelExportOrderProduct product = new ExcelExportOrderProduct();
-                    product.setProductSn(productNumber + "-" + i);
+                    product.setProductSn(productNumber + "-" + j);
                     product.setProductName(products[random.nextInt(products.length)]);
                     product.setProductPrice(new BigDecimal("0"));
                     product.setProductQuatity(random.nextInt(100));
