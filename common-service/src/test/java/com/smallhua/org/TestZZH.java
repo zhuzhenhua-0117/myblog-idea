@@ -70,7 +70,8 @@ public class TestZZH {
                 index++;
 
                 String productNumber = snowFlow.nextIdStr();
-                for (int j = 0; j < random.nextInt(5); j++) {
+                int jIndex = random.nextInt(5) == 0 ? 1 :random.nextInt(5);
+                for (int j = 0; j < jIndex; j++) {
                     ExcelExportOrderProduct product = new ExcelExportOrderProduct();
                     product.setOrderId(order.getId());
                     product.setProductSn(productNumber + "-" + j);
