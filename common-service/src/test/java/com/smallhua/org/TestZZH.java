@@ -57,7 +57,7 @@ public class TestZZH {
 
         for (int i = 0; i < 1000000; i++) {
             threadPoolTaskExecutor.submit(() -> {
-                long time = DateUtil.date().getTime();
+                long time = DateUtil.date().getTime()/1000;
                 ExcelExportOrder order = new ExcelExportOrder();
                 order.setOrderSn(snowFlow.nextIdStr());
                 order.setUserName("zzh-"+index);
