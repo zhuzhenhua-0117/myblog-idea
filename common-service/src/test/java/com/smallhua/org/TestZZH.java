@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ZZHApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -41,8 +42,6 @@ public class TestZZH {
     @Autowired
     private SnowFlow snowFlow;
 
-    private volatile int index = 1;
-
     @Test
     public void test() throws IOException {
         excelService.exportExcel();
@@ -52,22 +51,21 @@ public class TestZZH {
     public void initExportTable() {
         String[] storeNos = new String[] {"京东", "美团","小A","老干妈","特斯拉"};
         String[] address = new String[] {"北京", "新加坡","缅甸","火星","阴曹地府"};
-        String[] products = new String[] {"apple", "banana","caomei","waterGua","榴莲"};
+        String[] products = new String[] {"苹果", "香蕉","草莓","西瓜","榴莲"};
         Random random = new Random();
-
+        AtomicInteger index = new AtomicInteger(0);
         for (int i = 0; i < 1000000; i++) {
             threadPoolTaskExecutor.submit(() -> {
                 long time = DateUtil.date().getTime()/1000;
                 ExcelExportOrder order = new ExcelExportOrder();
                 order.setOrderSn(snowFlow.nextIdStr());
-                order.setUserName("zzh-"+index);
+                order.setUserName("zzh-"+index.getAndIncrement());
                 order.setStoreName(storeNos[random.nextInt(storeNos.length)]);
                 order.setOrderAmount(BigDecimal.valueOf(random.nextDouble()));
                 order.setAddress(address[random.nextInt(address.length)]);
                 order.setAddTime(time);
                 order.setStatus(random.nextInt(2));
                 excelExportOrderMapper.insertSelective(order);
-                index++;
 
                 String productNumber = snowFlow.nextIdStr();
                 int jIndex = random.nextInt(5) == 0 ? 1 :random.nextInt(5);
