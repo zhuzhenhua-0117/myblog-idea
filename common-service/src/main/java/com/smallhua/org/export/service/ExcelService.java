@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public interface ExcelService {
 
-    public void exportExcel() throws IOException;
+    void exportExcel() throws IOException;
 }

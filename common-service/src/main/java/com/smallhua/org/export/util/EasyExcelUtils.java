@@ -46,15 +46,13 @@ public class EasyExcelUtils extends EasyExcel {
         int currentPage = 0;
 
         // page write data
-        WriteSheet sheet = null;
+        WriteSheet sheet;
         for (int i = 0; i < sheetCount; i++) {
             sheet = EasyExcel.writerSheet(i, sheetName + i).build();
             for (int j = 0; j < (sheetMaxRow / pageSize); j++) {
-                // must use ++currentPage, mybatis-plus page query current page start 1
+                if (currentPage == pageCount - 1) pageSize = totalCount%pageSize == 0 ? pageSize : (int)totalCount%pageSize;
+                if (currentPage >= pageCount) break;
                 excelWriter.write(pageQueryService.data(++currentPage, pageSize), sheet);
-                if (currentPage >= pageCount) {
-                    break;
-                }
             }
         }
 

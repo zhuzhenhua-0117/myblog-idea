@@ -1,5 +1,6 @@
 package com.smallhua.org.mapper;
 
+import com.small.org.modal.dto.ExportOrderForExcel;
 import com.smallhua.org.model.ExcelExportOrder;
 import com.smallhua.org.model.ExcelExportOrderExample;
 import java.util.List;
@@ -27,4 +28,8 @@ public interface ExcelExportOrderMapper {
     int updateByPrimaryKeySelective(ExcelExportOrder record);
 
     int updateByPrimaryKey(ExcelExportOrder record);
+
+    Long queryTotalRecordsForExport();
+
+    List<ExportOrderForExcel> queryOrderProductForExport(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize);
 }

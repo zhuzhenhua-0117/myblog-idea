@@ -1,4 +1,4 @@
-package com.smallhua.org.export.pojo;
+package com.small.org.modal.dto;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;

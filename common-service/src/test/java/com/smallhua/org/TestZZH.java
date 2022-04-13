@@ -1,5 +1,6 @@
 package com.smallhua.org;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
 
 
@@ -11,6 +12,8 @@ import com.smallhua.org.mapper.ExcelExportOrderMapper;
 import com.smallhua.org.mapper.ExcelExportOrderProductMapper;
 import com.smallhua.org.model.ExcelExportOrder;
 import com.smallhua.org.model.ExcelExportOrderProduct;
+import io.micrometer.core.instrument.Metrics;
+import io.micrometer.core.instrument.Tag;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RunWith(SpringRunner.class)
@@ -48,18 +52,20 @@ public class TestZZH {
     }
 
     @Test
-    public void initExportTable() {
+    public void initExportTable() throws InterruptedException {
         String[] storeNos = new String[] {"京东", "美团","小A","老干妈","特斯拉"};
         String[] address = new String[] {"北京", "新加坡","缅甸","火星","阴曹地府"};
         String[] products = new String[] {"苹果", "香蕉","草莓","西瓜","榴莲"};
         Random random = new Random();
         AtomicInteger index = new AtomicInteger(0);
+        CountDownLatch cdl = new CountDownLatch(10);
+
         for (int i = 0; i < 1000000; i++) {
             threadPoolTaskExecutor.submit(() -> {
-                long time = DateUtil.date().getTime()/1000;
+                long time = DateUtil.date().getTime() / 1000;
                 ExcelExportOrder order = new ExcelExportOrder();
                 order.setOrderSn(snowFlow.nextIdStr());
-                order.setUserName("zzh-"+index.getAndIncrement());
+                order.setUserName("zzh-" + index.getAndIncrement());
                 order.setStoreName(storeNos[random.nextInt(storeNos.length)]);
                 order.setOrderAmount(BigDecimal.valueOf(random.nextDouble()));
                 order.setAddress(address[random.nextInt(address.length)]);
@@ -68,7 +74,7 @@ public class TestZZH {
                 excelExportOrderMapper.insertSelective(order);
 
                 String productNumber = snowFlow.nextIdStr();
-                int jIndex = random.nextInt(5) == 0 ? 1 :random.nextInt(5);
+                int jIndex = random.nextInt(5) == 0 ? 1 : random.nextInt(5);
                 for (int j = 0; j < jIndex; j++) {
                     ExcelExportOrderProduct product = new ExcelExportOrderProduct();
                     product.setOrderId(order.getId());
@@ -80,7 +86,9 @@ public class TestZZH {
 
                     excelExportOrderProductMapper.insertSelective(product);
                 }
+                cdl.countDown();
             });
         }
+        cdl.await();
     }
 }
