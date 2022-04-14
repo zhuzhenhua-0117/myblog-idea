@@ -34,7 +34,7 @@ public class CustomMergeStrategy implements RowWriteHandler {
 
     private List<Integer> needMergeColumnIndex = new ArrayList<>();
 
-    private ThreadLocal<int[]> rowMergeIndx = ThreadLocal.withInitial(() -> new int[]{1,1});
+    private int[] rowMergeIndx = new int[]{1,1};
 
     public CustomMergeStrategy() {
     }
@@ -56,7 +56,7 @@ public class CustomMergeStrategy implements RowWriteHandler {
 
         if (row.getRowNum() <= 1) return;
 
-        int[] rowMergeIndex = rowMergeIndx.get();
+        int[] rowMergeIndex = rowMergeIndx;
         int oldRow1 = rowMergeIndex[0], oldRow2 = rowMergeIndex[1];
 
 
