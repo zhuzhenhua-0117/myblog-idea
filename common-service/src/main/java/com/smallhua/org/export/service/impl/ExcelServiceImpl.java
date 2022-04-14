@@ -8,6 +8,7 @@ import com.smallhua.org.export.service.ExcelService;
 import com.small.org.modal.strategy.CustomMergeStrategy;
 import com.smallhua.org.export.util.EasyExcelUtils;
 import com.smallhua.org.mapper.ExcelExportOrderMapper;
+import com.smallhua.org.model.ExcelExportOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class ExcelServiceImpl implements ExcelService {
     private ExcelExportOrderMapper excelExportOrderMapper;
 
     @Override
-    public void exportExcel() throws IOException {
+    public void exportExcelProduct() throws IOException {
         File file = new File("E:/easyexcel", "testPageWrite.xlsx");
         if (!file.exists()) file.createNewFile();
         ExcelWriter excelWriter = EasyExcel
@@ -36,9 +37,23 @@ public class ExcelServiceImpl implements ExcelService {
                 .registerWriteHandler(new CustomMergeStrategy(ExportOrderForExcel.class))
                 .excelType(ExcelTypeEnum.XLSX).build();
 
+        Long total = excelExportOrderMapper.queryTotalRecordsForExportProduct();
+
+        EasyExcelUtils.pageWrite(excelWriter, "数据清单", 20000l,
+                (currentPage, pageSize) -> excelExportOrderMapper.queryOrderProductForExport(currentPage, pageSize));
+    }
+
+    @Override
+    public void exportExcel() throws IOException {
+        File file = new File("E:/easyexcel", "testPageWrite.xlsx");
+        if (!file.exists()) file.createNewFile();
+        ExcelWriter excelWriter = EasyExcel
+                .write(file, ExcelExportOrder.class)
+                .excelType(ExcelTypeEnum.XLSX).build();
+
         Long total = excelExportOrderMapper.queryTotalRecordsForExport();
 
         EasyExcelUtils.pageWrite(excelWriter, "数据清单", total,
-                (currentPage, pageSize) -> excelExportOrderMapper.queryOrderProductForExport(currentPage, pageSize));
+                (currentPage, pageSize) -> excelExportOrderMapper.queryOrderForExport(currentPage, pageSize));
     }
 }

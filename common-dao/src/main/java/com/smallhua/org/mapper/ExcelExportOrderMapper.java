@@ -29,7 +29,11 @@ public interface ExcelExportOrderMapper {
 
     int updateByPrimaryKey(ExcelExportOrder record);
 
-    Long queryTotalRecordsForExport();
+    Long queryTotalRecordsForExportProduct();
 
     List<ExportOrderForExcel> queryOrderProductForExport(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize);
+
+    Long queryTotalRecordsForExport();
+
+    List<ExcelExportOrder> queryOrderForExport(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize);
 }

@@ -1,19 +1,14 @@
 package com.smallhua.org;
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Date;
 
 
 import cn.hutool.core.date.DateUtil;
-import com.smallhua.org.common.config.ThreadPoolConfig;
 import com.smallhua.org.common.util.SnowFlow;
 import com.smallhua.org.export.service.ExcelService;
 import com.smallhua.org.mapper.ExcelExportOrderMapper;
 import com.smallhua.org.mapper.ExcelExportOrderProductMapper;
 import com.smallhua.org.model.ExcelExportOrder;
 import com.smallhua.org.model.ExcelExportOrderProduct;
-import io.micrometer.core.instrument.Metrics;
-import io.micrometer.core.instrument.Tag;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +43,11 @@ public class TestZZH {
 
     @Test
     public void test() throws IOException {
+        excelService.exportExcelProduct();
+    }
+
+    @Test
+    public void testExportForOrder() throws IOException {
         excelService.exportExcel();
     }
 
