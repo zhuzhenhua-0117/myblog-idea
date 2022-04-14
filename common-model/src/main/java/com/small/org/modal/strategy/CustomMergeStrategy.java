@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.apache.poi.ss.usermodel.CellType.NUMERIC;
-
 /**
  * 〈一句话功能简述〉<br>
  * 〈自定义合并策略〉
@@ -36,12 +34,16 @@ public class CustomMergeStrategy implements RowWriteHandler {
 
     private List<Integer> needMergeColumnIndex = new ArrayList<>();
 
+    private ThreadLocal<int[]> rowMergeIndx = ThreadLocal.withInitial(() -> new int[]{1,1});
+
     public CustomMergeStrategy() {
     }
 
     public CustomMergeStrategy(Class<?> elementType) {
         this.elementType = elementType;
     }
+
+
 
     @Override
     public void afterRowDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, Row row, Integer relativeRowIndex, Boolean isHead) {
@@ -54,12 +56,22 @@ public class CustomMergeStrategy implements RowWriteHandler {
 
         if (row.getRowNum() <= 1) return;
 
+        int[] rowMergeIndex = rowMergeIndx.get();
+        int oldRow1 = rowMergeIndex[0], oldRow2 = rowMergeIndex[1];
+
+
         // 获取上一行
         Row lastRow = sheet.getRow(row.getRowNum() - 1);
 
         if (getCellValue(row.getCell(pkIndex)).equalsIgnoreCase(getCellValue(lastRow.getCell(pkIndex)))){
+            rowMergeIndex[1] = row.getRowNum();
+        } else {
+            rowMergeIndex[0] = row.getRowNum();
+        }
+
+        if (rowMergeIndex[0] > rowMergeIndex[1] && oldRow1 < oldRow2){
             needMergeColumnIndex.forEach(needMerIndex -> {
-                CellRangeAddress cellRangeAddress = new CellRangeAddress(row.getRowNum() - 1, row.getRowNum(),
+                CellRangeAddress cellRangeAddress = new CellRangeAddress(oldRow1, oldRow2,
                         needMerIndex, needMerIndex);
                 sheet.addMergedRegionUnsafe(cellRangeAddress);
             });

@@ -3,6 +3,7 @@ import java.math.BigDecimal;
 
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.system.SystemUtil;
 import com.smallhua.org.common.util.SnowFlow;
 import com.smallhua.org.export.service.ExcelService;
 import com.smallhua.org.mapper.ExcelExportOrderMapper;
@@ -43,7 +44,10 @@ public class TestZZH {
 
     @Test
     public void test() throws IOException {
+        long start = System.currentTimeMillis();
         excelService.exportExcelProduct();
+        long end = System.currentTimeMillis();
+        System.out.println((end - start)/1000);
     }
 
     @Test
