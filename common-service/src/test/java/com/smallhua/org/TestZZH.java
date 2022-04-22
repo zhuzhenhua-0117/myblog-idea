@@ -62,10 +62,15 @@ public class TestZZH {
         String[] products = new String[] {"苹果", "香蕉","草莓","西瓜","榴莲"};
         Random random = new Random();
         AtomicInteger index = new AtomicInteger(0);
-        CountDownLatch cdl = new CountDownLatch(10);
+        Semaphore semaphore = new Semaphore(6);
 
         for (int i = 0; i < 1000000; i++) {
             threadPoolTaskExecutor.submit(() -> {
+                try {
+                    semaphore.acquire();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 long time = DateUtil.date().getTime() / 1000;
                 ExcelExportOrder order = new ExcelExportOrder();
                 order.setOrderSn(snowFlow.nextIdStr());
@@ -78,7 +83,8 @@ public class TestZZH {
                 excelExportOrderMapper.insertSelective(order);
 
                 String productNumber = snowFlow.nextIdStr();
-                int jIndex = random.nextInt(5) == 0 ? 1 : random.nextInt(5);
+                int i1 = random.nextInt(5);
+                int jIndex = i1 == 0 ? 1 : i1;
                 for (int j = 0; j < jIndex; j++) {
                     ExcelExportOrderProduct product = new ExcelExportOrderProduct();
                     product.setOrderId(order.getId());
@@ -90,9 +96,8 @@ public class TestZZH {
 
                     excelExportOrderProductMapper.insertSelective(product);
                 }
-                cdl.countDown();
+                semaphore.release();
             });
         }
-        cdl.await();
     }
 }
