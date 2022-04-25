@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.smallhua.org.dao.UserDao">
-    <resultMap id="BaseResultMap" type="com.smallhua.org.dto.UserRole">
+<mapper namespace="com.smallhua.org.domain.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.smallhua.org.domain.dto.UserRole">
         <id column="ID" jdbcType="BIGINT" property="id"/>
         <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
         <result column="ACCOUNT" jdbcType="VARCHAR" property="account"/>
@@ -14,11 +14,11 @@
         <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="lOGIN_TIME" jdbcType="TIMESTAMP" property="loginTime"/>
         <result column="RMK" jdbcType="VARCHAR" property="rmk"/>
-        <collection property="roles" column="{userId=id}" select="com.smallhua.org.dao.UserDao.quertRoleByUserId">
+        <collection property="roles" column="{userId=id}" select="com.smallhua.org.domain.mapper.UserMapper.quertRoleByUserId">
         </collection>
     </resultMap>
 
-    <resultMap id="RoleResultMap" type="com.smallhua.org.dto.RolePermission">
+    <resultMap id="RoleResultMap" type="com.smallhua.org.domain.dto.RolePermission">
         <id column="ID" jdbcType="BIGINT" property="id" />
         <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
         <result column="STATUS" jdbcType="TINYINT" property="status" />

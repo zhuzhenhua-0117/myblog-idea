@@ -1,4 +1,4 @@
-package com.smallhua.org.dto;
+package com.smallhua.org.domain.dto;
 
 import com.smallhua.org.model.TUser;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.smallhua.org.config;
+package com.smallhua.org.domain.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 1.0.0
  */
 @Configuration
-@MapperScan({"com.smallhua.**.mapper","com.smallhua.**.dao"})
+@MapperScan({"com.smallhua.**.mapper"})
 public class MapperConfig {
 
 }

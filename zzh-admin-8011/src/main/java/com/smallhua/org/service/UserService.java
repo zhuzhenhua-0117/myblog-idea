@@ -10,8 +10,9 @@ import com.smallhua.org.common.api.CommonPage;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.domain.BaseParam;
 import com.smallhua.org.common.util.*;
-import com.smallhua.org.dao.UserDao;
-import com.smallhua.org.dto.UserRole;
+import com.smallhua.org.domain.mapper.UserMapper;
+import com.smallhua.org.domain.dto.UserRole;
+import com.smallhua.org.domain.service.impl.CommonService;
 import com.smallhua.org.mapper.TUserMapper;
 import com.smallhua.org.message.ProductMessage;
 import com.smallhua.org.model.TUser;
@@ -56,13 +57,13 @@ public class UserService {
     private String tokenHead;
 
     @Autowired
-    private TUserMapper userMapper;
+    private TUserMapper tUserMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
     @Autowired
     private CommonService commonService;
     @Autowired
@@ -77,7 +78,7 @@ public class UserService {
         TUserExample userExample = new TUserExample();
         userExample.createCriteria().andAccountEqualTo(account.trim()).andStatusEqualTo(ConstUtil.ZERO);
 
-        List<TUser> tUsers = userMapper.selectByExample(userExample);
+        List<TUser> tUsers = tUserMapper.selectByExample(userExample);
         if (CollectionUtil.isNotEmpty(tUsers)) {
             TUser tUser = tUsers.get(0);
             List<SimpleGrantedAuthority> authors = commonService.getPermissionValues(tUser.getId()).stream().map(item -> new SimpleGrantedAuthority(item)).collect(Collectors.toList());
@@ -89,7 +90,7 @@ public class UserService {
 
                 //更新user最新登陆时间
                 tUser.setLoginTime(new Date());
-                userMapper.updateByPrimaryKeySelective(tUser);
+                tUserMapper.updateByPrimaryKeySelective(tUser);
 
                 String keyOfUser = RedisUtil.getKeyOfUser(tUser.getUserName(), tUser.getAccount());
                 RedisUtil.setUserInfo(keyOfUser, tUser);
@@ -129,7 +130,7 @@ public class UserService {
         example.createCriteria().andAccountEqualTo(tUser.getAccount().trim())
                 .andStatusEqualTo(ConstUtil.ZERO);
         ;
-        List<TUser> tUsers = userMapper.selectByExample(example);
+        List<TUser> tUsers = tUserMapper.selectByExample(example);
 
         if (!CollUtil.isEmpty(tUsers)) {
             return CommonResult.failed("该账号已存在，注册失败");
@@ -139,7 +140,7 @@ public class UserService {
         tUser.setPassword(passwordEncoder.encode(tUser.getPassword()));
         tUser.setId(IdGenerator.generateIdBySnowFlake());
 
-        int i = userMapper.insertSelective(tUser);
+        int i = tUserMapper.insertSelective(tUser);
 
         if (i > 0) {
             boolean b = productMessage.produceUserMsg(JSONUtil.toJsonStr(tUser));
@@ -156,7 +157,7 @@ public class UserService {
             //编辑用户
             TUserExample userExample = new TUserExample();
             userExample.createCriteria().andIdEqualTo(updUserVo.getId()).andStatusEqualTo(ConstUtil.ZERO);
-            List<TUser> tUsers = userMapper.selectByExample(userExample);
+            List<TUser> tUsers = tUserMapper.selectByExample(userExample);
             if (CollUtil.isEmpty(tUsers)) {
                 return CommonResult.failed("该用户不存在");
             }
@@ -167,7 +168,7 @@ public class UserService {
             mapping.put("icon", "userProfilePhoto");
             BeanUtil.copyProperties(updUserVo, user, CopyOptions.create().setFieldMapping(mapping));
 
-            int i = userMapper.updateByExample(user, userExample);
+            int i = tUserMapper.updateByExample(user, userExample);
 
             if (i > 0) {
 //                SessionUtil.removeAttribute(ConstUtil.REDIS_USER);
@@ -188,7 +189,7 @@ public class UserService {
             BeanUtil.copyProperties(updUserVo, user, CopyOptions.create().setFieldMapping(mapping));
             user.setCreateTime(new Date());
 
-            int i = userMapper.insert(user);
+            int i = tUserMapper.insert(user);
             if (i < 1) {
                 return CommonResult.failed("保存失败");
             }
@@ -204,7 +205,7 @@ public class UserService {
             return user;
         }
 
-        UserRole userRole = userDao.selectUserInfoByUserId(userId);
+        UserRole userRole = userMapper.selectUserInfoByUserId(userId);
         log.info("从数据库获得了用户数据");
 
         if (userRole != null) {
@@ -219,12 +220,12 @@ public class UserService {
         TUserExample userExample = new TUserExample();
         userExample.createCriteria().andIdEqualTo(userId);
 
-        List<TUser> tUsers = userMapper.selectByExample(userExample);
+        List<TUser> tUsers = tUserMapper.selectByExample(userExample);
         if (CollUtil.isNotEmpty(tUsers)) {
             TUser tUser = tUsers.get(0);
             tUser.setStatus(ConstUtil.ONE);
 
-            int i = userMapper.updateByPrimaryKey(tUser);
+            int i = tUserMapper.updateByPrimaryKey(tUser);
 
             if (i > 0) {
 //                SessionUtil.removeAttribute("user");
@@ -252,7 +253,7 @@ public class UserService {
                 .andStatusEqualTo(ConstUtil.ZERO)
                 .andAccountEqualTo(updPwdVo.getAccount());
 
-        List<TUser> tUsers = userMapper.selectByExample(example);
+        List<TUser> tUsers = tUserMapper.selectByExample(example);
         if (CollectionUtils.isEmpty(tUsers)) {
             return CommonResult.failed("更新失败哦");
         }
@@ -262,7 +263,7 @@ public class UserService {
             return CommonResult.failed("密码不对哟");
         }
         tUser.setPassword(passwordEncoder.encode(updPwdVo.getNewPassword()));
-        int i = userMapper.updateByPrimaryKeySelective(tUser);
+        int i = tUserMapper.updateByPrimaryKeySelective(tUser);
         if (i < 1) {
             return CommonResult.failed("更新失败");
         }
@@ -274,13 +275,13 @@ public class UserService {
         example.createCriteria()
                 .andStatusEqualTo(ConstUtil.ZERO)
                 .andAccountEqualTo(account);
-        List<TUser> tUsers = userMapper.selectByExample(example);
+        List<TUser> tUsers = tUserMapper.selectByExample(example);
         if (CollectionUtils.isEmpty(tUsers)) {
             return CommonResult.failed("更新失败哦");
         }
         TUser tUser = tUsers.get(0);
         tUser.setPassword(passwordEncoder.encode("123456"));
-        userMapper.updateByPrimaryKeySelective(tUser);
+        tUserMapper.updateByPrimaryKeySelective(tUser);
         return CommonResult.success("重置成功");
     }
 
@@ -291,6 +292,6 @@ public class UserService {
 
         ConditionUtil.createCondition(baseParam, criteria, TUser.class);
 
-        return PageUtil.pagination(baseParam, () -> userMapper.selectByExample(userExample));
+        return PageUtil.pagination(baseParam, () -> tUserMapper.selectByExample(userExample));
     }
 }

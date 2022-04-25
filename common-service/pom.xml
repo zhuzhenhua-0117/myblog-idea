@@ -14,7 +14,8 @@
     <dependencies>
         <dependency>
             <groupId>com.smallhua.org</groupId>
-            <artifactId>common-dao</artifactId>
+            <artifactId>common-domain</artifactId>
+            <version>${blog.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

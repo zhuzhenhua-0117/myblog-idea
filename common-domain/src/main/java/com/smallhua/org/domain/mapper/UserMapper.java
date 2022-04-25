@@ -1,6 +1,6 @@
-package com.smallhua.org.dao;
+package com.smallhua.org.domain.mapper;
 
-import com.smallhua.org.dto.UserRole;
+import com.smallhua.org.domain.dto.UserRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @since 1.0.0 UserMapper
  */
 @Mapper
-public interface UserDao {
+public interface UserMapper {
 
     UserRole selectUserInfoByUserId(@Param("userId") Long userId);
 

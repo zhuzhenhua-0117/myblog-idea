@@ -1,6 +1,6 @@
-package com.smallhua.org.dao;
+package com.smallhua.org.domain.mapper;
 
-import com.smallhua.org.dto.DictCategory;
+import com.smallhua.org.domain.dto.DictCategory;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 1.0.0 UserMapper
  */
 @Mapper
-public interface DictDao {
+public interface DictMapper {
 
     DictCategory queryDictCategorys();
 

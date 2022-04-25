@@ -2,7 +2,7 @@ package com.smallhua.org.config;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.smallhua.org.common.util.ConstUtil;
-import com.smallhua.org.dao.UserDao;
+import com.smallhua.org.domain.mapper.UserMapper;
 import com.smallhua.org.mapper.TPermissionMapper;
 import com.smallhua.org.mapper.TUserMapper;
 import com.smallhua.org.model.TPermission;
@@ -11,7 +11,7 @@ import com.smallhua.org.model.TUser;
 import com.smallhua.org.model.TUserExample;
 import com.smallhua.org.security.component.DynamicSecurityService;
 import com.smallhua.org.security.config.SecurityConfig;
-import com.smallhua.org.service.CommonService;
+import com.smallhua.org.domain.service.impl.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +48,7 @@ public class MySecurityConfig extends SecurityConfig {
     @Autowired
     private TPermissionMapper permissionMapper;
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     @Bean
     public DynamicSecurityService dynamicSecurityService() {

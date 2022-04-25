@@ -1,8 +1,8 @@
-package com.smallhua.org.service;
+package com.smallhua.org.domain.service.impl;
 
-import com.smallhua.org.dao.UserDao;
-import com.smallhua.org.dto.RolePermission;
-import com.smallhua.org.dto.UserRole;
+import com.smallhua.org.domain.dto.RolePermission;
+import com.smallhua.org.domain.dto.UserRole;
+import com.smallhua.org.domain.mapper.UserMapper;
 import com.smallhua.org.model.TPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,18 +21,19 @@ import java.util.stream.Collectors;
  * @since 1.0.0
  */
 @Service
-public class CommonService {
+public class CommonService implements ZPermissionService{
 
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     /**
      * 动态授权 认证时将资源权限放到userDetailService中
      * @return
      */
-    public Set<String> getPermissionValues(Long userId){
+    @Override
+    public Set<String> getPermissionValues(Long userId) {
         Set<String> permissionValue = new HashSet<>();
-        UserRole userRole = userDao.selectUserInfoByUserId(userId);
+        UserRole userRole = userMapper.selectUserInfoByUserId(userId);
         List<RolePermission> roles = userRole.getRoles();
         roles.stream().forEach(item -> {
             List<TPermission> permissionList = item.getPermissionList();
@@ -40,5 +41,4 @@ public class CommonService {
         });
         return permissionValue;
     }
-
 }

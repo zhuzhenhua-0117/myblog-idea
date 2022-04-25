@@ -3,7 +3,7 @@ package com.smallhua.org.service;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.util.IdGenerator;
 import com.smallhua.org.common.util.JwtTokenUtil;
-import com.smallhua.org.dao.DictDao;
+import com.smallhua.org.domain.mapper.DictMapper;
 import com.smallhua.org.mapper.TDictMapper;
 import com.smallhua.org.model.TDict;
 import com.smallhua.org.model.TDictExample;
@@ -31,9 +31,9 @@ import java.util.Objects;
 public class DictService {
 
     @Autowired
-    private TDictMapper dictMapper;
+    private TDictMapper tDictMapper;
     @Autowired
-    private DictDao dictDao;
+    private DictMapper dictMapper;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -48,11 +48,11 @@ public class DictService {
             dict.setCreateId(us.getId());
             dict.setUpdateId(us.getId());
 
-            i = dictMapper.insertSelective(dict);
+            i = tDictMapper.insertSelective(dict);
         } else {
             TDictExample example = new TDictExample();
             example.createCriteria().andIdEqualTo(dict.getId());
-            TDict tDict = dictMapper.selectByExample(example).get(0);
+            TDict tDict = tDictMapper.selectByExample(example).get(0);
 
             if (!Objects.equals(tDict.getVersion(), dict.getVersion())) {
                 return new CommonResult().failed("信息已改变，请刷新页面在更新");
@@ -63,7 +63,7 @@ public class DictService {
             tDict.setCreateId(us.getId());
             tDict.setUpdateId(us.getId());
 
-            i = dictMapper.updateByPrimaryKeySelective(tDict);
+            i = tDictMapper.updateByPrimaryKeySelective(tDict);
 
         }
         return new CommonResult().success(i);
@@ -74,7 +74,7 @@ public class DictService {
         example.setOrderByClause("SEQUENCE");
         example.createCriteria()
                 .andCategoryCodeEqualTo(categoryCode.trim());
-        List<TDict> tDicts = dictMapper.selectByExample(example);
+        List<TDict> tDicts = tDictMapper.selectByExample(example);
         return new CommonResult().success(tDicts);
     }
 
@@ -83,11 +83,11 @@ public class DictService {
         example.createCriteria()
                 .andCategoryCodeEqualTo(categoryCode.trim())
                 .andDictCodeEqualTo(dictCode);
-        List<TDict> tDicts = dictMapper.selectByExample(example);
+        List<TDict> tDicts = tDictMapper.selectByExample(example);
         return new CommonResult().success(tDicts.get(0));
     }
 
     public CommonResult detailCategorys() {
-        return new CommonResult().success(dictDao.queryDictCategorys());
+        return new CommonResult().success(dictMapper.queryDictCategorys());
     }
 }
