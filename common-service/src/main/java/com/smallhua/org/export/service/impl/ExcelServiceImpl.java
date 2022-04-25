@@ -4,10 +4,10 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.small.org.modal.dto.ExportOrderForExcel;
-import com.smallhua.org.export.service.ExcelService;
 import com.small.org.modal.strategy.CustomMergeStrategy;
+import com.smallhua.org.domain.mapper.ExcelExportOrderExtMapper;
+import com.smallhua.org.export.service.ExcelService;
 import com.smallhua.org.export.util.EasyExcelUtils;
-import com.smallhua.org.mapper.ExcelExportOrderMapper;
 import com.smallhua.org.model.ExcelExportOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.io.IOException;
 public class ExcelServiceImpl implements ExcelService {
 
     @Autowired
-    private ExcelExportOrderMapper excelExportOrderMapper;
+    private ExcelExportOrderExtMapper excelExportOrderExtMapper;
 
     @Override
     public void exportExcelProduct() throws IOException {
@@ -37,10 +37,10 @@ public class ExcelServiceImpl implements ExcelService {
                 .registerWriteHandler(new CustomMergeStrategy(ExportOrderForExcel.class))
                 .excelType(ExcelTypeEnum.XLSX).build();
 
-        Long total = excelExportOrderMapper.queryTotalRecordsForExportProduct();
+        Long total = excelExportOrderExtMapper.queryTotalRecordsForExportProduct();
 
         EasyExcelUtils.pageWrite(excelWriter, "数据清单", 20000l,
-                (currentPage, pageSize) -> excelExportOrderMapper.queryOrderProductForExport(currentPage, pageSize));
+                (currentPage, pageSize) -> excelExportOrderExtMapper.queryOrderProductForExport(currentPage, pageSize));
     }
 
     @Override
@@ -51,9 +51,9 @@ public class ExcelServiceImpl implements ExcelService {
                 .write(file, ExcelExportOrder.class)
                 .excelType(ExcelTypeEnum.XLSX).build();
 
-        Long total = excelExportOrderMapper.queryTotalRecordsForExport();
+        Long total = excelExportOrderExtMapper.queryTotalRecordsForExport();
 
         EasyExcelUtils.pageWrite(excelWriter, "数据清单", total,
-                (currentPage, pageSize) -> excelExportOrderMapper.queryOrderForExport(currentPage, pageSize));
+                (currentPage, pageSize) -> excelExportOrderExtMapper.queryOrderForExport(currentPage, pageSize));
     }
 }

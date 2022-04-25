@@ -3,6 +3,7 @@ package com.smallhua.org.domain.service.impl;
 import com.smallhua.org.domain.dto.RolePermission;
 import com.smallhua.org.domain.dto.UserRole;
 import com.smallhua.org.domain.mapper.UserMapper;
+import com.smallhua.org.domain.service.ZPermissionService;
 import com.smallhua.org.model.TPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  * @since 1.0.0
  */
 @Service
-public class CommonService implements ZPermissionService{
+public class CommonService implements ZPermissionService {
 
     @Autowired
     private UserMapper userMapper;

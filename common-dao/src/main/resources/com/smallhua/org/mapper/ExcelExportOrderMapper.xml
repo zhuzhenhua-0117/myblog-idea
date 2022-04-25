@@ -12,21 +12,6 @@
         <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime"/>
         <result column="status" jdbcType="TINYINT" property="status"/>
     </resultMap>
-    <resultMap id="orderMapForExport" type="com.small.org.modal.dto.ExportOrderForExcel">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="order_sn" jdbcType="VARCHAR" property="orderSn"/>
-        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
-        <result column="store_name" jdbcType="VARCHAR" property="storeName"/>
-        <result column="order_amount" jdbcType="DECIMAL" property="orderAmount"/>
-        <result column="address" jdbcType="VARCHAR" property="address"/>
-        <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
-        <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime"/>
-        <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="product_sn" jdbcType="VARCHAR" property="productSn"/>
-        <result column="product_name" jdbcType="VARCHAR" property="productName"/>
-        <result column="product_price" jdbcType="DECIMAL" property="productPrice"/>
-        <result column="product_quatity" jdbcType="INTEGER" property="productQuatity"/>
-    </resultMap>
     <sql id="Example_Where_Clause">
         <where>
             <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -90,10 +75,6 @@
     <sql id="Base_Column_List">
         id, order_sn, user_name, store_name, order_amount, address, add_time, modified_time,
         status
-    </sql>
-    <sql id="ORDER_COLUMN_LIST_FOR_EXPORT">
-        o.id, o.order_sn, o.user_name, o.store_name, o.order_amount, o.address, from_unixtime(o.add_time) as add_time, o.modified_time,
-        o.status, op.product_sn, op.product_name, op.product_price, op.product_quatity
     </sql>
     <select id="selectByExample" parameterType="com.smallhua.org.model.ExcelExportOrderExample"
             resultMap="BaseResultMap">
@@ -205,31 +186,7 @@
             <include refid="Example_Where_Clause"/>
         </if>
     </select>
-    <select id="queryTotalRecordsForExportProduct" resultType="java.lang.Long">
-        select count(1) from excel_export_order o join excel_export_order_product op on o.id = op.order_id
-    </select>
-    <select id="queryOrderProductForExport" resultMap="orderMapForExport">
-        SELECT
-        <include refid = "ORDER_COLUMN_LIST_FOR_EXPORT"> </include>
-        FROM
-        excel_export_order o
-        JOIN excel_export_order_product op
-        ON o.id = op.order_id
-        JOIN
-        (SELECT op1.id FROM excel_export_order o1 JOIN excel_export_order_product op1 ON o1.id = op1.order_id
-        ORDER BY o1.add_time DESC LIMIT ${(currentPage-1)*pageSize}, #{pageSize})  AS page
-        ON page.id = op.id
-    </select>
-    <select id="queryTotalRecordsForExport" resultType="java.lang.Long">
-        select count(1) from excel_export_order
-    </select>
-    <select id="queryOrderForExport" resultMap="BaseResultMap">
-        select
-        excel_export_order.*
-        from excel_export_order
-        join (select id from excel_export_order ORDER BY add_time DESC LIMIT ${(currentPage-1)*pageSize}, #{pageSize})  AS page
-        on excel_export_order.id = page.id
-    </select>
+
     <update id="updateByExampleSelective" parameterType="map">
         update excel_export_order
         <set>

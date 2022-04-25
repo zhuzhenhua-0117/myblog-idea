@@ -1,4 +1,4 @@
-package com.smallhua.org.domain.service.impl;
+package com.smallhua.org.domain.service;
 
 import java.util.Set;
 
