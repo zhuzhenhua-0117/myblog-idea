@@ -34,10 +34,15 @@ public class ExcelServiceImpl implements ExcelService {
 
     @Override
     public void exportExcelProduct() throws IOException {
-        File file = new File("E:/easyexcel", "testPageWrite.xlsx");
-        if (!file.exists()) file.createNewFile();
+        String filePath = "E:" + File.separator + "file" + DateUtil.format(DateUtil.date(), "yyyyMMdd");
+        String fileName = filePath + File.separator + "orderTest.xlsx";
+
+        System.out.println(fileName);
+
+        if(Files.notExists(Paths.get(filePath))) Files.createDirectories(Paths.get(filePath));
+        if(Files.notExists(Paths.get(fileName)))  Files.createFile(Paths.get(fileName));
         ExcelWriter excelWriter = EasyExcel
-                .write(file, ExportOrderForExcel.class)
+                .write(fileName, ExportOrderForExcel.class)
                 .registerWriteHandler(new CustomMergeStrategy(ExportOrderForExcel.class))
                 .excelType(ExcelTypeEnum.XLSX).build();
 
@@ -54,10 +59,9 @@ public class ExcelServiceImpl implements ExcelService {
 
         System.out.println(fileName);
 
-        if(Files.notExists(Paths.get(filePath))) {
-            Files.createDirectories(Paths.get(filePath));
-        }
-        Files.createFile(Paths.get(fileName));
+        if(Files.notExists(Paths.get(filePath))) Files.createDirectories(Paths.get(filePath));
+        if(Files.notExists(Paths.get(fileName)))  Files.createFile(Paths.get(fileName));
+
         ExcelWriter excelWriter = EasyExcel
                 .write(fileName, ExcelExportOrder.class)
                 .excelType(ExcelTypeEnum.XLSX).build();
