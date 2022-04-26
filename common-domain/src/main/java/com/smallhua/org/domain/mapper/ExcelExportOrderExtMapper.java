@@ -1,7 +1,7 @@
 package com.smallhua.org.domain.mapper;
 
-import com.small.org.modal.dto.ExportOrderForExcel;
-import com.smallhua.org.model.ExcelExportOrder;
+import com.smallhua.org.domain.dto.ExcelExportOrder;
+import com.smallhua.org.domain.dto.ExportOrderForExcel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

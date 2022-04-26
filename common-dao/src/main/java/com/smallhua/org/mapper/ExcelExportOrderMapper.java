@@ -1,10 +1,10 @@
 package com.smallhua.org.mapper;
 
-import com.small.org.modal.dto.ExportOrderForExcel;
 import com.smallhua.org.model.ExcelExportOrder;
 import com.smallhua.org.model.ExcelExportOrderExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface ExcelExportOrderMapper {
     long countByExample(ExcelExportOrderExample example);

@@ -1,4 +1,4 @@
-package com.small.org.modal.strategy;
+package com.smallhua.org.domain.strategy;
 
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.converters.ReadConverterContext;

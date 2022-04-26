@@ -1,4 +1,4 @@
-package com.small.org.modal.annotation;
+package com.smallhua.org.domain.annotation;
 
 import java.lang.annotation.*;
 

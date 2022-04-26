@@ -17,6 +17,12 @@
             <artifactId>common-dao</artifactId>
             <version>${blog.version}</version>
         </dependency>
+        <!--导出excel-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>3.0.5</version>
+        </dependency>
     </dependencies>
 
 

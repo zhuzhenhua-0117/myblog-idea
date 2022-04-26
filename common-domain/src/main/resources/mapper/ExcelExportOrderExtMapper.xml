@@ -13,7 +13,7 @@
         <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime"/>
         <result column="status" jdbcType="TINYINT" property="status"/>
     </resultMap>
-    <resultMap id="orderMapForExport" type="com.small.org.modal.dto.ExportOrderForExcel">
+    <resultMap id="orderMapForExport" type="com.smallhua.org.domain.dto.ExportOrderForExcel">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="order_sn" jdbcType="VARCHAR" property="orderSn"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>

@@ -1,9 +1,9 @@
-package com.small.org.modal.dto;
+package com.smallhua.org.domain.dto;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
-import com.small.org.modal.annotation.CustomMerge;
-import com.small.org.modal.strategy.OrderStatusStrategy;
+import com.smallhua.org.domain.annotation.CustomMerge;
+import com.smallhua.org.domain.strategy.OrderStatusStrategy;
 import lombok.Data;
 
 import java.math.BigDecimal;

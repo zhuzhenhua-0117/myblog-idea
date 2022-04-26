@@ -1,10 +1,10 @@
-package com.small.org.modal.strategy;
+package com.smallhua.org.domain.strategy;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.write.handler.RowWriteHandler;
 import com.alibaba.excel.write.metadata.holder.WriteSheetHolder;
 import com.alibaba.excel.write.metadata.holder.WriteTableHolder;
-import com.small.org.modal.annotation.CustomMerge;
+import com.smallhua.org.domain.annotation.CustomMerge;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
