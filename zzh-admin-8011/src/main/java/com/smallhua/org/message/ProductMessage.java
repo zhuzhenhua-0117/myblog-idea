@@ -1,6 +1,6 @@
 package com.smallhua.org.message;
 
-import com.smallhua.org.channel.MySource;
+import com.smallhua.org.stream.channel.MySource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;

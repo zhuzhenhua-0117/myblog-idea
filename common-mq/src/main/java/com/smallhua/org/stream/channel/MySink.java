@@ -1,4 +1,4 @@
-package com.smallhua.org.channel;
+package com.smallhua.org.stream.channel;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;

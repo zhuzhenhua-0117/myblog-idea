@@ -1,7 +1,7 @@
 package com.smallhua.org.message;
 
 import cn.hutool.json.JSONUtil;
-import com.smallhua.org.channel.MySink;
+import com.smallhua.org.stream.channel.MySink;
 import com.smallhua.org.mapper.TUserMirMapper;
 import com.smallhua.org.model.TUserMir;
 import lombok.extern.slf4j.Slf4j;
