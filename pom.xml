@@ -20,8 +20,8 @@
         <module>zzh-practice-8041</module>
         <module>common-service</module>
         <module>common-domain</module>
-        <module>tmp-kafka-producer-8091</module>
-        <module>tmp-kafka-consume-8092</module>
+        <module>tmp-kafka-producer-8092</module>
+        <module>tmp-kafka-consumer-8091</module>
     </modules>
 
     <properties>

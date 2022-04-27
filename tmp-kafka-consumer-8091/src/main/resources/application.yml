@@ -12,6 +12,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       # 值的反序列化方式
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      bootstrap-servers: 47.93.162.123:9092
     listener:
       # 手工ack，调用ack后立刻提交offset
       ack-mode: manual_immediate

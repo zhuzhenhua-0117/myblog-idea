@@ -27,7 +27,7 @@ public class SendMessageController {
 
 
     @PostMapping("public/api/send")
-    public CommonResult sendMessage(String body){
+    public CommonResult sendMessage(@RequestBody String body){
         try {
             sendMessageService.sendMessageSync(topic, body);
         }catch (Exception e) {
