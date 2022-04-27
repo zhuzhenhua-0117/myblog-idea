@@ -1,0 +1,29 @@
+spring:
+  kafka:
+    bootstrap-servers: 47.93.162.123:9092
+    producer:
+      # 消息重发的次数。
+      retries: 0
+      #一个批次可以使用的内存大小
+      batch-size: 16384
+      # 设置生产者内存缓冲区的大小。
+      buffer-memory: 33554432
+      # 键的序列化方式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # 值的序列化方式
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # 0-丢给broker就直接确认 1(默认)-等同步完n个broker在确认，n取决于min.insync.replicas -1代表全部同步完才确认
+      acks: -1
+      # 事务可以保证对多个分区写入操作的原子性 要么全部成功要么全部失败
+      transaction-id-prefix: zzh-tran-
+  application:
+    name: consume
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: zzh-secret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  tokenHead: 'Bearer '  #JWT负载中拿到开头
+
+server:
+  port: 8092
