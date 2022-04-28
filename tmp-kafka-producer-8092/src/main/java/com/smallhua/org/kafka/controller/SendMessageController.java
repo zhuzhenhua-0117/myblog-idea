@@ -2,6 +2,7 @@ package com.smallhua.org.kafka.controller;
 
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.kafka.service.SendMessageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("producer")
+@Slf4j
 public class SendMessageController {
 
     @Autowired
@@ -31,6 +33,7 @@ public class SendMessageController {
         try {
             sendMessageService.sendMessageSync(topic, body);
         }catch (Exception e) {
+            log.error("发送消息失败", e);
             return CommonResult.failed("发送失败");
         }
         return CommonResult.success(null, "发送成功");

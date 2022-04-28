@@ -28,7 +28,6 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
     public void sendMessageSync(String topic, Object message) {
         kafkaTemplate.send(topic, message);
     }

@@ -1,6 +1,5 @@
 spring:
   kafka:
-    bootstrap-servers: 47.93.162.123:9092
     consumer:
       # 自动提交的时间间隔 在spring boot 2.X 版本是值的类型为Duration 需要符合特定的格式，如1S,1M,2H,5D
       auto-commit-interval: 1S
@@ -12,24 +11,16 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       # 值的反序列化方式
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      bootstrap-servers: 47.93.162.123:9092
+      # 默认消费组 （未指定）
+      group-id: defalut-group
+      max-poll-records: 500
     listener:
       # 手工ack，调用ack后立刻提交offset
       ack-mode: manual_immediate
       # 容器运行的线程数
       concurrency: 4
+    bootstrap-servers: 47.93.162.123:9092
   application:
-    name: produce
+    name: consume
 server:
   port: 8091
-
-jwt:
-  tokenHeader: Authorization #JWT存储的请求头
-  secret: zzh-secret #JWT加解密使用的密钥
-  expiration: 604800 #JWT的超期限时间(60*60*24*7)
-  tokenHead: 'Bearer '  #JWT负载中拿到开头
-
-secure:
-  ignored:
-    urls:
-     - /**/public/**

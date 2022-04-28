@@ -15,9 +15,9 @@ spring:
       # 0-丢给broker就直接确认 1(默认)-等同步完n个broker在确认，n取决于min.insync.replicas -1代表全部同步完才确认
       acks: -1
       # 事务可以保证对多个分区写入操作的原子性 要么全部成功要么全部失败
-      transaction-id-prefix: zzh-tran-
+      # transaction-id-prefix: zzh-tran-
   application:
-    name: consume
+    name: producer
 
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
