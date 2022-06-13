@@ -1,11 +1,11 @@
-package com.smallhua.org.export.util;
+package com.smallhua.org.excelIO.util;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.metadata.WriteSheet;
-import com.smallhua.org.export.enums.ExcelPageEnum;
-import com.smallhua.org.export.function.MybatisPlusPageQueryService;
+import com.smallhua.org.excelIO.enums.ExcelPageEnum;
+import com.smallhua.org.excelIO.function.MybatisPlusPageQueryService;
 
 /**
  * 〈导出excel工具类〉

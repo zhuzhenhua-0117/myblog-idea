@@ -1,23 +1,34 @@
-package com.smallhua.org.export.service.impl;
+package com.smallhua.org.excelIO.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.read.builder.ExcelReaderBuilder;
+import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.alibaba.excel.support.ExcelTypeEnum;
-import com.smallhua.org.domain.dto.ExcelExportOrder;
-import com.smallhua.org.domain.dto.ExportOrderForExcel;
+import com.smallhua.org.domain.dto.ExportExcelOfOrder;
+import com.smallhua.org.domain.dto.ImportExcelOfOrder;
+import com.smallhua.org.domain.dto.ExportExcelOfOrderProduct;
 import com.smallhua.org.domain.strategy.CustomMergeStrategy;
 import com.smallhua.org.domain.mapper.ExcelExportOrderExtMapper;
-import com.smallhua.org.export.service.ExcelService;
-import com.smallhua.org.export.util.EasyExcelUtils;
+import com.smallhua.org.excelIO.function.ExcelImportManager;
+import com.smallhua.org.excelIO.listener.CommonReaderListener;
+import com.smallhua.org.excelIO.service.ExcelService;
+import com.smallhua.org.excelIO.util.EasyExcelUtils;
+import com.smallhua.org.mapper.ExcelExportOrderMapper;
+import com.smallhua.org.model.ExcelExportOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -26,10 +37,13 @@ import java.nio.file.Paths;
  */
 @Service
 @Slf4j
-public class ExcelServiceImpl implements ExcelService {
+public class ExcelServiceImpl implements ExcelService, ExcelImportManager<ImportExcelOfOrder> {
 
     @Autowired
     private ExcelExportOrderExtMapper excelExportOrderExtMapper;
+
+    @Autowired
+    private ExcelExportOrderMapper excelExportOrderMapper;
 
     @Override
     public void exportExcelProduct() throws IOException {
@@ -41,8 +55,8 @@ public class ExcelServiceImpl implements ExcelService {
         if(Files.notExists(Paths.get(filePath))) Files.createDirectories(Paths.get(filePath));
         if(Files.notExists(Paths.get(fileName)))  Files.createFile(Paths.get(fileName));
         ExcelWriter excelWriter = EasyExcel
-                .write(fileName, ExportOrderForExcel.class)
-                .registerWriteHandler(new CustomMergeStrategy(ExportOrderForExcel.class))
+                .write(fileName, ExportExcelOfOrderProduct.class)
+                .registerWriteHandler(new CustomMergeStrategy(ExportExcelOfOrderProduct.class))
                 .excelType(ExcelTypeEnum.XLSX).build();
 
         Long total = excelExportOrderExtMapper.queryTotalRecordsForExportProduct();
@@ -62,7 +76,7 @@ public class ExcelServiceImpl implements ExcelService {
         if(Files.notExists(Paths.get(fileName)))  Files.createFile(Paths.get(fileName));
 
         ExcelWriter excelWriter = EasyExcel
-                .write(fileName, ExcelExportOrder.class)
+                .write(fileName, ExportExcelOfOrder.class)
                 .excelType(ExcelTypeEnum.XLSX).build();
 
         Long total = excelExportOrderExtMapper.queryTotalRecordsForExport();
@@ -71,4 +85,23 @@ public class ExcelServiceImpl implements ExcelService {
                 (currentPage, pageSize) -> excelExportOrderExtMapper.queryOrderForExport(currentPage, pageSize));
     }
 
+    @Override
+    @Transactional
+    public void importExcel(MultipartFile file) throws IOException {
+        ExcelReaderBuilder workBook  = EasyExcel.read
+                (file.getInputStream(), ImportExcelOfOrder.class, new CommonReaderListener(this));
+        ExcelReaderSheetBuilder sheet = workBook.sheet();
+        sheet.doRead();
+    }
+
+    @Override
+    public int importData(List<ImportExcelOfOrder> datas) {
+        datas.forEach(item -> {
+            ExcelExportOrder bean = new ExcelExportOrder();
+            BeanUtil.copyProperties(item, bean);
+            excelExportOrderMapper.insertSelective(bean);
+        });
+
+        return datas.size();
+    }
 }

@@ -3,9 +3,8 @@ import java.math.BigDecimal;
 
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.system.SystemUtil;
 import com.smallhua.org.common.util.SnowFlow;
-import com.smallhua.org.export.service.ExcelService;
+import com.smallhua.org.excelIO.service.ExcelService;
 import com.smallhua.org.mapper.ExcelExportOrderMapper;
 import com.smallhua.org.mapper.ExcelExportOrderProductMapper;
 import com.smallhua.org.model.ExcelExportOrder;
@@ -56,7 +55,7 @@ public class TestZZH {
     }
 
     @Test
-    public void initExportTable() throws InterruptedException {
+    public void initExportTable() {
         String[] storeNos = new String[] {"京东", "美团","小A","老干妈","特斯拉"};
         String[] address = new String[] {"北京", "新加坡","缅甸","火星","阴曹地府"};
         String[] products = new String[] {"苹果", "香蕉","草莓","西瓜","榴莲"};

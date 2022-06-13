@@ -1,7 +1,7 @@
 package com.smallhua.org.domain.mapper;
 
-import com.smallhua.org.domain.dto.ExcelExportOrder;
-import com.smallhua.org.domain.dto.ExportOrderForExcel;
+import com.smallhua.org.domain.dto.ExportExcelOfOrder;
+import com.smallhua.org.domain.dto.ExportExcelOfOrderProduct;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,10 +12,10 @@ public interface ExcelExportOrderExtMapper {
 
     Long queryTotalRecordsForExportProduct();
 
-    List<ExportOrderForExcel> queryOrderProductForExport(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize);
+    List<ExportExcelOfOrderProduct> queryOrderProductForExport(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize);
 
     Long queryTotalRecordsForExport();
 
-    List<ExcelExportOrder> queryOrderForExport(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize);
+    List<ExportExcelOfOrder> queryOrderForExport(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize);
 
 }

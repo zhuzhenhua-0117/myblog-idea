@@ -15,7 +15,7 @@ import java.util.Date;
  *
  */
 @Data
-public class ExportOrderForExcel {
+public class ExportExcelOfOrderProduct {
     @ExcelProperty(value = "id", order = 1)
     @CustomMerge(needMerge = true, isPk = true)
     private Long id;
