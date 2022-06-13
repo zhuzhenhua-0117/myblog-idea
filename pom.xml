@@ -13,10 +13,10 @@
         <module>common-security</module>
         <module>common-dao</module>
         <module>zzh-admin-8011</module>
-        <module>zzh-blog-8001</module>
+        <module>zzh-blog-8012</module>
         <module>zzh-zuul-9527</module>
         <module>common-mq</module>
-        <module>zzh-file-8031</module>
+        <module>zzh-file-8013</module>
         <module>zzh-practice-8041</module>
         <module>common-service</module>
         <module>common-domain</module>
