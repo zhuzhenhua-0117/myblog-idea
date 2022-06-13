@@ -22,6 +22,7 @@
         <module>common-domain</module>
         <module>tmp-kafka-producer-8092</module>
         <module>tmp-kafka-consumer-8091</module>
+        <module>zzh-8042-controllerTest</module>
     </modules>
 
     <properties>

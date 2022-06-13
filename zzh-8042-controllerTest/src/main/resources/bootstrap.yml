@@ -1,9 +1,9 @@
 server:
-  port: 8012
+  port: 8042
 
 spring:
   application:
-    name: blogH5
+    name: test
   cloud:
     nacos:
       discovery:
@@ -11,7 +11,6 @@ spring:
       config:
         server-addr: 127.0.0.1:8848
         file-extension: yaml
-
 management:
   endpoints:
     web:

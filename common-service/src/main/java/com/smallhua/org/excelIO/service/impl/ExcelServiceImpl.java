@@ -89,7 +89,7 @@ public class ExcelServiceImpl implements ExcelService, ExcelImportManager<Import
     @Transactional
     public void importExcel(MultipartFile file) throws IOException {
         ExcelReaderBuilder workBook  = EasyExcel.read
-                (file.getInputStream(), ImportExcelOfOrder.class, new CommonReaderListener(this));
+                (file.getInputStream(), ImportExcelOfOrder.class, new CommonReaderListener<ImportExcelOfOrder>(this));
         ExcelReaderSheetBuilder sheet = workBook.sheet();
         sheet.doRead();
     }
