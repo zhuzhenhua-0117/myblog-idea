@@ -1,4 +1,4 @@
-package com.smallhua.org.service;
+package com.smallhua.org.bussiness;
 
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.util.IdGenerator;
@@ -27,7 +27,6 @@ import java.util.Objects;
  * @since 1.0.0
  */
 @Service
-@Transactional
 public class DictService {
 
     @Autowired
@@ -37,6 +36,7 @@ public class DictService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Transactional
     public CommonResult updOrSaveDict(TDict dict) {
 //        UserRole us = SessionUtil.getAttribute(ConstUtil.REDIS_USER, UserRole.class);
         TUser us = RedisUtil.getUserInfo(RedisUtil.getKeyOfUser(jwtTokenUtil.getSubjectByToken()));

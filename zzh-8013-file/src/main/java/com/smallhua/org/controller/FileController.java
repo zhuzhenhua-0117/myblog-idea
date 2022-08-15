@@ -2,8 +2,8 @@ package com.smallhua.org.controller;
 
 import com.smallhua.org.model.ChunkVo;
 import com.smallhua.org.model.TFileInfo;
-import com.smallhua.org.service.ChunkService;
-import com.smallhua.org.service.FileInfoService;
+import com.smallhua.org.bussiness.ChunkService;
+import com.smallhua.org.bussiness.FileInfoService;
 import com.smallhua.org.util.FileUtils;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

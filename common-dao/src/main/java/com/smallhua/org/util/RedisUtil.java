@@ -3,7 +3,7 @@ package com.smallhua.org.util;
 import com.smallhua.org.common.util.ApplicationUtil;
 import com.smallhua.org.common.util.ConstUtil;
 import com.smallhua.org.model.TUser;
-import com.smallhua.org.service.RedisService;
+import com.smallhua.org.bussiness.RedisService;
 
 import java.util.Map;
 

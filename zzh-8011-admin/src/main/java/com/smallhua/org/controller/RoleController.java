@@ -4,7 +4,7 @@ import com.smallhua.org.common.api.CommonPage;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.domain.BaseParam;
 import com.smallhua.org.model.TRole;
-import com.smallhua.org.service.RoleService;
+import com.smallhua.org.bussiness.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

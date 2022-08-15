@@ -2,7 +2,7 @@ package com.smallhua.org.controller;
 
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.model.TPermission;
-import com.smallhua.org.service.PermissonService;
+import com.smallhua.org.bussiness.PermissonService;
 import com.smallhua.org.vo.permissonVo.PermissonVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

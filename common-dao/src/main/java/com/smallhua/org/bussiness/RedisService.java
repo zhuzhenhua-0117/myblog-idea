@@ -1,4 +1,4 @@
-package com.smallhua.org.service;
+package com.smallhua.org.bussiness;
 
 import java.util.List;
 import java.util.Map;

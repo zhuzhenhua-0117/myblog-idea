@@ -4,7 +4,7 @@ import com.smallhua.org.common.api.CommonPage;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.domain.BaseParam;
 import com.smallhua.org.model.TUser;
-import com.smallhua.org.service.UserService;
+import com.smallhua.org.bussiness.UserService;
 import com.smallhua.org.vo.userVo.RegistVo;
 import com.smallhua.org.vo.userVo.UpdPwdVo;
 import com.smallhua.org.vo.userVo.UpdUserVo;

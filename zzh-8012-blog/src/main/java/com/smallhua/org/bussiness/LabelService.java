@@ -1,4 +1,4 @@
-package com.smallhua.org.service;
+package com.smallhua.org.bussiness;
 
 import cn.hutool.core.collection.CollUtil;
 import com.smallhua.org.common.api.CommonResult;

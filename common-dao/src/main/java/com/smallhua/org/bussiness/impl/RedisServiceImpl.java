@@ -1,6 +1,6 @@
-package com.smallhua.org.service.impl;
+package com.smallhua.org.bussiness.impl;
 
-import com.smallhua.org.service.RedisService;
+import com.smallhua.org.bussiness.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

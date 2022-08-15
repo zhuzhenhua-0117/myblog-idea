@@ -4,7 +4,7 @@ import com.smallhua.org.common.api.CommonPage;
 import com.smallhua.org.common.api.CommonResult;
 import com.smallhua.org.common.domain.BaseParam;
 import com.smallhua.org.model.TMessage;
-import com.smallhua.org.service.MessageService;
+import com.smallhua.org.bussiness.MessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

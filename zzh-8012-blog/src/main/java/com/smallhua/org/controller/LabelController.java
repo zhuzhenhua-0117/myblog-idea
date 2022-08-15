@@ -1,7 +1,7 @@
 package com.smallhua.org.controller;
 
 import com.smallhua.org.common.api.CommonResult;
-import com.smallhua.org.service.LabelService;
+import com.smallhua.org.bussiness.LabelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -55,6 +55,7 @@
         <spring-cloud-version>Hoxton.SR12</spring-cloud-version>
         <spring-cloud-alibaba-version>2.1.2.RELEASE</spring-cloud-alibaba-version>
         <kafka.version>2.6.7</kafka.version>
+        <sharding-sphere.version>4.1.1</sharding-sphere.version>
     </properties>
 
     <dependencyManagement>
@@ -194,6 +195,12 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+            <!--shardingJDBC-->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>${sharding-sphere.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
