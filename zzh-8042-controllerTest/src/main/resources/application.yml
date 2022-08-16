@@ -1,51 +1,6 @@
 spring:
   profiles:
     active: dev #默认为开发环境
-  shardingsphere:
-    datasource:
-      names: db0, db1
-      db0:
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/db0
-        username: root
-        password: 123456?
-      db1:
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/db1
-        username: root
-        password: 123456?
-    sharding:
-      tables:
-        t_order:
-          database-strategy:  # 分库策略
-            standard:
-              sharding-column: id
-              precise-algorithm-class-name: com.smallhua.org.bussiness.shardingJDBC.config.MyDbPreciseShardingAlgorithm
-          actualDataNodes: db$->{0..1}.t_order_$->{2021..2022}
-          table-strategy: # 分表策略
-            standard:
-              sharding-column: day_date
-              precise-algorithm-class-name: com.smallhua.org.bussiness.shardingJDBC.config.MyTablePreciseShardingAlgorithm
-          keyGenerator: # 列id生成策略
-            column: id
-            type: SNOWFLAKE
-          logicTable: t_order
-    props:
-      sql:
-        show: true
-
-logging:
-  level:
-    com:
-      smallhua:
-        org:
-          bussiness:
-            shardingJDBC:
-              dao: DEBUG
-mybatis:
-  mapper-locations: classpath*:mapper/*
 
 
 

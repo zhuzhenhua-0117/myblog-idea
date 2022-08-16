@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smallhua.org.bussiness.shardingJDBC.dao.TOrderMapper">
+  <resultMap id="BaseResultMap" type="com.smallhua.org.bussiness.shardingJDBC.model.TOrder">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="cloumn" jdbcType="VARCHAR" property="cloumn" />
+    <result column="day_date" jdbcType="CHAR" property="dayDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, order_id, cloumn, day_date
+  </sql>
+  <delete id="delete">
+    delete from t_order where id = #{id}
+  </delete>
+  <select id="queryList"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+  </select>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.smallhua.org.bussiness.shardingJDBC.model.TOrder" useGeneratedKeys="true">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="cloumn != null">
+        cloumn,
+      </if>
+      <if test="dayDate != null">
+        day_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="cloumn != null">
+        #{cloumn,jdbcType=VARCHAR},
+      </if>
+      <if test="dayDate != null">
+        #{dayDate,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.smallhua.org.bussiness.shardingJDBC.model.TOrder">
+    update t_order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="cloumn != null">
+        cloumn = #{cloumn,jdbcType=VARCHAR},
+      </if>
+      <if test="dayDate != null">
+        day_date = #{dayDate,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
