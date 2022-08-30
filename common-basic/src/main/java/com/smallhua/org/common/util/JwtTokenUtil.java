@@ -2,6 +2,8 @@ package com.smallhua.org.common.util;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
+import com.google.common.collect.Maps;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,7 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.DatatypeConverter;
+import java.math.BigInteger;
+import java.security.Key;
+import java.security.KeyFactory;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.RSAPrivateKeySpec;
+import java.security.spec.RSAPublicKeySpec;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -214,6 +224,32 @@ public class JwtTokenUtil {
             return subject;
         }
         return null;
+    }
+
+
+    /*测试rsa加密生成token*/
+    private static String publicExponent = "65537";
+    private static String privateExponent = "17229266893241928019407448538210767394314299831091924595141407231192097700085259794646635668667196594382333548862926951453552408374412828286121538469820555639179408599684718288543042181104921632781024582518681487594175261480330600707088202917746658509127479673682915944749732373968033990096280738372728055673";
+    private static String modulus = "106423606445089183469171155028154482820092013951957724994512950585356880958575652324387988861210373534970310442208260472894577209013562066671776368208918942020783431571722667979490630586343538306223319468173581167993941500586382020805072004931124403103870349566932555032205872045530004847976880850153190269597";
+    public static void main(String[] args) throws Exception {
+        Map<String, Object> headers = Maps.newHashMap();
+        headers.put("alg", "RS256");
+        headers.put("typ", "JWT");
+
+        String payload = "{\"app\":\"2\",\"wxUserId\":null,\"user_name\":\"1015030\",\"userNo\":\"1015030\",\"user:nickname\":\"李娜\",\"user:name\":\"1015030\",\"version\":\"3\",\"authorities\":[\"ROLE_USER\",\"ROLE_ADMIN\"],\"platform\":\"1\",\"primarysid\":1000063,\"client_id\":\"web\",\"aud\":[\"Benlai.O2OERP.WebApi\"],\"scope\":[\"all\"],\"name\":\"李娜\",\"userType\":2,\"exp\":1661942324,\"jti\":\"f8f97e88-b783-4906-904f-3019d17fa80a\"}";
+        Map<String, Object> payloadMap = JSONUtil.toBean(payload, Map.class);
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.RS256;
+        RSAPublicKeySpec publicSpec = new RSAPublicKeySpec(new BigInteger(modulus),
+                new BigInteger(publicExponent));
+        RSAPrivateKeySpec privateSpec = new RSAPrivateKeySpec(new BigInteger(modulus),
+                new BigInteger(privateExponent));
+        KeyFactory factory = KeyFactory.getInstance("RSA");
+        String compact = Jwts.builder()
+                .setHeader(headers)
+                .setPayload(payload)
+                .signWith(SignatureAlgorithm.RS256, factory.generatePrivate(privateSpec))
+                .compact();
+        System.out.println(compact);
     }
 
 }
