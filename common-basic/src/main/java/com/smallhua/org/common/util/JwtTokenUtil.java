@@ -3,27 +3,30 @@ package com.smallhua.org.common.util;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.impl.TextCodec;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.DatatypeConverter;
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
 import java.security.Key;
 import java.security.KeyFactory;
-import java.security.spec.InvalidKeySpecException;
+import java.security.Signature;
+import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -236,7 +239,8 @@ public class JwtTokenUtil {
         headers.put("alg", "RS256");
         headers.put("typ", "JWT");
 
-        String payload = "{\"app\":\"2\",\"wxUserId\":null,\"user_name\":\"1015030\",\"userNo\":\"1015030\",\"user:nickname\":\"李娜\",\"user:name\":\"1015030\",\"version\":\"3\",\"authorities\":[\"ROLE_USER\",\"ROLE_ADMIN\"],\"platform\":\"1\",\"primarysid\":1000063,\"client_id\":\"web\",\"aud\":[\"Benlai.O2OERP.WebApi\"],\"scope\":[\"all\"],\"name\":\"李娜\",\"userType\":2,\"exp\":1661942324,\"jti\":\"f8f97e88-b783-4906-904f-3019d17fa80a\"}";
+        String payload = "{\"app\":\"2\",\"wxUserId\":null,\"user_name\":\"1015030\",\"userNo\":\"1015030\",\"user:nickname\":\"李娜\",\"user:name\":\"1015030\",\"version\":\"3\",\"authorities\":[\"ROLE_USER\",\"ROLE_ADMIN\"],\"platform\":\"1\",\"primarysid\":1000063,\"client_id\":\"web\",\"aud\":[\"Benlai.O2OERP.WebApi\"],\"scope\":[\"all\"],\"name\":\"李娜\",\"userType\":2,\"exp\":1662171154,\"jti\":\"c4dc5de2-75ce-4b4f-aa04-5997ec383903\"}";
+
         Map<String, Object> payloadMap = JSONUtil.toBean(payload, Map.class);
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.RS256;
         RSAPublicKeySpec publicSpec = new RSAPublicKeySpec(new BigInteger(modulus),
@@ -244,12 +248,202 @@ public class JwtTokenUtil {
         RSAPrivateKeySpec privateSpec = new RSAPrivateKeySpec(new BigInteger(modulus),
                 new BigInteger(privateExponent));
         KeyFactory factory = KeyFactory.getInstance("RSA");
-        String compact = Jwts.builder()
+        String compact = CustomJwts.builder()
                 .setHeader(headers)
                 .setPayload(payload)
                 .signWith(SignatureAlgorithm.RS256, factory.generatePrivate(privateSpec))
                 .compact();
         System.out.println(compact);
     }
+
+
+
+    public static final class CustomJwts {
+
+        private CustomJwts(){}
+
+        public static JwtBuilder builder() {
+            return new CustomJwtBuilder();
+        }
+
+        public static class CustomJwtBuilder implements JwtBuilder{
+
+            private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+            private Map<String, Object> header;
+            private String payLoad;
+            private SignatureAlgorithm alg;
+            private Key key;
+
+            @Override
+            public JwtBuilder setHeader(Header header) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setHeader(Map<String, Object> header) {
+                this.header = header;
+                return this;
+            }
+
+            @Override
+            public JwtBuilder setHeaderParams(Map<String, Object> params) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setHeaderParam(String name, Object value) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setPayload(String payload) {
+                this.payLoad = payload;
+                return this;
+            }
+
+            @Override
+            public JwtBuilder setClaims(Claims claims) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setClaims(Map<String, Object> claims) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder addClaims(Map<String, Object> claims) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setIssuer(String iss) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setSubject(String sub) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setAudience(String aud) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setExpiration(Date exp) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setNotBefore(Date nbf) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setIssuedAt(Date iat) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder setId(String jti) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder claim(String name, Object value) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder signWith(SignatureAlgorithm alg, byte[] secretKey) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder signWith(SignatureAlgorithm alg, String base64EncodedSecretKey) {
+                return null;
+            }
+
+            @Override
+            public JwtBuilder signWith(SignatureAlgorithm alg, Key key) {
+                this.alg = alg;
+                this.key = key;
+                return this;
+            }
+
+            @Override
+            public JwtBuilder compressWith(CompressionCodec codec) {
+                return null;
+            }
+
+            @SneakyThrows
+            @Override
+            public String compact() {
+                String base64UrlEncodedHeader = base64UrlEncode(this.header, "Unable to serialize header to json.");
+
+                String base64UrlEncodedBody = TextCodec.BASE64URL.encode(this.payLoad.getBytes());
+
+                byte[] concat = concat(Base64.getUrlEncoder().withoutPadding().encode(JSONUtil.toJsonStr(this.header).getBytes()), ".".getBytes(), Base64.getUrlEncoder().withoutPadding().encode(this.payLoad.getBytes()));
+
+//                Signature signature = Signature.getInstance(alg.getJcaName());
+                Signature signature = Signature.getInstance("SHA256withRSA");
+                signature.initSign((RSAPrivateKey) key);
+                signature.update(concat);
+                System.out.println(Arrays.toString(concat));
+                byte[] sign = signature.sign();
+                String base64UrlSignature = Base64.getUrlEncoder().withoutPadding().encodeToString(sign);
+
+                return base64UrlEncodedHeader + JwtParser.SEPARATOR_CHAR + base64UrlEncodedBody + JwtParser.SEPARATOR_CHAR + base64UrlSignature;
+            }
+
+            protected String base64UrlEncode(Object o, String errMsg) {
+                byte[] bytes;
+                try {
+                    bytes = toJson(o);
+                } catch (JsonProcessingException e) {
+                    throw new IllegalStateException(errMsg, e);
+                }
+
+                return TextCodec.BASE64URL.encode(bytes);
+            }
+
+
+            protected byte[] toJson(Object object) throws  JsonProcessingException {
+                return OBJECT_MAPPER.writeValueAsBytes(object);
+            }
+
+            public static byte[] concat(byte[]... arrays) {
+                int size = 0;
+                for (byte[] a: arrays) {
+                    size += a.length;
+                }
+                byte[] result = new byte[size];
+                int index = 0;
+                for (byte[] a: arrays) {
+                    System.arraycopy(a, 0, result, index, a.length);
+                    index += a.length;
+                }
+                return result;
+            }
+
+            private static Charset UTF8 = Charset.forName("UTF-8");
+
+            public static byte[] utf8Encode(CharSequence string) {
+                try {
+                    ByteBuffer bytes = UTF8.newEncoder().encode(CharBuffer.wrap(string));
+                    byte[] bytesCopy = new byte[bytes.limit()];
+                    System.arraycopy(bytes.array(), 0, bytesCopy, 0, bytes.limit());
+                    return bytesCopy;
+                }
+                catch (CharacterCodingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
 
 }
