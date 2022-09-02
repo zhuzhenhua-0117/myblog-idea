@@ -2,6 +2,7 @@ package com.smallhua.org.common.util;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -239,10 +240,7 @@ public class JwtTokenUtil {
         headers.put("alg", "RS256");
         headers.put("typ", "JWT");
 
-        String payload = "{\"app\":\"2\",\"wxUserId\":null,\"user_name\":\"1015030\",\"userNo\":\"1015030\",\"user:nickname\":\"李娜\",\"user:name\":\"1015030\",\"version\":\"3\",\"authorities\":[\"ROLE_USER\",\"ROLE_ADMIN\"],\"platform\":\"1\",\"primarysid\":1000063,\"client_id\":\"web\",\"aud\":[\"Benlai.O2OERP.WebApi\"],\"scope\":[\"all\"],\"name\":\"李娜\",\"userType\":2,\"exp\":1662171154,\"jti\":\"c4dc5de2-75ce-4b4f-aa04-5997ec383903\"}";
-
-        Map<String, Object> payloadMap = JSONUtil.toBean(payload, Map.class);
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.RS256;
+        String payload = "{\"app\":\"2\",\"wxUserId\":null,\"user_name\":\"1015030\",\"userNo\":\"1015030\",\"user:nickname\":\"李娜\",\"user:name\":\"1015030\",\"version\":\"3\",\"authorities\":[\"ROLE_USER\",\"ROLE_ADMIN\"],\"platform\":\"1\",\"primarysid\":1000063,\"client_id\":\"web\",\"aud\":[\"Benlai.O2OERP.WebApi\"],\"scope\":[\"all\"],\"name\":\"李娜\",\"userType\":2,\"exp\":1662188065,\"jti\":\"80f49900-df22-4ffd-8eca-cb569cc26e48\"}";
         RSAPublicKeySpec publicSpec = new RSAPublicKeySpec(new BigInteger(modulus),
                 new BigInteger(publicExponent));
         RSAPrivateKeySpec privateSpec = new RSAPrivateKeySpec(new BigInteger(modulus),
@@ -270,7 +268,7 @@ public class JwtTokenUtil {
 
             private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-            private Map<String, Object> header;
+            private String headerStr;
             private String payLoad;
             private SignatureAlgorithm alg;
             private Key key;
@@ -282,7 +280,7 @@ public class JwtTokenUtil {
 
             @Override
             public JwtBuilder setHeader(Map<String, Object> header) {
-                this.header = header;
+                this.headerStr = JSONUtil.parseObj(new TreeMap<>(header),false, true).toString();
                 return this;
             }
 
@@ -382,17 +380,16 @@ public class JwtTokenUtil {
             @SneakyThrows
             @Override
             public String compact() {
-                String base64UrlEncodedHeader = base64UrlEncode(this.header, "Unable to serialize header to json.");
+                String base64UrlEncodedHeader = TextCodec.BASE64URL.encode(this.headerStr.getBytes());
 
                 String base64UrlEncodedBody = TextCodec.BASE64URL.encode(this.payLoad.getBytes());
 
-                byte[] concat = concat(Base64.getUrlEncoder().withoutPadding().encode(JSONUtil.toJsonStr(this.header).getBytes()), ".".getBytes(), Base64.getUrlEncoder().withoutPadding().encode(this.payLoad.getBytes()));
+                byte[] concat = concat(Base64.getUrlEncoder().withoutPadding().encode(JSONUtil.toJsonStr(this.headerStr).getBytes()), ".".getBytes(), Base64.getUrlEncoder().withoutPadding().encode(this.payLoad.getBytes()));
 
 //                Signature signature = Signature.getInstance(alg.getJcaName());
                 Signature signature = Signature.getInstance("SHA256withRSA");
                 signature.initSign((RSAPrivateKey) key);
                 signature.update(concat);
-                System.out.println(Arrays.toString(concat));
                 byte[] sign = signature.sign();
                 String base64UrlSignature = Base64.getUrlEncoder().withoutPadding().encodeToString(sign);
 
