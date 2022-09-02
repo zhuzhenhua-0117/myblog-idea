@@ -1,10 +1,9 @@
 package com.smallhua.org.bussiness.remotedao;
 
-import com.alibaba.schedulerx.worker.log.LogFactory;
-import com.alibaba.schedulerx.worker.log.Logger;
 import com.google.common.collect.Lists;
-import com.newretail.common.exception.DefaultException;
-import com.newretail.financial.nfms.bmw.remotedao.SqlStatement.TableColumn;
+import com.smallhua.org.bussiness.remotedao.SqlStatement.TableColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.newretail.financial.nfms.bmw.remotedao.SqlStatement.DDlEnum.SELECT;
+import static com.smallhua.org.bussiness.remotedao.SqlStatement.DDlEnum.SELECT;
 
 
 /**
@@ -32,7 +31,7 @@ import static com.newretail.financial.nfms.bmw.remotedao.SqlStatement.DDlEnum.SE
  */
 public abstract class AbstractRemoteSqlOpt<T> {
 
-    private static final Logger LOGGER = LogFactory.getLogger(AbstractRemoteSqlOpt.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRemoteSqlOpt.class);
 
     private static final String COMMON_CHARACTER = "*";
     private static final String SPACE = " ";
@@ -42,7 +41,7 @@ public abstract class AbstractRemoteSqlOpt<T> {
     public abstract Map<String, PropertiesMetadata> resultMapping();
 
     public SqlResult<T> query(SqlStatement statement){
-        if (statement.getOperator() != SELECT) throw new DefaultException(9999, "operate invalid! not be select.");
+        if (statement.getOperator() != SELECT) throw new RuntimeException("operate invalid! not be select.");
         String sql = assembleQuery(statement.getSqlParam(), statement.getMainTable(), statement.getSubTable());
 
         LOGGER.info("sql：", sql);
@@ -110,7 +109,7 @@ public abstract class AbstractRemoteSqlOpt<T> {
         }
     }
 
-    private String assembleQuery(SqlParam sqlParam, TableColumn mainTable, TableColumn ...subTables){
+    private String assembleQuery(SqlParam sqlParam, TableColumn mainTable, TableColumn...subTables){
         Assert.notNull(mainTable, "table name not null!");
         Assert.notNull(mainTable.getTableName(), "table name not null!");
 
