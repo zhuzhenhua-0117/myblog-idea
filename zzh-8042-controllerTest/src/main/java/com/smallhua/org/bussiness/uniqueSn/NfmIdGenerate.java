@@ -65,7 +65,7 @@ public class NfmIdGenerate {
             sequence = 0l;
         }
 
-        long id = (dataId << dataIdShift) | (serviceId | serviceIdBit) | (lastTime << timeShift) | sequence;
+        long id = (dataId << dataIdShift) | (serviceId | serviceIdBit) | (timestamp << timeShift) | sequence;
         sb.append(id);
         this.lastTime = timestamp;
         return sb.toString();
