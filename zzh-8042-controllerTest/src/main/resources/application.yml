@@ -1,7 +1,10 @@
 spring:
   profiles:
     active: dev #默认为开发环境
-
+machine:
+  enabled: true
+  dataId: 5
+  serviceId: 6
 
 
 

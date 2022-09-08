@@ -3,6 +3,7 @@ package com.smallhua.org.bussiness.uniqueSn;
 import cn.hutool.core.date.SystemClock;
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,9 @@ public class IdGenerate {
     private static final long initTime = 946656000l;
 
     private static long sequence = 0l;
+
+    @Autowired(required = false)
+    CustomNodeInfo customNodeInfo;
 
     private long lastTime;
 
@@ -53,8 +57,8 @@ public class IdGenerate {
     public synchronized String nextId(){
         long nowTimeInterval = SystemClock.now() - initTime;
         StringBuilder sb = new StringBuilder();
-        Long dataId = nodeConfig.getDataId();
-        Long serviceId = nodeConfig.getServiceId();
+        Long dataId = customNodeInfo != null ? customNodeInfo.getDataId() : nodeConfig.getDataId();
+        Long serviceId = customNodeInfo != null ? customNodeInfo.getServiceId() : nodeConfig.getServiceId();
 
         long lastTimeInterval = lastTime;
         if(lastTimeInterval == nowTimeInterval){
