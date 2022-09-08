@@ -56,10 +56,11 @@ public class NfmIdGenerate {
 
         long sequence = 0l;
         long lastTime = getLastTime();
-        if(lastTime == timestamp - initTime){
+        long nowTime = timestamp - initTime;
+        if(lastTime == nowTime){
             sequence = ++sequence & sequenceMask;
             if(sequence == 0l){
-                timestamp = untilNextTime();
+                nowTime = untilNextTime();
             }
         } else {
             sequence = 0l;
@@ -72,7 +73,7 @@ public class NfmIdGenerate {
     }
 
     private long untilNextTime() {
-        long timestamp = SystemClock.now();
+        long timestamp = SystemClock.now() - initTime;
         // 循环直到操作系统时间戳变化
         while (timestamp == lastTime) {
             timestamp =  SystemClock.now();
