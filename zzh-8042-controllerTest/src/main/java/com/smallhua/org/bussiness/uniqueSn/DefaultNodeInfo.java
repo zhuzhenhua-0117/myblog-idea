@@ -20,7 +20,7 @@ import java.util.Objects;
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
-public class NfmNodeInfo {
+public class DefaultNodeInfo {
 
     private Long dataId;
 
@@ -29,15 +29,15 @@ public class NfmNodeInfo {
     private String clientIp;
 
     @Autowired
-    public NfmNodeInfo(DistributeMachineStrategy<NfmNodeInfo> redisDistributeMachineStrategy){
+    public DefaultNodeInfo(DistributeMachineStrategy<DefaultNodeInfo> redisDistributeMachineStrategy){
         redisDistributeMachineStrategy.doProcess(this);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof NfmNodeInfo)) return false;
-        NfmNodeInfo that = (NfmNodeInfo) o;
+        if (!(o instanceof DefaultNodeInfo)) return false;
+        DefaultNodeInfo that = (DefaultNodeInfo) o;
         return Objects.equals(dataId, that.dataId) &&
                 Objects.equals(serviceId, that.serviceId) &&
                 Objects.equals(clientIp, that.clientIp);

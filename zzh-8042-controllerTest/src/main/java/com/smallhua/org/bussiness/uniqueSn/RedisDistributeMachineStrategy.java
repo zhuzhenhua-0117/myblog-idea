@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @since 1.0.0
  */
 @Component
-public class RedisDistributeMachineStrategy implements DistributeMachineStrategy<NfmNodeInfo> {
+public class RedisDistributeMachineStrategy implements DistributeMachineStrategy<DefaultNodeInfo> {
 
     private static final long max_machine_num = 1<<3;
 
@@ -40,16 +40,16 @@ public class RedisDistributeMachineStrategy implements DistributeMachineStrategy
     }
 
     @Override
-    public void doProcess(NfmNodeInfo nfmNodeInfo) {
+    public void doProcess(DefaultNodeInfo nfmNodeInfo) {
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
         String localIP = getLocalIP();
         String idNode = KEY_ID_NODE;
         nfmNodeInfo.setClientIp(localIP);
         long time = Instant.now().toEpochMilli();
-        Set<NfmNodeInfo> nfmNodeInfos = zSetOperations.range(idNode, 0, -1);
-        Map<String, NfmNodeInfo> map = nfmNodeInfos.stream().collect(Collectors.toMap(item -> item.getClientIp(), item -> item));
+        Set<DefaultNodeInfo> nfmNodeInfos = zSetOperations.range(idNode, 0, -1);
+        Map<String, DefaultNodeInfo> map = nfmNodeInfos.stream().collect(Collectors.toMap(item -> item.getClientIp(), item -> item));
         if(map.containsKey(localIP)){
-            NfmNodeInfo nfmNodeInfo1 = map.get(localIP);
+            DefaultNodeInfo nfmNodeInfo1 = map.get(localIP);
             nfmNodeInfo.setDataId(nfmNodeInfo1.getDataId());
             nfmNodeInfo.setServiceId(nfmNodeInfo1.getServiceId());
             return;
@@ -58,8 +58,8 @@ public class RedisDistributeMachineStrategy implements DistributeMachineStrategy
         if (size >= max_machine_num){
             zSetOperations.removeRange(idNode,0, 0);
         }
-        List<Long> dataIds = nfmNodeInfos.stream().map(NfmNodeInfo::getDataId).collect(Collectors.toList());
-        List<Long> serviceIds = nfmNodeInfos.stream().map(NfmNodeInfo::getServiceId).collect(Collectors.toList());
+        List<Long> dataIds = nfmNodeInfos.stream().map(DefaultNodeInfo::getDataId).collect(Collectors.toList());
+        List<Long> serviceIds = nfmNodeInfos.stream().map(DefaultNodeInfo::getServiceId).collect(Collectors.toList());
 
         for (long i = 0; i < max_machine_num; i++) {
             if (!dataIds.contains(i)){

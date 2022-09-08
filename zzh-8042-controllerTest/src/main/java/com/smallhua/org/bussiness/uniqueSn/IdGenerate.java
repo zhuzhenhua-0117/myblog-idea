@@ -3,6 +3,8 @@ package com.smallhua.org.bussiness.uniqueSn;
 import cn.hutool.core.date.SystemClock;
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
@@ -15,15 +17,17 @@ import java.time.Instant;
  * @since 1.0.0
  */
 @Data
-public class NfmIdGenerate {
+@Component
+@Scope("singleton")
+public class IdGenerate {
 
     private static final long initTime = 946656000l;
 
+    private static long sequence = 0l;
+
     private long lastTime;
 
-    private NfmNodeInfo nodeConfig;
-
-    private String businessType = "";
+    private DefaultNodeInfo nodeConfig;
 
     private long businessTypeBit = 4l;
 
@@ -41,34 +45,30 @@ public class NfmIdGenerate {
     private final long serviceIdShift = timeShift + timeBit;
     private final long dataIdShift = serviceIdShift + serviceIdBit;
 
-    public NfmIdGenerate(NfmNodeInfo nodeConfig, String businessType){
+    public IdGenerate(DefaultNodeInfo nodeConfig){
         this.nodeConfig = nodeConfig;
-        this.businessType = businessType;
-        this.lastTime = Instant.now().toEpochMilli();
+        this.lastTime = Instant.now().toEpochMilli() - initTime;
     }
 
     public synchronized String nextId(){
-        long timestamp = SystemClock.now();
+        long nowTimeInterval = SystemClock.now() - initTime;
         StringBuilder sb = new StringBuilder();
-        sb.append(businessType);
         Long dataId = nodeConfig.getDataId();
         Long serviceId = nodeConfig.getServiceId();
 
-        long sequence = 0l;
-        long lastTime = getLastTime();
-        long nowTime = timestamp - initTime;
-        if(lastTime == nowTime){
+        long lastTimeInterval = lastTime;
+        if(lastTimeInterval == nowTimeInterval){
             sequence = ++sequence & sequenceMask;
             if(sequence == 0l){
-                nowTime = untilNextTime();
+                nowTimeInterval = untilNextTime();
             }
         } else {
             sequence = 0l;
         }
 
-        long id = (dataId << dataIdShift) | (serviceId << serviceIdShift) | (timestamp << timeShift) | sequence;
+        long id = (dataId << dataIdShift) | (serviceId << serviceIdShift) | (nowTimeInterval << timeShift) | sequence;
         sb.append(id);
-        this.lastTime = timestamp;
+        this.lastTime = nowTimeInterval;
         return sb.toString();
     }
 
@@ -84,10 +84,6 @@ public class NfmIdGenerate {
                     StrUtil.format("Clock moved backwards. Refusing to generate id for {}ms", lastTime - timestamp));
         }
         return timestamp;
-    }
-
-    public long getLastTime(){
-        return lastTime - initTime;
     }
 
 }
