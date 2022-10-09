@@ -11,27 +11,27 @@ public class IntervalSplit {
 
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 6, 9, 8, 3, 4};
-        PayContent payContent = new PayContent(nums);
-        System.out.println(payContent.query(2));
+        TreeArrayForIntervalSplit treeArrayForIntervalSplit = new TreeArrayForIntervalSplit(nums);
+        System.out.println(treeArrayForIntervalSplit.query(2));
 
         // 区间修改[2,4]的值 第2个到第四个增加4
-        payContent.modify(2, 4);
-        payContent.modify(5, -4);
-        System.out.println(payContent.query(2));
-        System.out.println(payContent.query(3));
-        System.out.println(payContent.query(4));
-        System.out.println(payContent.query(5));
+        treeArrayForIntervalSplit.modify(2, 4);
+        treeArrayForIntervalSplit.modify(5, -4);
+        System.out.println(treeArrayForIntervalSplit.query(2));
+        System.out.println(treeArrayForIntervalSplit.query(3));
+        System.out.println(treeArrayForIntervalSplit.query(4));
+        System.out.println(treeArrayForIntervalSplit.query(5));
 
     }
 
 }
 
-class PayContent{
+class TreeArrayForIntervalSplit {
 
     int[] h, a, b;
     int len;
 
-    public PayContent(int[] nums){
+    public TreeArrayForIntervalSplit(int[] nums){
         a = nums;
         this.len = nums.length;
         b = new int[nums.length];
