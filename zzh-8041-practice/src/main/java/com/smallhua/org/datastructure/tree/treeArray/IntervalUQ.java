@@ -13,17 +13,19 @@ public class IntervalUQ {
         int[] nums = new int[]{1,5,6,4,3,5,2,2,99,88,66};
         PayContext payContext = new PayContext(nums);
 
-        System.out.println(payContext.query(1));
+        /*System.out.println(payContext.query(1));
         System.out.println(payContext.query(5));
         System.out.println(payContext.query(6));
-        System.out.println(payContext.query(8));
+        System.out.println(payContext.query(8));*/
+        System.out.println(payContext.querySection(0,nums.length-1));
 
         payContext.update(1, 1);
         payContext.update(8, -1);
-        System.out.println(payContext.query(1));
+        System.out.println(payContext.querySection(0,nums.length-1));
+        /*System.out.println(payContext.query(1));
         System.out.println(payContext.query(5));
         System.out.println(payContext.query(6));
-        System.out.println(payContext.query(8));
+        System.out.println(payContext.query(8));*/
 
     }
 
@@ -71,5 +73,9 @@ class PayContext{
         }
         ans = q*(index + 1) - p;
         return ans;
+    }
+
+    public int querySection(int left, int right){
+        return query(right) - (left < 1 ? 0 : query(left-1));
     }
 }
