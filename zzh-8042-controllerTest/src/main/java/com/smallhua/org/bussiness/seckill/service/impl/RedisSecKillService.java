@@ -49,9 +49,12 @@ public class RedisSecKillService implements SecKillService {
     @Override
     @Transactional
     public boolean executeSecKill(long productId) {
-        // 判断缓存是否有该商品
-        Long retainAtCache = (Long) redisService.get(RedisKeyUtil.getRedisKey(String.valueOf(productId)));
+        productId = 1l;
+        long skuCacheThreshold = secKillConfig.getSkuCacheThreshold();
+        String redisKey = RedisKeyUtil.getRedisKey(String.valueOf(productId));
+        Long retainAtCache = (Long) redisService.get(redisKey);
 
+        // 判断缓存是否有该商品
         if (retainAtCache == null || retainAtCache <= 0){
             // 拿出数据到redis内存
             Long skuQuality = stockMapper.querySkuByProductId(productId);
