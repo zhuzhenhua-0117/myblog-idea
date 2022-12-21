@@ -3,6 +3,14 @@ package com.smallhua.org.datastructure.tree.treeArray;
 /**
  * 〈区间修改区间查询〉<br>
  *
+ * 区间修改数组 查询区间数据之和
+ *
+ * 数组a[1:n]的前缀和：
+ *
+ * 　　a[1]+a[2]+⋯+a[i]=d[1]×i+d[2]×(i−1)+⋯+d[i]×1
+ * 不难发现右侧可以化成：
+ *
+ * 　　d[1]×i+d[2]×(i−1)+⋯+d[i]×1=[d[1]×(i+1)+d[2]×(i+1)+⋯+d[i]×(i+1)]−[d[1]×1+d[2]×2+⋯+d[i]×i]=(i+1)×(d[1]+d[2]+⋯+d[i])−(d[1]×1+d[2]×2+⋯+d[i]×i)
  * @author ZZH
  * @create 2022/10/10
  * @since 1.0.0
