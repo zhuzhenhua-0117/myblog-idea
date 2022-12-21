@@ -15,8 +15,8 @@ public class IntervalSplit {
         System.out.println(treeArrayForIntervalSplit.query(2));
 
         // 区间修改[2,4]的值 第2个到第四个增加4
-        treeArrayForIntervalSplit.modify(2, 4);
-        treeArrayForIntervalSplit.modify(5, -4);
+        treeArrayForIntervalSplit.update(2, 4);
+        treeArrayForIntervalSplit.update(5, -4);
         System.out.println(treeArrayForIntervalSplit.query(2));
         System.out.println(treeArrayForIntervalSplit.query(3));
         System.out.println(treeArrayForIntervalSplit.query(4));
@@ -28,42 +28,40 @@ public class IntervalSplit {
 
 class TreeArrayForIntervalSplit {
 
-    int[] h, a, b;
-    int len;
+    int destArray[], len, nums[];
 
     public TreeArrayForIntervalSplit(int[] nums){
-        a = nums;
-        this.len = nums.length;
-        b = new int[nums.length];
-        h = new int[nums.length + 1];
-        b[0] = a[0];
-        modify(1, b[0]);
-        for (int i = 1; i < nums.length; i++) {
-            b[i] = a[i] - a[i-1];
-            modify(i+1, b[i]);
+        this.nums = nums;
+        len = nums.length;
+        destArray = new int[len + 1];
+
+        for (int i = 0; i < len; i++) {
+            update(i, nums[i] - ((i-1) >= 0 ? nums[i-1] : 0));
         }
     }
 
-    private int lowBit(int index){return index & (-index);}
+    public void update(int index, int diff){
+        int treeIndex = index + 1;
 
-    // index从1开始
-    public void modify(int index, int increment){
-        while(index <= len){
-            h[index] += increment;
-            index += lowBit(index);
+        while (treeIndex <= len) {
+            destArray[treeIndex] += diff;
+
+            treeIndex += lowBit(treeIndex);
         }
+
     }
-
-
-    // index从1开始
     public int query(int index){
-        int ans = 0;
-        while(index > 0){
-            ans += h[index];
-            index -= lowBit(index);
+        int ret = 0, treeIndex = index + 1;
+        while(treeIndex > 0){
+            ret += destArray[treeIndex];
+            treeIndex -= lowBit(treeIndex);
         }
+        return ret;
+    }
 
-        return ans;
+
+    private int lowBit(int treeIndex){
+        return  treeIndex&(-treeIndex);
     }
 
 
