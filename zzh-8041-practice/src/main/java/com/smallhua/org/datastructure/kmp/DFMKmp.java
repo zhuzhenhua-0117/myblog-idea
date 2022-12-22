@@ -14,61 +14,42 @@ import java.util.*;
  */
 public class DFMKmp {
     public static void main(String[] args) {
-        System.out.println(isSubStr("asdfasdfsafabababafabababacasdf", "ababac1"));
+        System.out.println(isSubStr("asdfasdfsafabababafabababacasdf", "ababac"));
     }
 
     public static boolean isSubStr(String s, String p){
-        int n = s.length();
-        int m = p.length();
-        int i = 0, j = 0;
-        Set<Character> sets = Sets.newHashSet();
-        // 构建匹配成功或失败时 下一跳状态（状态对应p的索引下标）
-        List<Map<Character, Integer>> kmp = Kmp(p);
+        int m = s.length(), n = p.length();
+        int j = 0, i = 0;
+        char[][] kmp = kmp(p);
 
-        // s中的第某个字符是否在p中存在 不存在直接从0开始匹配
-        for (char c : p.toCharArray()) {
+        Set<Character> sets = new HashSet<>();
+
+        for (char c : s.toCharArray()) {
             sets.add(c);
         }
 
-        // 遍历字符s 直到遍历完 或匹配成功到p
-        for (; i < n && j < m; i++) {
-            j = sets.contains(s.charAt(i)) ? kmp.get(j).getOrDefault(s.charAt(i), 0) : 0;
+        for (; i < m && j < n; i++) {
+            j = sets.contains(s.charAt(i)) ? kmp[j][s.charAt(i)] : 0;
         }
 
-        return j == m;
 
-
+        return j == n;
     }
 
-    private static List<Map<Character, Integer>> Kmp(String p) {
-        int X = 0;
-        // asc码 字符占用一个字节 所以256位key
-        int ascCount = 256;
-        int n = p.length();
-        List<Map<Character, Integer>> ret = new ArrayList<>();
-
-        for (int i = 0; i < n; i++) {
-            ret.add(new HashMap<>());
+    private static char[][] kmp(String p){
+        int length = p.length(), charCount = 256, X = 0;
+        char[][] ret = new char[length][charCount];
+        for (int i = 0; i < charCount; i++) {
+            ret[0][i] = 0;
         }
+        ret[0][p.charAt(0)] = 1;
 
-        /*构建第一级状态 要么原地踏步要么到第二级状态*/
-        for (int i = 0; i < ascCount; i++) {
-            ret.get(0).put((char)i, 0);
-        }
-        ret.get(0).put(p.charAt(0), 1);
-
-        /*构建后续的状态级表*/
-        for (int j = 1; j < n; j++) {
-            // 默认匹配失败 设置上一级的匹配
-            for (int c = 0; c < ascCount; c++) ret.get(j).put((char) c, ret.get(X).get((char) c));
-            ret.get(j).put(p.charAt(j), j + 1);
-
-            // 当j位置匹配字符失败时 就要去掉首字符重头匹配 记录规划 提升效率
-            X = ret.get(X).get(p.charAt(j));
+        for (int i = 1; i < length; i++) {
+            for (int j = 0; j < charCount; j++) ret[i][j] = ret[X][j];
+            ret[i][p.charAt(i)] = (char) (i + 1);
+            X = ret[X][p.charAt(i)];
 
         }
-
-
         return ret;
     }
 }
