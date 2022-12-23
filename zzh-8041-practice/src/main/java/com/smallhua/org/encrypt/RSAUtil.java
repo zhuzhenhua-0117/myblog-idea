@@ -11,7 +11,7 @@ import java.security.spec.X509EncodedKeySpec;
 /**
  * 〈一句话功能简述〉<br>
  * 〈Rsa工具类〉
- *
+ *  参考文档：https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#Signature
  * @author ZZH
  * @create 2022/12/23
  * @since 1.0.0
