@@ -1,9 +1,11 @@
 package com.smallhua.org.encrypt;
 
 import org.apache.commons.codec.binary.Base64;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.Cipher;
-import java.io.ByteArrayOutputStream;
+import javax.crypto.CipherInputStream;
+import java.io.*;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -163,6 +165,91 @@ class RSAUtil{
     }
 
     /* 对文件加密、解密、验签以及加签 */
+
+
+    /**
+     * 加密文件
+     * @param publicKey
+     * @param srcFileName
+     * @param destFileName
+     */
+    public static void encryptFileBig(PublicKey publicKey, String srcFileName, String destFileName){
+        if(publicKey == null) new RuntimeException("加密公钥为空请设置");
+
+        Cipher cipher = null;
+        InputStream is = null;
+        OutputStream os = null;
+
+        try {
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            PrivateKey key = keyFactory.generatePrivate(new X509EncodedKeySpec(publicKey.getEncoded()));
+
+            // 添加对MD4支持
+            cipher = Cipher.getInstance("RSA", new BouncyCastleProvider());
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            int blockSize = cipher.getBlockSize();
+
+            is = new FileInputStream(srcFileName);
+            File f = new File(srcFileName);
+            int size = Integer.valueOf(String.valueOf(f.length()));
+            byte[] encryptData = new byte[size];
+            is.read(encryptData);
+            os = new FileOutputStream(destFileName);
+
+            int outputSize = cipher.getOutputSize(encryptData.length);
+            int leavedSize = encryptData.length % blockSize;
+            int blockNum = leavedSize == 0 ? encryptData.length / blockSize : encryptData.length / blockSize + 1;
+
+            byte cipherData[] = new byte[blockNum*outputSize];
+            for (int i = 0; i < blockNum; i++) {
+                if ((encryptData.length - i * blockSize) > blockSize) {
+                    cipher.doFinal(encryptData, i * blockSize, blockSize, cipherData,i * outputSize);
+                } else {
+                    cipher.doFinal(encryptData, i * blockSize, encryptData.length - i * blockSize,cipherData, i * outputSize);
+                }
+            }
+            os.write(cipherData);
+
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            if (null != is) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (null != os) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    public static void decryptFileBig(PrivateKey privateKey, String srcFilePath, String destFilePath){
+
+        InputStream is = null;
+        OutputStream os = null;
+        Cipher cipher = null;
+
+        try {
+
+
+        } catch (Exception e){
+
+        } finally {
+
+        }
+
+
+    }
+
 
 
 }
