@@ -182,7 +182,7 @@ class RSAUtil{
 
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            PrivateKey key = keyFactory.generatePrivate(new X509EncodedKeySpec(publicKey.getEncoded()));
+            PublicKey key = keyFactory.generatePublic(new X509EncodedKeySpec(publicKey.getEncoded()));
 
             // 添加对MD4支持
             cipher = Cipher.getInstance("RSA", new BouncyCastleProvider());
@@ -239,6 +239,9 @@ class RSAUtil{
         Cipher cipher = null;
 
         try {
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            PrivateKey key = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(privateKey.getEncoded()));
+            cipher = Cipher.getInstance("RSA", new BouncyCastleProvider());
 
 
         } catch (Exception e){
