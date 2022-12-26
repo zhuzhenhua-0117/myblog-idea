@@ -4,7 +4,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
 import java.io.*;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -287,8 +286,57 @@ class RSAUtil{
 
     }
 
+    /**
+     * 对文件进行签名
+     * @param privatekey
+     * @param srcFile
+     * @param encode
+     * @return
+     * @throws Exception
+     */
+    public static String signFile(PrivateKey privatekey, String srcFile, String encode) throws Exception{
+        Signature signature;
+
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(srcFile)))){
+            signature = Signature.getInstance("SHA1withRSA");
+            signature.initSign(privatekey);
+
+            String linetText;
+            while((linetText = br.readLine()) != null){
+                signature.update(linetText.getBytes(encode));
+            }
+        }
+        return new String(Base64.encodeBase64(signature.sign()));
+
+    }
+
+    /**
+     * 对文件进行验签
+     * @param publicKey
+     * @param sign
+     * @param srcFile
+     * @param encode
+     * @return
+     * @throws Exception
+     */
+    public static boolean verifyFile(PublicKey publicKey, String sign, String srcFile, String encode) throws Exception{
+        byte[] signInfo = Base64.decodeBase64(sign);
+        Signature signature;
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(srcFile)))){
+            signature = Signature.getInstance("SHA1withRSA");
+            signature.initVerify(publicKey);
+            String line;
+            while((line = br.readLine()) != null){
+                signature.update(line.getBytes(encode));
+            }
+        }
+
+        return signature.verify(signInfo);
+    }
+
     public static void main(String[] args) throws Exception {
         // testFileCipher();
+        testFileSignature();
     }
 
 
@@ -303,11 +351,24 @@ class RSAUtil{
 
         String destFile1 = "C:\\Users\\ZZH\\Desktop\\1\\aa.txt";
 
-        System.out.println("私钥：" + privateKey + ", 公钥：" + publicKey);
-
         encryptFileBig(publicKey, srcFile, destFile);
 
         decryptFileBig(privateKey, destFile, destFile1);
+    }
+
+    public static void testFileSignature() throws Exception {
+        KeyPair keyPair = getKeyPair();
+        PrivateKey privateKey = keyPair.getPrivate();
+        PublicKey publicKey = keyPair.getPublic();
+
+        String srcFile = "C:\\Users\\ZZH\\Desktop\\1\\a.txt";
+        String sign;
+
+
+        sign = signFile(privateKey, srcFile, "UTF-8");
+        System.out.println("生成签名信息：" + sign);
+
+        System.out.println(verifyFile(publicKey, sign, srcFile, "UTF-8"));
     }
 
 
