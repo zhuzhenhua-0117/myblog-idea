@@ -232,27 +232,83 @@ class RSAUtil{
 
     }
 
+    /**
+     * 解密文件
+     * @param privateKey
+     * @param srcFilePath
+     * @param destFilePath
+     */
     public static void decryptFileBig(PrivateKey privateKey, String srcFilePath, String destFilePath){
 
         InputStream is = null;
         OutputStream os = null;
-        Cipher cipher = null;
+        Cipher cipher;
 
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             PrivateKey key = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(privateKey.getEncoded()));
             cipher = Cipher.getInstance("RSA", new BouncyCastleProvider());
+            cipher.init(Cipher.DECRYPT_MODE, key);
 
+            is = new FileInputStream(srcFilePath);
+            os = new FileOutputStream(destFilePath);
+
+            File file = new File(srcFilePath);
+            Integer size = Integer.valueOf(String.valueOf(file.length()));
+
+            byte[] readBytes = new byte[size];
+            is.read(readBytes);
+
+            int blockSize = cipher.getBlockSize(), j = 0;
+            while(size - j * blockSize > 0){
+                os.write(cipher.doFinal(readBytes, j*blockSize, blockSize));
+                j++;
+            }
 
         } catch (Exception e){
 
         } finally {
+            if (os != null){
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (is != null){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
         }
 
-
     }
 
+    public static void main(String[] args) throws Exception {
+        // testFileCipher();
+    }
+
+
+    /*测试方法*/
+    public static void testFileCipher() throws Exception {
+        KeyPair keyPair = getKeyPair();
+        PrivateKey privateKey = keyPair.getPrivate();
+        PublicKey publicKey = keyPair.getPublic();
+
+        String srcFile = "C:\\Users\\ZZH\\Desktop\\1\\a.txt";
+        String destFile = "C:\\Users\\ZZH\\Desktop\\1\\b.txt";
+
+        String destFile1 = "C:\\Users\\ZZH\\Desktop\\1\\aa.txt";
+
+        System.out.println("私钥：" + privateKey + ", 公钥：" + publicKey);
+
+        encryptFileBig(publicKey, srcFile, destFile);
+
+        decryptFileBig(privateKey, destFile, destFile1);
+    }
 
 
 }
